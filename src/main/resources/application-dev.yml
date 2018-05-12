@@ -1,0 +1,27 @@
+spring:
+
+  datasource:
+    name: together
+    url: jdbc:mysql://localhost:3306/together-test?useSSL=false&rewriteBatchedStatements=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    jmx-enabled: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate.jdbc.batch_size: 5000
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.jdbc.batch_versioned_data: true
+      # namespace: husky-session
+
+  servlet:
+    multipart:
+      max-request-size: 10mb
+      max-file-size: 5mb
