@@ -31,7 +31,8 @@ spring:
 logging:
   file: var/${spring.profiles.active}.log
   level:
-    org.springframework.security.oauth2.provider.endpoint.TokenEndpoint: 'OFF'
+    org.springframework.web: ERROR
+    com.zhlzzz.together: DEBUG
 
 server:
   port: 8080

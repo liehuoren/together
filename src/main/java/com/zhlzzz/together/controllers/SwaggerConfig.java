@@ -96,7 +96,8 @@ public class SwaggerConfig {
 
     private void configTags(Docket api) {
         api.tags(
-                new Tag("User", "用户api")
+                new Tag("User", "用户api"),
+                new Tag("UserLabel", "用户标签")
         );
     }
 
