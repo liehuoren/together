@@ -3,6 +3,7 @@ package com.zhlzzz.together.controllers.user;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
+import com.zhlzzz.together.user.user_relation.UserRelation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,14 @@ public class UserController {
     @ApiOperation(value = "获取指定用户的信息")
     @ResponseBody
     public UserView getUserById(@PathVariable Long userId) {
+        User user = userService.getUserById(userId).orElseThrow(() -> ApiExceptions.notFound("不存在此人信息。"));
+        return new UserView(user);
+    }
+
+    @GetMapping(path = "/{userId:\\d+}/relation/{relation:\\s+}")
+    @ApiOperation(value = "获取用户关系列表（好友或黑名单）")
+    @ResponseBody
+    public UserView getUserRelationById(@PathVariable Long userId, @PathVariable UserRelation.Relation relation) {
         User user = userService.getUserById(userId).orElseThrow(() -> ApiExceptions.notFound("不存在此人信息。"));
         return new UserView(user);
     }

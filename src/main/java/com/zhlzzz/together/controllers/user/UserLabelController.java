@@ -28,7 +28,7 @@ public class UserLabelController {
     @GetMapping
     @ApiOperation(value = "获取用户标签")
     @ResponseBody
-    public Set<UserLabelView> updateLabel(@PathVariable Long userId, @RequestParam String label) {
+    public Set<UserLabelView> updateLabel(@PathVariable Long userId) {
         Set<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userId);
 
         return CollectionUtils.map(userLabels, (r) -> { return new UserLabelView(r); } );
