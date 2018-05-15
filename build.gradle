@@ -19,9 +19,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.hidetake.ssh'
+apply plugin: 'war'
 
 group = 'com.zhlzzz'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = 1.8
 
 repositories {
@@ -48,4 +49,5 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.16+'
 	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
