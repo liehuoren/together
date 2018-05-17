@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@ApiModel(description = "文章参数")
+@ApiModel(description = "评论参数")
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,6 +25,7 @@ public class DiscussParam implements Serializable {
     @ApiModelProperty(value = "是否置顶", example = "false")
     protected boolean toTop;
 
-//    @ApiModelProperty(value = "用户标识", example = "0")
-//    protected Long userId;
+//    @ApiModelProperty(value = "回复内容", example = "回复")
+//    protected String replyContent;
+
 }

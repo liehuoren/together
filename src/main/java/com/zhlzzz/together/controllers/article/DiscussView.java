@@ -30,6 +30,11 @@ public class DiscussView {
         return this.discussEntity.getContent();
     }
 
+    @ApiModelProperty(name="回复内容",example = "回复")
+    public String getReplyContent(){
+        return this.discussEntity.getReplyContent();
+    }
+
     @ApiModelProperty(name = "评论时间",example = "2017-12-13T12:03:20+08:00")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'+08:00'", timezone = "GMT+0800")
     public LocalDateTime getCreateTime(){

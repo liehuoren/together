@@ -32,6 +32,7 @@ public class DiscussServiceImpl implements DiscussService {
     private void setParameter(DiscussEntity discussEntity,DiscussParam discussParam){
         if (StringUtils.isNotBlank(discussParam.getContent()))
             discussEntity.setContent(discussParam.getContent());
+
             discussEntity.setAudit(discussParam.isAudit());
             discussEntity.setToTop(discussParam.isToTop());
     }
@@ -63,24 +64,6 @@ public class DiscussServiceImpl implements DiscussService {
         return discussRepository.findById(id);
     }
 
-//    @Override
-//    public Slice<? extends DiscussEntity, Integer> getDiscusses(SliceIndicator<Integer> indicator) {
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<DiscussEntity> q = cb.createQuery(DiscussEntity.class);
-//        Root<DiscussEntity> m = q.from(DiscussEntity.class);
-//
-//        q.select(m).orderBy(cb.desc(m.get("createTime")));
-//
-//        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-//        Root<DiscussEntity> countM = countQuery.from(DiscussEntity.class);
-//
-//        List<Predicate> predicates = new ArrayList<>(5);
-//        countQuery.select(cb.count(countM)).where(cb.and(predicates.toArray(new Predicate[0])));
-//
-//        Slice<DiscussEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
-//        return null;
-//    }
-
     @Override
     public void deleteDiscuss(Long id) {
         DiscussEntity discussEntity = discussRepository.findById(id).orElseThrow(() -> new DiscussNotFoundException(id));
@@ -100,5 +83,25 @@ public class DiscussServiceImpl implements DiscussService {
     @Override
     public  Optional<DiscussEntity> findByIdAndArticleIdAndUserId(Long id,Long articleId,Long userId){
         return  discussRepository.findByIdAndArticleIdAndUserId(id,articleId,userId);
+    }
+
+    @Override
+    public DiscussEntity addDiscuss(Long articleId, Long userId, Long discussId, ReplyParam replyParam) {
+        DiscussEntity discussEntity = discussRepository.findById(discussId).orElseThrow(()->new DiscussNotFoundException(discussId));
+        if (StringUtils.isNotBlank(replyParam.getReplyContent()))
+             discussEntity.setReplyContent(replyParam.getReplyContent());
+        return discussRepository.save(discussEntity);
+    }
+
+    @Override
+    public DiscussEntity updateDiscuss(Long discussId, ReplyParam replyParam) {
+        DiscussEntity discussEntity = discussRepository.findById(discussId).orElseThrow(()->new DiscussNotFoundException(discussId));
+        if (StringUtils.isNotBlank(replyParam.getReplyContent()))
+            discussEntity.setReplyContent(replyParam.getReplyContent());
+        try {
+            return discussRepository.save(discussEntity);
+        }catch (DataIntegrityViolationException e){
+            throw new UserLabelUsedException(replyParam.getReplyContent(), e);
+        }
     }
 }

@@ -7,6 +7,7 @@ public interface Discuss extends Serializable {
 
     Long getId();
     String getContent();
+    String getReplyContent();
     Boolean isAudit();
     Boolean isToTop();
     Long getArticleId();

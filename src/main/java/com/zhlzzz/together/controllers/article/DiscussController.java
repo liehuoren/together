@@ -3,6 +3,7 @@ package com.zhlzzz.together.controllers.article;
 import com.zhlzzz.together.article.discuss.DiscussEntity;
 import com.zhlzzz.together.article.discuss.DiscussParam;
 import com.zhlzzz.together.article.discuss.DiscussService;
+import com.zhlzzz.together.article.discuss.ReplyParam;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
@@ -50,9 +51,9 @@ public class DiscussController {
     }
 
     @PutMapping(path = "/{id:\\d+}")
-    @ApiOperation(value = "更新评论（审核或置顶）")
+    @ApiOperation(value = "更新评论")
     @ResponseBody
-    public DiscussView updateDiscuss(@PathVariable Long articleId,@PathVariable Long id,@PathVariable Long userId, @Valid @RequestBody DiscussParam discussParam,BindingResult result) {
+    public DiscussView updateDiscuss(@PathVariable Long articleId, @PathVariable Long userId, @PathVariable Long id, @Valid @RequestBody DiscussParam discussParam, BindingResult result) {
         if (result.hasErrors()) {
             String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
             throw ApiExceptions.badRequest(errors);
@@ -70,4 +71,27 @@ public class DiscussController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(path = "/{discussId:\\d+}/reply")
+    @ApiOperation(value = "新建回复")
+    @ResponseBody
+    public DiscussView addDiscuss(@PathVariable Long articleId, @PathVariable Long userId,@PathVariable Long discussId, @Valid @RequestBody ReplyParam replyParam, BindingResult result) {
+        if (result.hasErrors()) {
+            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
+            throw ApiExceptions.badRequest(errors);
+        }
+        DiscussEntity discussEntity = discussService.addDiscuss(articleId,userId,discussId,replyParam);
+        return new DiscussView(discussEntity);
+    }
+
+    @PutMapping(path = "/reply/{discussId:\\d+}")
+    @ApiOperation(value = "更新回复")
+    @ResponseBody
+    public DiscussView updateDiscuss(@PathVariable Long articleId, @PathVariable Long userId, @PathVariable Long discussId, @Valid @RequestBody ReplyParam replyParam, BindingResult result) {
+        if (result.hasErrors()) {
+            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
+            throw ApiExceptions.badRequest(errors);
+        }
+        DiscussEntity discussEntity = discussService.findByIdAndArticleIdAndUserId(discussId,articleId,userId).orElseThrow(()->ApiExceptions.notFound("没有文章相关评论"));
+        return new DiscussView(discussService.updateDiscuss(discussEntity.getId(), replyParam));
+    }
 }

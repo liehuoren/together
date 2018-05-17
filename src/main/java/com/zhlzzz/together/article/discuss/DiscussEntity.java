@@ -47,6 +47,10 @@ public class DiscussEntity implements Discuss,Serializable {
 
     @Getter @Setter
     @Column
+    private String replyContent;
+
+    @Getter @Setter
+    @Column
     private  Long articleId;
 
     @Getter @Setter
