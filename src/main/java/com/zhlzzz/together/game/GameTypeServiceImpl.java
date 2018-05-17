@@ -1,6 +1,8 @@
 package com.zhlzzz.together.game;
 
 import com.google.common.base.Strings;
+import com.zhlzzz.together.game.game_config.GameConfig;
+import com.zhlzzz.together.game.game_config.GameConfigEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +79,13 @@ public class GameTypeServiceImpl implements GameTypeService {
                     .executeUpdate();
             return true;
         });
+    }
+
+    @Override
+    public List<? extends GameConfig> getGameTypeConfig(Integer gameTypeId) {
+        List<GameConfigEntity> gameConfigEntities = em.createQuery("SELECT f FROM GameConfigEntity WHERE f.gameTypeId = :gameTypeId ORDER BY f.id ASC", GameConfigEntity.class)
+                .setParameter("gameTypeId", gameTypeId)
+                .getResultList();
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.zhlzzz.together.game;
 
+import com.zhlzzz.together.game.game_config.GameConfig;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,4 +15,6 @@ public interface GameTypeService {
     List<? extends GameType> getAllGameTypes();
 
     void delete(Integer id);
+
+    List<? extends GameConfig> getGameTypeConfig(Integer gameTypeId);
 }
