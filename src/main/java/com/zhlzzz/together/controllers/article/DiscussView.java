@@ -36,14 +36,14 @@ public class DiscussView {
         return this.discussEntity.getCreateTime();
     }
 
-    @ApiModelProperty(name ="是否审核",example = "0-否 1-是")
-    public int getAudit(){
-        return this.discussEntity.getAudit();
+    @ApiModelProperty(name ="是否审核",example = "true")
+    public Boolean getAudit(){
+        return this.discussEntity.isAudit();
     }
 
-    @ApiModelProperty(name ="是否置顶",example = "0-否 1-是")
-    public int getToTop(){
-        return this.discussEntity.getToTop();
+    @ApiModelProperty(name ="是否置顶",example = "true")
+    public Boolean getToTop(){
+        return this.discussEntity.isToTop();
     }
 
     @ApiModelProperty(name ="文章id",example = "123")

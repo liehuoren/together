@@ -30,16 +30,15 @@ public class AdvertView {
         return this.advertEntity.getAdvertUrl();
     }
 
+    @ApiModelProperty(name="是否展现",example = "false")
+    public Boolean isAvailable(){
+        return this.advertEntity.isAvailable();
+    }
+
     @ApiModelProperty(name = "创建时间",example = "2017-12-13T12:03:20+08:00")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'+08:00'", timezone = "GMT+0800")
     public LocalDateTime getCreateTime(){
         return this.advertEntity.getCreateTime();
-    }
-
-    @ApiModelProperty(name = "修改时间",example = "2017-12-13T12:03:20+08:00")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'+08:00'", timezone = "GMT+0800")
-    public LocalDateTime getModifyTime(){
-        return this.advertEntity.getModifyTime();
     }
 
     @ApiModelProperty(name ="文章id",example = "123")

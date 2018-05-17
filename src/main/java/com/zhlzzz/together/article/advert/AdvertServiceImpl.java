@@ -28,9 +28,7 @@ public class AdvertServiceImpl implements AdvertService {
     private void setParamter(AdvertEntity advertEntity,AdvertParam advertParam){
         if (StringUtils.isNotEmpty(advertParam.getAdvertUrl()))
             advertEntity.setAdvertUrl(advertParam.getAdvertUrl());
-
-        if (advertEntity.getIsAvailable() != advertParam.getIsAvailable())
-            advertEntity.setIsAvailable(advertParam.getIsAvailable());
+        advertEntity.setAvailable(advertParam.isAvailable());
     }
 
     @Override
@@ -45,7 +43,6 @@ public class AdvertServiceImpl implements AdvertService {
     public AdvertEntity updateAdvert(Long id, AdvertParam advertParam) {
         AdvertEntity advert = advertRepository.findById(id).orElseThrow(()->new UserLabelNotFoundException(id));
         setParamter(advert,advertParam);
-        advert.setModifyTime(LocalDateTime.now());
         return advertRepository.save(advert);
     }
 

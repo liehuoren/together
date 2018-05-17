@@ -32,15 +32,13 @@ public class DiscussServiceImpl implements DiscussService {
     private void setParameter(DiscussEntity discussEntity,DiscussParam discussParam){
         if (StringUtils.isNotBlank(discussParam.getContent()))
             discussEntity.setContent(discussParam.getContent());
-        if (discussEntity.getAudit() != discussParam.getAudit())
-            discussEntity.setAudit(discussParam.getAudit());
-        if (discussEntity.getToTop() != discussParam.getToTop())
-            discussEntity.setToTop(discussParam.getToTop());
+            discussEntity.setAudit(discussParam.isAudit());
+            discussEntity.setToTop(discussParam.isToTop());
     }
 
     @Override
-    public DiscussEntity addDiscuss(Long articleId,DiscussParam discussParam) {
-        User user = userRepository.findById(discussParam.getUserId()).orElseThrow(()->new UserNotFoundException(discussParam.getUserId()));
+    public DiscussEntity addDiscuss(Long articleId,Long userId,DiscussParam discussParam) {
+        User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
         DiscussEntity discussEntity = new DiscussEntity();
         setParameter(discussEntity,discussParam);
         discussEntity.setArticleId(articleId);
@@ -53,11 +51,10 @@ public class DiscussServiceImpl implements DiscussService {
     public DiscussEntity updateDiscuss(Long id, DiscussParam discussParam) {
         DiscussEntity discussEntity = discussRepository.findById(id).orElseThrow(()->new DiscussNotFoundException(id));
         setParameter(discussEntity,discussParam);
-        discussEntity.setModifyTime(LocalDateTime.now());
         try {
             return discussRepository.save(discussEntity);
         }catch (DataIntegrityViolationException e){
-            throw new UserLabelUsedException(discussEntity.getAudit()+","+discussEntity.getToTop(), e);
+            throw new UserLabelUsedException(discussEntity.isAudit()+","+discussEntity.isToTop(), e);
         }
     }
 

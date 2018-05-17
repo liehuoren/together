@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface DiscussService {
 
-    DiscussEntity addDiscuss(Long articleId,DiscussParam discussParam);
+    DiscussEntity addDiscuss(Long articleId, Long userId, DiscussParam discussParam);
     DiscussEntity updateDiscuss(Long id,DiscussParam discussParam);
     Optional<? extends  DiscussEntity > getDiscussById(Long id);
 //    Slice<? extends DiscussEntity,Integer> getDiscusses(SliceIndicator<Integer> indicator);

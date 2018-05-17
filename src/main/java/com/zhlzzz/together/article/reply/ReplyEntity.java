@@ -24,9 +24,6 @@ public class ReplyEntity {
     @Column
     private LocalDateTime createTime;
 
-    @Getter @Setter
-    @Column
-    private LocalDateTime modifyTime;
 
     @Getter @Setter
     @Column

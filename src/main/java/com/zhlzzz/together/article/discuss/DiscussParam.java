@@ -19,12 +19,12 @@ public class DiscussParam implements Serializable {
     @ApiModelProperty(value = "评论内容", example = "评论")
     protected String content;
 
-    @ApiModelProperty(value = "是否审核", example = "0")
-    protected int audit;//0-否 1-是
+    @ApiModelProperty(value = "是否审核", example = "false")
+    protected boolean audit;
 
-    @ApiModelProperty(value = "是否置顶", example = "0")
-    protected int toTop;//0-否 1-是
+    @ApiModelProperty(value = "是否置顶", example = "false")
+    protected boolean toTop;
 
-    @ApiModelProperty(value = "用户标识", example = "0")
-    protected Long userId;
+//    @ApiModelProperty(value = "用户标识", example = "0")
+//    protected Long userId;
 }

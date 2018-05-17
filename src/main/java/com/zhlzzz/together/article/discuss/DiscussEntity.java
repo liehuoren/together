@@ -3,13 +3,16 @@ package com.zhlzzz.together.article.discuss;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="discuss")
-public class DiscussEntity {
+@ToString
+public class DiscussEntity implements Discuss,Serializable {
 
     @Getter
     @Id
@@ -18,29 +21,35 @@ public class DiscussEntity {
 
     @Getter @Setter
     @Column(columnDefinition = "TEXT",nullable = false)
-    private String content;//评论内容
+    private String content;
 
     @Getter @Setter
     @Column
-    private LocalDateTime createTime;//评论时间
+    private LocalDateTime createTime;
 
-    @Getter @Setter
-    @Column
-    private LocalDateTime modifyTime;//评论时间
-
-    @Getter @Setter
+    @Setter
     @Column(nullable = false)
-    private int audit;//是否审核
+    private Boolean audit = false;
 
-    @Getter @Setter
+    @Override
+    public Boolean isAudit() {
+        return audit;
+    }
+
+    @Setter
     @Column(nullable = false)
-    private int toTop;//是否置顶
+    private Boolean toTop = false;
+
+    @Override
+    public Boolean isToTop() {
+        return toTop;
+    }
 
     @Getter @Setter
     @Column
-    private  Long articleId;//文章ID
+    private  Long articleId;
 
     @Getter @Setter
     @Column
-    private  Long userId;//评论用户ID
+    private  Long userId;
 }

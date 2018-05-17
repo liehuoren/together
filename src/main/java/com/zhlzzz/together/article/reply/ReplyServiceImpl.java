@@ -52,7 +52,6 @@ public class ReplyServiceImpl implements ReplyService {
         ReplyEntity reply = replyRepository.findById(id).orElseThrow(()->new ReplyNotFoundException(id));
         if (StringUtils.isNotEmpty(replyParam.getContent()))
             reply.setContent(replyParam.getContent());
-        reply.setModifyTime(LocalDateTime.now());
         return replyRepository.save(reply);
     }
 
