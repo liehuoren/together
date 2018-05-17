@@ -88,7 +88,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long id) {
         ArticleEntity articleEntity = articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException(id));
         tt.execute((s)-> {
-            em.createQuery("DELETE FROM ARTICLE u WHERE u.id = :id")
+            em.createQuery("DELETE FROM ArticleEntity u WHERE u.id = :id")
                     .setParameter("id", articleEntity.getId())
                     .executeUpdate();
             return true;
