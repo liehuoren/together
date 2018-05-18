@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/games/game-types", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@Api(description = "游戏", tags = {"Game"})
+@Api(description = "游戏类别", tags = {"Game"})
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GameTypeController {
@@ -27,7 +27,7 @@ public class GameTypeController {
     private final GameTypeService gameTypeService;
 
     @PostMapping
-    @ApiOperation(value = "新增游戏")
+    @ApiOperation(value = "新增游戏类别")
     @ResponseBody
     public GameTypeView create(@RequestParam String name, @RequestParam String imgUrl, @RequestParam boolean hot) {
         requireNonNull(name, "name");
@@ -35,7 +35,7 @@ public class GameTypeController {
     }
 
     @PutMapping(path = "{id:\\d+}")
-    @ApiOperation(value = "更新游戏")
+    @ApiOperation(value = "更新游戏类别")
     @ResponseBody
     public GameTypeView update(@PathVariable Integer id, @RequestParam String name, @RequestParam String imgUrl, @RequestParam boolean hot) {
         GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
@@ -43,7 +43,7 @@ public class GameTypeController {
     }
 
     @GetMapping
-    @ApiOperation(value = "获取游戏列表")
+    @ApiOperation(value = "获取游戏类别列表")
     @ResponseBody
     public List<GameTypeView> getGameTypes() {
         List<? extends GameType> gameTypes = gameTypeService.getAllGameTypes();
@@ -52,7 +52,7 @@ public class GameTypeController {
     }
 
     @DeleteMapping(path = "{id:\\d+}")
-    @ApiOperation(value = "删除游戏")
+    @ApiOperation(value = "删除游戏类别")
     @ResponseBody
     public ResponseEntity<String> delete(@PathVariable Integer id) {
         GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
