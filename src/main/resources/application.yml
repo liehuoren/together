@@ -6,7 +6,7 @@ spring:
     name: together
     url: jdbc:mysql://localhost:3306/together?useSSL=false&rewriteBatchedStatements=true
     username: root
-    password: 123456
+    password: root
     driver-class-name: com.mysql.jdbc.Driver
     jmx-enabled: false
 
@@ -36,3 +36,8 @@ logging:
 
 server:
   port: 8080
+
+
+pubg:
+  palyerUrl: https://api.playbattlegrounds.com/shards/{shardId}/palyers?filter[playerNames]={palyerName}
+  apiKey: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhOGY0YzIxMC0zY2I4LTAxMzYtNzNlNy00OTE3YjdkYzg4YWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTI2NjQxMjU0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InRvZ2V0aGVyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.DwMhkX25OEupRS0FBzt6hyetAG7jULlDYGOakTVc2Cg
