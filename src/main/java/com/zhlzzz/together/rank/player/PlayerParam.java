@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaylerParam implements Serializable {
+public class PlayerParam implements Serializable {
 
     @ApiModelProperty(value = "游戏内昵称", example = "shroud")
     protected String palyerName;

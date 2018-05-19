@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class PalyerEntity {
+public class PlayerEntity {
 
     @Getter
     @Id
@@ -17,13 +17,13 @@ public class PalyerEntity {
     private Long id;
 
     @Getter @Setter
-    private String palyerId;
+    private String playerId;
 
     @Getter @Setter
     private String shardId;
 
     @Getter @Setter
-    private String palyerName;
+    private String playerName;
 
     @Getter @Setter
     private Long userId;

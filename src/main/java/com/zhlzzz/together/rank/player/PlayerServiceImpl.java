@@ -17,21 +17,21 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
-public class PalyerServiceImpl implements PalyerService {
+public class PlayerServiceImpl implements PlayerService {
 
-    private final PalyerRepository palyerRepository;
+    private final PlayerRepository palyerRepository;
     private final UserRepository userRepository;
 
     @Override
-    public PalyerEntity savePalyer(Long userId, String palyerName, String shardId, Environment evn) {
+    public PlayerEntity savePlayer(Long userId, String playerName, String shardId, Environment evn) {
         User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
-        PalyerEntity palyerEntity = new PalyerEntity();
+        PlayerEntity palyerEntity = new PlayerEntity();
         palyerEntity.setUserId(user.getId());
-        palyerEntity.setPalyerName(palyerName);
+        palyerEntity.setPalyerName(playerName);
         palyerEntity.setShardId(shardId);
         Map<String,String> urlVariables = new HashMap<String,String>();
         urlVariables.put("shardId",shardId);
-        urlVariables.put("palyerName",palyerName);
+        urlVariables.put("playerName",playerName);
         ResponseEntity<Object> response = HttpUtils.getPubgResponse(evn.getProperty("pubg.palyerUrl"),evn.getProperty("pubg.apiKey"),urlVariables);
         System.out.println(response.getBody());
         Map<String,Object> o = (Map<String, Object>) response.getBody();
