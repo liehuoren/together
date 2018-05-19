@@ -20,11 +20,19 @@ public class UserEntity implements User {
 
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column(length = 20,nullable = false)
+    private String phone;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
     private String openId;
 
     @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(length = 20)
+    @Column
     private String unionId;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
+    private Role role;
 
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column(length = 50)
@@ -45,4 +53,7 @@ public class UserEntity implements User {
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column
     private LocalDateTime lastLoginTime;
+
+    @Override
+    public boolean isAdmin() { return this.role == Role.admin; }
 }

@@ -1,2 +1,2 @@
-INSERT INTO `user` (`id`, `open_id`, `union_id`, `nick_name`, `avatar_url`, `gender`, `last_login_time`, `create_time`) VALUES
-('1', 'qwer123', 'asd123', '小星星', 'https://www.zhlzzz.com', '1', '2017-12-22 15:20:00', '2017-12-22 15:20:00');
+INSERT INTO `user` (`id`,`phone`, `open_id`, `union_id`, `nick_name`, `avatar_url`, `gender`, `last_login_time`, `create_time`) VALUES
+('1', '15012991563','qwer123', 'asd123', '小星星', 'https://www.zhlzzz.com', '1', '2017-12-22 15:20:00', '2017-12-22 15:20:00');

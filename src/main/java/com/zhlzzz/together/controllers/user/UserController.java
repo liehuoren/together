@@ -1,5 +1,6 @@
 package com.zhlzzz.together.controllers.user;
 
+import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
@@ -24,7 +25,10 @@ public class UserController {
     @GetMapping(path = "/{userId:\\d+}")
     @ApiOperation(value = "获取指定用户的信息")
     @ResponseBody
-    public UserView getUserById(@PathVariable Long userId) {
+    public UserView getUserById(@PathVariable Long userId, ApiAuthentication auth) {
+        if (auth.requireUserId() == null) {
+            throw ApiExceptions.badRequest("无权限访问");
+        }
         User user = userService.getUserById(userId).orElseThrow(() -> ApiExceptions.notFound("不存在此人信息。"));
         return new UserView(user);
     }

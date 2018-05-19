@@ -1,6 +1,7 @@
 package com.zhlzzz.together;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhlzzz.together.controllers.ApiAuthenticationMethodArgumentResolver;
 import com.zhlzzz.together.controllers.Slices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class AppConfig {
 
         @Override
         public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+            resolvers.add(new ApiAuthenticationMethodArgumentResolver());
             resolvers.add(new Slices.SliceIndicatorsMethodArgumentResolver(context));
         }
 

@@ -1,5 +1,9 @@
 package com.zhlzzz.together.controllers.system;
 
+import com.zhlzzz.together.controllers.ApiAuthentication;
+import com.zhlzzz.together.controllers.ApiExceptions;
+import com.zhlzzz.together.user.User;
+import com.zhlzzz.together.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +25,10 @@ public class SystemController {
     @GetMapping(path = "/about")
     @ApiOperation(value = "小程序介绍")
     @ResponseBody
-    public AboutView getAboutCompany() {
+    public AboutView getAboutCompany(ApiAuthentication auth) {
+        if (auth.requireUserId() == null) {
+            throw ApiExceptions.badRequest("无权限访问");
+        }
         return new AboutView();
     }
 }

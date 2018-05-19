@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Builder
 public class UserParam implements Serializable {
 
+    protected String phone;
+
     protected String openId;
 
     protected String unionId;
