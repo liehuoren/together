@@ -2,9 +2,7 @@ spring:
 
   datasource:
     name: together
-    url: jdbc:mysql://localhost:3306/together-test?useSSL=false&rewriteBatchedStatements=true
     username: root
-    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     jmx-enabled: false
 
@@ -24,4 +22,4 @@ spring:
   servlet:
     multipart:
       max-request-size: 10mb
-      max-file-size: 5mb
+  baseUrl: https://api.playbattlegrounds.com
