@@ -8,8 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "match")
+
 public class MatchEntity implements Serializable {
 
     @Getter
@@ -24,6 +23,14 @@ public class MatchEntity implements Serializable {
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column
     private Integer gameTypeId;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
+    private boolean finished = false;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column
