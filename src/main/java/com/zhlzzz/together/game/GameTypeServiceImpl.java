@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GameTypeServiceImpl implements GameTypeService {
 
     @PersistenceContext

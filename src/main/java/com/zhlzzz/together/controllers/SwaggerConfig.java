@@ -1,19 +1,21 @@
 package com.zhlzzz.together.controllers;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.collect.Lists;
+import com.zhlzzz.together.auth.oauth.Client;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ResponseMessage;
-import springfox.documentation.service.Tag;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -41,11 +43,58 @@ public class SwaggerConfig {
                 .pathMapping("/")
                 .directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .ignoredParameterTypes(OAuth2Authentication.class, ApiAuthentication.class)
+                .enableUrlTemplating(false)
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(securitySchemes())
                 ;
         configGlobalResponseMessage(apis);
         configTags(apis);
         configAdditionalModels(apis, typeResolver);
         return apis;
+    }
+
+    private List<SecurityScheme> securitySchemes() {
+        return Lists.newArrayList(oauth());
+    }
+
+    private OAuth oauth() {
+        List<AuthorizationScope> authorizationScopeList = newArrayList();
+        authorizationScopeList.add(new AuthorizationScope("all", "all"));
+        List<GrantType> grantTypes = newArrayList();
+        GrantType creGrant = new ResourceOwnerPasswordCredentialsGrant("/oauth/token");
+        grantTypes.add(creGrant);
+        return new OAuth("oauth2schema", authorizationScopeList, grantTypes);
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.ant("/**"))
+                .build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        final AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = new AuthorizationScope("all", "可访问全部功能");
+
+        return newArrayList(
+                new SecurityReference("oauth2schema", authorizationScopes)
+        );
+    }
+
+    @Bean
+    public SecurityConfiguration swaggerSecurityConfiguration() {
+        return SecurityConfigurationBuilder.builder()
+                .clientId(Client.DEFAULT_CLIENT_KEY)
+                .clientSecret("")
+                .realm("together-api")
+                .appName("together-api")
+                .scopeSeparator(" ")
+                .additionalQueryStringParams(null)
+                .useBasicAuthenticationWithAccessCodeGrant(false)
+                .build();
     }
 
     private ApiInfo apiInfo() {
@@ -101,7 +150,8 @@ public class SwaggerConfig {
                 new Tag("Feedback", "意见反馈"),
                 new Tag("Discuss", "评论-回复"),
                 new Tag("Advert", "广告管理"),
-                new Tag("Game","游戏")
+                new Tag("Game","游戏"),
+                new Tag("Wx","微信小程序")
         );
     }
 

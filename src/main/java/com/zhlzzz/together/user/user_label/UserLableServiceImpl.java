@@ -76,7 +76,7 @@ public class UserLableServiceImpl implements UserLabelService {
         UserLabelEntity userLabel = userLabelRepository.findById(id).orElseThrow(() ->
                 new UserLabelNotFoundException(id));
         tt.execute((s)-> {
-            em.createQuery("DELETE FROM USER_LABEL u WHERE u.id = :id")
+            em.createQuery("DELETE FROM UserLabelEntity u WHERE u.id = :id")
                     .setParameter("id", userLabel.getId())
                     .executeUpdate();
             return true;

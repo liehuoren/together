@@ -1,5 +1,6 @@
 package com.zhlzzz.together.controllers.system;
 
+
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.system.AboutEntity;
 import com.zhlzzz.together.system.AboutParam;
@@ -40,7 +41,7 @@ public class SystemController {
     @GetMapping(path = "/about")
     @ApiOperation(value = "获取小程序简介")
     @ResponseBody
-    public AboutView getArticle() {
+    public AboutView getAboutCompany() {
         AboutEntity aboutEntity = aboutService.findAbout().orElseThrow(() -> ApiExceptions.notFound("不存小程序简介。"));
         return new AboutView(aboutEntity);
     }
