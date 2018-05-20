@@ -4,7 +4,7 @@ spring:
 
   datasource:
     name: together
-    url: jdbc:mysql://localhost:3306/together?useSSL=false&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/together-test?useSSL=false&rewriteBatchedStatements=true
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
@@ -37,6 +37,7 @@ logging:
 server:
   port: 8080
 
+<<<<<<< HEAD
 wechat:
   miniapp:
     appid: wxb394e95f359306be
@@ -44,3 +45,9 @@ wechat:
     token: 111
     aesKey: 111
     msgDataFormat: JSON
+=======
+
+pubg:
+  palyerUrl: https://api.playbattlegrounds.com/shards/{shardId}/players?filter[playerNames]={playerName}
+  apiKey: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhOGY0YzIxMC0zY2I4LTAxMzYtNzNlNy00OTE3YjdkYzg4YWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTI2NjQxMjU0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InRvZ2V0aGVyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.DwMhkX25OEupRS0FBzt6hyetAG7jULlDYGOakTVc2Cg
+>>>>>>> b863ce7c50dc68fc86f028f9ae4ad5178e9a4b99
