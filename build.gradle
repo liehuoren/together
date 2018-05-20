@@ -39,6 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis:1.5.9.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation 'commons-lang:commons-lang:2.6'
 	implementation "com.google.guava:guava:23.5-jre"
 	implementation "com.github.binarywang:weixin-java-miniapp:3.0.0"

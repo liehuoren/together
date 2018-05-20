@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/rank/{userId:\\d+}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/player/{userId:\\d+}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(description = "用户游戏内信息", tags = {"Rank"})
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -24,11 +24,13 @@ public class PlayerController {
     private Environment env;
 
     @GetMapping
-    @ApiOperation(value = "用户游戏内信息")
+    @ApiOperation(value = "保存用户游戏内信息")
     @ResponseBody
     public PlayerView addPlayer(@PathVariable Long userId, @RequestParam String nickName, @RequestParam String shardId){
         PlayerEntity playerEntity = palyerService.savePlayer(userId,nickName,shardId,env);
         return new PlayerView(playerEntity);
     }
+
+
 
 }

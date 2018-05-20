@@ -26,5 +26,8 @@ public class PlayerEntity {
     private String playerName;
 
     @Getter @Setter
+    private String currentSeason;
+
+    @Getter @Setter
     private Long userId;
 }
