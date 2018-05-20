@@ -17,15 +17,15 @@ public class UserMatchConfigEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter @Setter(AccessLevel.PACKAGE)
+    @Getter @Setter
     @Column
     private Long userGameConfigId;
 
-    @Getter @Setter(AccessLevel.PACKAGE)
+    @Getter @Setter
     @Column
     private Long gameConfigId;
 
-    @Getter @Setter(AccessLevel.PACKAGE)
+    @Getter @Setter
     @Column
     private Long optionId;
 }
