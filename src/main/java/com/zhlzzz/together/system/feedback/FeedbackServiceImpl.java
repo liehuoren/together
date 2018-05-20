@@ -21,9 +21,6 @@ import java.util.Set;
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
 public class FeedbackServiceImpl implements FeedbackService {
 
-    @PersistenceContext
-    private EntityManager em;
-    private final TransactionTemplate tt;
     private final FeedbackRepository feedbackRepository;
     private final UserRepository userRepository;
 
@@ -36,10 +33,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     public FeedbackEntity saveFeedback(FeedbackParam feedbackParam) {
         User user = userRepository.findById(feedbackParam.getUserId()).orElseThrow(()->new UserNotFoundException(feedbackParam.getUserId()));
         FeedbackEntity feedbackEntity = new FeedbackEntity();
-        if (StringUtils.isNotEmpty(feedbackParam.getContent()))
+        if (StringUtils.isNotEmpty(feedbackParam.getContent())) {
             feedbackEntity.setContent(feedbackParam.getContent());
-        if (StringUtils.isNotEmpty(feedbackParam.getEmail()))
+        }
+        if (StringUtils.isNotEmpty(feedbackParam.getEmail())) {
             feedbackEntity.setEmail(feedbackParam.getEmail());
+        }
         feedbackEntity.setUserId(user.getId());
         feedbackEntity.setCreateTime(LocalDateTime.now());
         return feedbackRepository.save(feedbackEntity);

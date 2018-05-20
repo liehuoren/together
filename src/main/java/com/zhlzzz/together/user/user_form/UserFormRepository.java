@@ -1,4 +1,7 @@
 package com.zhlzzz.together.user.user_form;
 
-public interface UserFormRepository {
+import org.springframework.data.repository.Repository;
+
+public interface UserFormRepository extends Repository<UserFormEntity, Long> {
+
 }

@@ -27,7 +27,7 @@ public class PlayerServiceImpl implements PlayerService {
         User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
         PlayerEntity palyerEntity = new PlayerEntity();
         palyerEntity.setUserId(user.getId());
-        palyerEntity.setPalyerName(playerName);
+        palyerEntity.setPlayerName(playerName);
         palyerEntity.setShardId(shardId);
         Map<String,String> urlVariables = new HashMap<String,String>();
         urlVariables.put("shardId",shardId);

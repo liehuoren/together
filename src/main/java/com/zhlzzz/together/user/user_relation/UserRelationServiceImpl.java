@@ -59,6 +59,6 @@ public class UserRelationServiceImpl implements UserRelationService {
     @Override
     public List<? extends UserRelation> getUserRelationsByUserIdAndRelation(Long userId, UserRelation.Relation relation) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        return userRelationRepository.findByUserIdAndRelation(userId, relation);
+        return userRelationRepository.findByUserIdAndRelation(user.getId(), relation);
     }
 }

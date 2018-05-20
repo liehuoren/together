@@ -1,16 +1,10 @@
 package com.zhlzzz.together.controllers.system;
 
-<<<<<<< HEAD
-import com.zhlzzz.together.controllers.ApiAuthentication;
-import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserService;
-=======
+
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.system.AboutEntity;
 import com.zhlzzz.together.system.AboutParam;
 import com.zhlzzz.together.system.AboutService;
->>>>>>> b863ce7c50dc68fc86f028f9ae4ad5178e9a4b99
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -47,16 +41,8 @@ public class SystemController {
     @GetMapping(path = "/about")
     @ApiOperation(value = "获取小程序简介")
     @ResponseBody
-<<<<<<< HEAD
-    public AboutView getAboutCompany(ApiAuthentication auth) {
-        if (auth.requireUserId() == null) {
-            throw ApiExceptions.badRequest("无权限访问");
-        }
-        return new AboutView();
-=======
-    public AboutView getArticle() {
+    public AboutView getAboutCompany() {
         AboutEntity aboutEntity = aboutService.findAbout().orElseThrow(() -> ApiExceptions.notFound("不存小程序简介。"));
         return new AboutView(aboutEntity);
->>>>>>> b863ce7c50dc68fc86f028f9ae4ad5178e9a4b99
     }
 }
