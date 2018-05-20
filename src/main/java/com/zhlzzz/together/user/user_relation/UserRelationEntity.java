@@ -7,7 +7,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_relation")
+@Table(name = "user_relation",indexes = {
+        @Index(name = "user_idx", columnList = "userId"),
+        @Index(name = "to_user_idx", columnList = "toUserId")
+})
 public class UserRelationEntity implements UserRelation {
     @Getter
     @Id
@@ -32,5 +35,5 @@ public class UserRelationEntity implements UserRelation {
 
     @Getter @Setter
     @Column
-    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

@@ -13,5 +13,5 @@ public interface UserRelation extends Serializable {
     Long getToUserId();
     String getRemark();
     Relation getRelation();
-    LocalDateTime getCreateTime();
+    LocalDateTime getUpdateTime();
 }

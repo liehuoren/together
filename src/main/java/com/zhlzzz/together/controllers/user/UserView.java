@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;
 
 @ApiModel(description = "用户")
-@JsonPropertyOrder({"id","nickName","avatarUrl","gender"})
+@JsonPropertyOrder({"id","openId","nickName","avatarUrl","gender"})
 public class UserView {
 
     @NonNull

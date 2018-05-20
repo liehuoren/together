@@ -9,6 +9,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -26,9 +27,15 @@ public class GameConfigServiceImpl implements GameConfigService {
     public GameConfigEntity addGameConfig(Integer gameTypeId, GameConfig.InputType inputType, String label, Boolean required) {
         GameConfigEntity gameConfigEntity = new GameConfigEntity();
         gameConfigEntity.setGameTypeId(gameTypeId);
-        gameConfigEntity.setInputType(inputType);
-        gameConfigEntity.setLabel(label);
-        gameConfigEntity.setRequired(required);
+        if (inputType != null) {
+            gameConfigEntity.setInputType(inputType);
+        }
+        if (!Strings.isNullOrEmpty(label)) {
+            gameConfigEntity.setLabel(label);
+        }
+        if (required != null) {
+            gameConfigEntity.setRequired(required);
+        }
         return gameConfigRepository.save(gameConfigEntity);
     }
 
@@ -48,6 +55,11 @@ public class GameConfigServiceImpl implements GameConfigService {
     }
 
     @Override
+    public Optional<GameConfigEntity> getGameConfigById(Long id) {
+        return gameConfigRepository.findById(id);
+    }
+
+    @Override
     public GameConfigOptionEntity addOption(Long configId, String value) {
         GameConfigOptionEntity option = new GameConfigOptionEntity();
         option.setConfigId(configId);
@@ -56,15 +68,18 @@ public class GameConfigServiceImpl implements GameConfigService {
     }
 
     @Override
-    public GameConfigOptionEntity updateOption(Long id, Long configId, String value) {
+    public GameConfigOptionEntity updateOption(Long id, String value) {
         GameConfigOptionEntity option = gameConfigOptionRepository.findById(id).orElseThrow(() -> new GameConfigOptionNotFoundException());
-        if (configId != null) {
-            option.setConfigId(configId);
-        }
+
         if (!Strings.isNullOrEmpty(value)) {
             option.setValue(value);
         }
         return gameConfigOptionRepository.save(option);
+    }
+
+    @Override
+    public Optional<GameConfigOptionEntity> getGameConfigOptionById(Long id) {
+        return gameConfigOptionRepository.findById(id);
     }
 
     @Override

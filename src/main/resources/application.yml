@@ -36,3 +36,11 @@ logging:
 
 server:
   port: 8080
+
+wechat:
+  miniapp:
+    appid: wxb394e95f359306be
+    secret: 01d5f60b8c2f58f2138bf282aeb36f1c
+    token: 111
+    aesKey: 111
+    msgDataFormat: JSON

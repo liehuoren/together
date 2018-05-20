@@ -32,13 +32,13 @@ public class GameTypeEntity implements GameType, Serializable {
     @Column
     private Boolean hot = false;
 
+    @Getter @Setter
+    @Column
+    private LocalDateTime createTime;
+
     @Override
     public Boolean isHot() {
         return hot;
     }
-
-    @Getter @Setter
-    @Column
-    private LocalDateTime createTime;
 
 }

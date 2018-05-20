@@ -149,8 +149,9 @@ public class SwaggerConfig {
                 new Tag("UserLabel", "用户标签"),
                 new Tag("Feedback", "意见反馈"),
                 new Tag("Discuss", "评论-回复"),
-//                new Tag("Reply", "回复"),
-                new Tag("Advert", "广告管理")
+                new Tag("Advert", "广告管理"),
+                new Tag("Game","游戏"),
+                new Tag("Wx","微信小程序")
         );
     }
 

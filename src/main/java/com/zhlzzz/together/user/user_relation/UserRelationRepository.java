@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRelationRepository extends Repository<UserRelationEntity, Long> {
-    Optional<? extends UserRelation> save(UserRelationEntity userRelationEntity);
-    List<UserRelation> findByUserIdAndRelation(Long userId, UserRelation.Relation relation);
+    UserRelationEntity save(UserRelationEntity userRelationEntity);
+    Optional<UserRelationEntity> findByUserIdAndToUserId(Long userId, Long toUserId);
+    List<UserRelationEntity> findByUserIdAndRelation(Long userId, UserRelation.Relation relation);
 }
