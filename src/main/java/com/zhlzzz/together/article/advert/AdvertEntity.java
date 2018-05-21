@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="advert")
-public class AdvertEntity implements Advert,Serializable{
+public class AdvertEntity implements Advert {
 
     @Getter
     @Id
@@ -18,20 +18,21 @@ public class AdvertEntity implements Advert,Serializable{
     private Long id;
 
     @Getter @Setter
+    @Column
+    private  Long articleId;
+
+    @Getter @Setter
+    @Column(length = 100)
+    private String title;
+
+    @Getter @Setter
     @Column(length = 200)
     private String advertUrl;
 
-    @Setter
-    @Column
-    private boolean available = false;
-    public Boolean isAvailable(){return available;}
 
     @Getter @Setter
     @Column
     private LocalDateTime createTime;
 
-    @Getter @Setter
-    @Column
-    private  Long articleId;
 
 }

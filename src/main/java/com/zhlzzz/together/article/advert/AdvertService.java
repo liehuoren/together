@@ -1,13 +1,14 @@
 package com.zhlzzz.together.article.advert;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface AdvertService {
 
-    AdvertEntity addAdvert(AdvertParam advertParam);
-    AdvertEntity updateAdvert(Long id, AdvertParam advertParam);
-    Optional<? extends AdvertEntity> getAdvertById(Long id);
+    Advert addAdvert(AdvertParam advertParam);
+    Advert updateAdvert(Long id, AdvertParam advertParam);
+    Optional<? extends Advert> getAdvertById(Long id);
     void deleteAdvert(Long id);
-    Set<AdvertEntity> findAll();
+    List<AdvertEntity> findAll();
 }

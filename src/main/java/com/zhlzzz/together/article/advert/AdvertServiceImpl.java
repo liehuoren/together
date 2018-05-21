@@ -1,7 +1,7 @@
 package com.zhlzzz.together.article.advert;
 
+import com.google.common.base.Strings;
 import com.zhlzzz.together.article.ArticleNotFoundException;
-import com.zhlzzz.together.user.user_label.UserLabelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +12,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,34 +27,41 @@ public class AdvertServiceImpl implements AdvertService {
     private final AdvertRepository advertRepository;
 
     private void setParamter(AdvertEntity advertEntity,AdvertParam advertParam){
-        if (StringUtils.isNotEmpty(advertParam.getAdvertUrl()))
+        if (!Strings.isNullOrEmpty(advertParam.getTitle())) {
+            advertEntity.setTitle(advertParam.getTitle());
+        }
+        if (!Strings.isNullOrEmpty(advertParam.getAdvertUrl())) {
             advertEntity.setAdvertUrl(advertParam.getAdvertUrl());
-        advertEntity.setAvailable(advertParam.isAvailable());
+        }
+        if (advertParam.getArticleId() != null) {
+            advertEntity.setArticleId(advertParam.getArticleId());
+        }
+
     }
 
     @Override
-    public AdvertEntity addAdvert(AdvertParam advertParam) {
+    public Advert addAdvert(AdvertParam advertParam) {
         AdvertEntity advertEntity = new AdvertEntity();
-        setParamter(advertEntity,advertParam);
+        setParamter(advertEntity, advertParam);
         advertEntity.setCreateTime(LocalDateTime.now());
         return advertRepository.save(advertEntity);
     }
 
     @Override
-    public AdvertEntity updateAdvert(Long id, AdvertParam advertParam) {
-        AdvertEntity advert = advertRepository.findById(id).orElseThrow(()->new UserLabelNotFoundException(id));
+    public Advert updateAdvert(Long id, AdvertParam advertParam) {
+        AdvertEntity advert = advertRepository.findById(id).orElseThrow(() -> new AdvertNotFoundException(id));
         setParamter(advert,advertParam);
         return advertRepository.save(advert);
     }
 
     @Override
-    public Optional<? extends AdvertEntity> getAdvertById(Long id) {
+    public Optional<? extends Advert> getAdvertById(Long id) {
         return advertRepository.findById(id);
     }
 
     @Override
     public void deleteAdvert(Long id) {
-        AdvertEntity replyEntity = advertRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException(id));
+        AdvertEntity replyEntity = advertRepository.findById(id).orElseThrow(() -> new AdvertNotFoundException(id));
         tt.execute((s)-> {
             em.createQuery("DELETE FROM AdvertEntity u WHERE u.id = :id")
                     .setParameter("id", replyEntity.getId())
@@ -63,7 +71,7 @@ public class AdvertServiceImpl implements AdvertService {
     }
 
     @Override
-    public Set<AdvertEntity> findAll(){
+    public List<AdvertEntity> findAll(){
         return advertRepository.findAll();
     }
 }

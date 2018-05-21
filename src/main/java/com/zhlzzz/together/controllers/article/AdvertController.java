@@ -1,5 +1,6 @@
 package com.zhlzzz.together.controllers.article;
 
+import com.zhlzzz.together.article.advert.Advert;
 import com.zhlzzz.together.article.advert.AdvertEntity;
 import com.zhlzzz.together.article.advert.AdvertParam;
 import com.zhlzzz.together.article.advert.AdvertService;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,20 +34,21 @@ public class AdvertController {
     @GetMapping
     @ApiOperation(value = "获取广告列表")
     @ResponseBody
-    public Set<AdvertView> getDiscussList() {
-        Set<AdvertEntity> advertEntities = advertService.findAll();
-        return CollectionUtils.map(advertEntities,(r) ->{ return new AdvertView(r);});
+    public List<AdvertView> getAdvertList() {
+        List<AdvertEntity> advertEntities = advertService.findAll();
+
+        return CollectionUtils.map(advertEntities,(r) -> new AdvertView(r));
     }
 
     @PostMapping
     @ApiOperation(value = "新增广告")
     @ResponseBody
-    public AdvertView addDiscuss(@Valid @RequestBody AdvertParam advertParam, BindingResult result) {
+    public AdvertView addAdvert(@Valid @RequestBody AdvertParam advertParam, BindingResult result) {
         if (result.hasErrors()) {
             String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
             throw ApiExceptions.badRequest(errors);
         }
-        AdvertEntity advert = advertService.addAdvert(advertParam);
+        Advert advert = advertService.addAdvert(advertParam);
         return new AdvertView(advert);
     }
 
@@ -57,7 +60,7 @@ public class AdvertController {
             String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
             throw ApiExceptions.badRequest(errors);
         }
-        AdvertEntity advert = advertService.getAdvertById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此广告"));
+        Advert advert = advertService.getAdvertById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此广告"));
 
         return new AdvertView(advertService.updateAdvert(advert.getId(), advertParam));
     }
@@ -66,8 +69,9 @@ public class AdvertController {
     @ApiOperation(value = "删除广告")
     @ResponseBody
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        AdvertEntity advertEntity = advertService.getAdvertById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此广告"));
+        Advert advertEntity = advertService.getAdvertById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此广告"));
         advertService.deleteAdvert(advertEntity.getId());
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

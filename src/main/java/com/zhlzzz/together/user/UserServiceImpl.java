@@ -10,7 +10,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 
 import javax.annotation.PostConstruct;

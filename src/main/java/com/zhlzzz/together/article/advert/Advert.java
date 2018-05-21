@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 public interface Advert extends Serializable {
 
     Long getId();
-    String getAdvertUrl();
-    Boolean isAvailable();
     Long getArticleId();
+    String getTitle();
+    String getAdvertUrl();
     LocalDateTime getCreateTime();
 }
