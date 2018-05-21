@@ -33,7 +33,7 @@ public class WxAuthController {
     private final UserService userService;
     private final UserPasswordService userPasswordService;
 
-    @GetMapping
+    @GetMapping(path = "/login")
     @ApiOperation(value = "微信登录前注册并获取用户信息")
     @ResponseBody
     public UserselfView login(String code, String rawData, String signature, String encryptedData, String iv) {

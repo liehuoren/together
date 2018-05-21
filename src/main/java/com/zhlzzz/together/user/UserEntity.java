@@ -19,7 +19,7 @@ public class UserEntity implements User {
     private Long id;
 
     @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(length = 20,nullable = false)
+    @Column(length = 20)
     private String phone;
 
     @Getter @Setter(AccessLevel.PACKAGE)
