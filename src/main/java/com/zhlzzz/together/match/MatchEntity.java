@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "matche")
-public class MatchEntity implements Serializable {
+public class MatchEntity implements Match, Serializable {
 
     @Getter
     @Id
@@ -36,4 +36,13 @@ public class MatchEntity implements Serializable {
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column
     private LocalDateTime createTime;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
+    private LocalDateTime expiration;
+
+    @Override
+    public boolean isEffective() {
+        return !finished && !deleted && expiration.isAfter(LocalDateTime.now());
+    }
 }
