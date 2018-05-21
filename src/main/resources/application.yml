@@ -47,4 +47,5 @@ wechat:
 
 pubg:
   palyerUrl: https://api.playbattlegrounds.com/shards/{shardId}/players?filter[playerNames]={playerName}
+  baseUrl: https://api.playbattlegrounds.com
   apiKey: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhOGY0YzIxMC0zY2I4LTAxMzYtNzNlNy00OTE3YjdkYzg4YWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTI2NjQxMjU0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InRvZ2V0aGVyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.DwMhkX25OEupRS0FBzt6hyetAG7jULlDYGOakTVc2Cg
