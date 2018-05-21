@@ -4,7 +4,7 @@ spring:
 
   datasource:
     name: together
-    url: jdbc:mysql://localhost:3306/together-test?useSSL=false&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/together_test?useSSL=false&rewriteBatchedStatements=true
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver

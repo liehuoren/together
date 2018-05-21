@@ -8,7 +8,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
+@Entity
+@Table(name = "matche")
 public class MatchEntity implements Serializable {
 
     @Getter
@@ -29,7 +30,7 @@ public class MatchEntity implements Serializable {
     private boolean finished = false;
 
     @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(nullable = false)
+    @Column
     private boolean deleted = false;
 
     @Getter @Setter(AccessLevel.PACKAGE)

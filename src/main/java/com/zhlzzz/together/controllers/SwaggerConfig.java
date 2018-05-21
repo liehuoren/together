@@ -152,7 +152,8 @@ public class SwaggerConfig {
                 new Tag("Advert", "广告管理"),
                 new Tag("Game","游戏"),
                 new Tag("Wx","微信小程序"),
-                new Tag("Match","匹配")
+                new Tag("Match","匹配"),
+                new Tag("UserGameConfig","用户游戏配置")
         );
     }
 

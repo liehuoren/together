@@ -9,11 +9,13 @@ import java.util.Set;
 
 public interface UserGameConfigService {
 
-    void updateUserGameConfig(Long userId, Integer gameTypeId, UserGameConfigParam userGameConfigParam);
+    UserGameConfigEntity updateUserGameConfig(Long userId, Integer gameTypeId, UserGameConfigParam userGameConfigParam);
 
-    Optional<UserGameConfigEntity> getUserGameConfigById(Long userId, Integer gameTypeId);
+    Optional<UserGameConfigEntity> getUserGameConfigByUserAndGameType(Long userId, Integer gameTypeId);
 
     Set<UserGameConfigEntity> getUserGameConfigsByGameType(Integer gameTypeId);
 
     List<? extends UserMatchConfig> updateUserMatchConfig(Long userGameConfigId, List<UserMatchConfigParam> params);
+
+    List<? extends UserMatchConfig> getUserMatchConfigByUserGameConfigId(Long userGameConfigId);
 }
