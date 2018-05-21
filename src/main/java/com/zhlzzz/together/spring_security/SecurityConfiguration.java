@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
@@ -62,7 +61,7 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         Map<String,PasswordEncoder> encoders = new HashMap<>();
         encoders.put("bcrypt", new BCryptPasswordEncoder());
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
+
         encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
 		encoders.put("scrypt", new SCryptPasswordEncoder());
 //		encoders.put("SHA-1", new MessageDigestPasswordEncoder("SHA-1"));

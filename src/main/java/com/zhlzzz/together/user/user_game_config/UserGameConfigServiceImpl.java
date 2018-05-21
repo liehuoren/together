@@ -41,10 +41,10 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
 
 
     @Override
-    public void updateUserGameConfig(Long userId, Integer gameTypeId, UserGameConfigParam userGameConfigParam) {
+    public UserGameConfigEntity updateUserGameConfig(Long userId, Integer gameTypeId, UserGameConfigParam userGameConfigParam) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         GameTypeEntity gameType = gameTypeRepository.getById(gameTypeId).orElseThrow(() -> new GameTypeNotFoundException(gameTypeId));
-        tt.execute((s)-> {
+        return tt.execute((s)-> {
 
             UserGameConfigEntity userGameConfigEntity = em.createQuery("SELECT v FROM UserGameConfigEntity v WHERE v.userId = :userId AND v.gameTypeId = :gameTypeId", UserGameConfigEntity.class)
                     .setParameter("userId", user.getId())
@@ -79,12 +79,12 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
             }
             em.flush();
 
-            return true;
+            return userGameConfigEntity;
         });
     }
 
     @Override
-    public Optional<UserGameConfigEntity> getUserGameConfigById(Long userId, Integer gameTypeId) {
+    public Optional<UserGameConfigEntity> getUserGameConfigByUserAndGameType(Long userId, Integer gameTypeId) {
         return userGameConfigRepository.getByUserIdAndGameTypeId(userId, gameTypeId);
     }
 
@@ -106,6 +106,21 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
             em.flush();
             return CollectionUtils.map(values, UserMatchConfigImpl::toDto);
         });
+    }
+
+    @Override
+    public List<? extends UserMatchConfig> getUserMatchConfigByUserGameConfigId(Long userGameConfigId) {
+        val valueEntities = em.createQuery("SELECT v from UserMatchConfigEntity v WHERE v.userGameConfigId = :userGameConfigId ORDER BY v.gameConfigId ASC, v.id ASC", UserMatchConfigEntity.class)
+                .setParameter("userGameConfigId", userGameConfigId)
+                .getResultList();
+        val values = new ArrayList<UserMatchConfigImpl>();
+        for (UserMatchConfigEntity userMatchConfigEntity : valueEntities) {
+            UserMatchConfigImpl value = new UserMatchConfigImpl(userMatchConfigEntity);
+            values.add(value);
+        }
+
+
+        return CollectionUtils.map(values, UserMatchConfigImpl::toDto);
     }
 
     private List<UserMatchConfigImpl> createUserMatchConfigs(Long userGameConfigId, List<UserMatchConfigParam> params) {

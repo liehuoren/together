@@ -8,8 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
-public class MatchEntity implements Serializable {
+@Entity
+@Table(name = "matche")
+public class MatchEntity implements Match, Serializable {
 
     @Getter
     @Id
@@ -29,10 +30,19 @@ public class MatchEntity implements Serializable {
     private boolean finished = false;
 
     @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(nullable = false)
+    @Column
     private boolean deleted = false;
 
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column
     private LocalDateTime createTime;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
+    private LocalDateTime expiration;
+
+    @Override
+    public boolean isEffective() {
+        return !finished && !deleted && expiration.isAfter(LocalDateTime.now());
+    }
 }
