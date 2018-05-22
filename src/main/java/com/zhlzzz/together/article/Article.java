@@ -8,6 +8,7 @@ public interface Article extends Serializable {
     Long getId();
     String getTitle();
     String getAuthor();
+    String getIntroduction();
     String getImgUrl();
     String getContent();
     LocalDateTime getCreateTime();

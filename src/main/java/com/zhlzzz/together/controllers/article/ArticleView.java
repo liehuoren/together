@@ -32,8 +32,8 @@ public class ArticleView {
     @ApiModelProperty(value = "文章头图", example = "http://www.baidu.com")
     public String getImgUrl() { return article.getImgUrl(); }
 
-    @ApiModelProperty(value = "创建时间", example = "2017-12-13T12:03:20+08:00")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'+08:00'", timezone = "GMT+0800")
+    @ApiModelProperty(value = "创建时间", example = "2017-12-13 12:03:20")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+0800")
     public LocalDateTime getCreateTime() {
         return article.getCreateTime();
     }

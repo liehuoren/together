@@ -11,5 +11,5 @@ public interface UserRepository extends Repository<UserEntity, Long> {
     UserEntity save(UserEntity userEntity);
     Optional<UserEntity> findById(Long id);
     Optional<UserEntity> findByOpenId(String openId);
-    List<UserEntity> findByIdIn(Set<Long> ids);
+    Set<UserEntity> findByIdIn(Set<Long> ids);
 }

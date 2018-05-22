@@ -53,8 +53,9 @@ public class UserController {
         for (UserRelation userRelation : userRelations) {
             userIds.add(userRelation.getId());
         }
-        List<? extends User> users = userService.getUsersByIds(userIds);
-        return CollectionUtils.map(users, (u) -> { return new UserView(u); });
+        Set<? extends User> users = userService.getUsersByIds(userIds);
+        //return CollectionUtils.map(users, (u) -> new UserView(u) );
+        return null;
     }
 
     @PostMapping(path = "/{userId:\\d+}/relations/{toUserId:\\d+}")

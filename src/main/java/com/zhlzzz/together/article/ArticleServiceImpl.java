@@ -4,18 +4,25 @@ import com.google.common.base.Strings;
 import com.zhlzzz.together.data.Slice;
 import com.zhlzzz.together.data.SliceIndicator;
 import com.zhlzzz.together.data.Slices;
+import com.zhlzzz.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.FileCopyUtils;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
     @PersistenceContext
     private EntityManager em;
     private final TransactionTemplate tt;
+    private final JdbcTemplate jdbc;
     private final ArticleRepository articleRepository;
 
     private void setParameter(ArticleEntity article, ArticleParam parameters) {
@@ -43,6 +51,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if (!Strings.isNullOrEmpty(parameters.getContent())) {
             article.setContent(parameters.getContent());
+        }
+        if (!Strings.isNullOrEmpty(parameters.getIntroduction())) {
+            article.setIntroduction(parameters.getIntroduction());
         }
     }
 
@@ -72,7 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
         CriteriaQuery<ArticleEntity> q = cb.createQuery(ArticleEntity.class);
         Root<ArticleEntity> m = q.from(ArticleEntity.class);
 
-        q.select(m).orderBy(cb.desc(m.get("createTime")));
+        q.select(m).orderBy(cb.desc(m.get("createTime")), cb.desc(m.get("id")));
 
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<ArticleEntity> countM = countQuery.from(ArticleEntity.class);
@@ -93,5 +104,23 @@ public class ArticleServiceImpl implements ArticleService {
                     .executeUpdate();
             return true;
         });
+    }
+
+    @PostConstruct
+    public void onStartUp() {
+        if (!EntityUtils.isEntitiesEmpty(em, ArticleEntity.class)) {
+            return;
+        }
+
+        try {
+            Resource resource = new ClassPathResource("article.sql");
+            byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
+            String sql = new String(bytes, Charset.forName("UTF-8"));
+
+            jdbc.execute(sql);
+        } catch (Throwable e) {
+            log.error("can not load article sql.", e);
+        }
+
     }
 }

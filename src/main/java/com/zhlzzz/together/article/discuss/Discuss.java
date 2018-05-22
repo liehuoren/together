@@ -8,9 +8,10 @@ public interface Discuss extends Serializable {
     Long getId();
     String getContent();
     String getReplyContent();
-    Boolean isAudit();
-    Boolean isToTop();
+    boolean isAudit();
+    boolean isToTop();
     Long getArticleId();
     Long getUserId();
     LocalDateTime getCreateTime();
+    LocalDateTime getReplyTime();
 }

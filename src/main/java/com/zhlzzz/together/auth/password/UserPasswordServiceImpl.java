@@ -70,6 +70,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 
         tt.execute((s) -> {
             updateUserPassword(1L, "Abc123");
+            updateUserPassword(2L, "user");
             return null;
         });
     }

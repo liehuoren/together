@@ -10,5 +10,5 @@ public interface UserService {
     User updateUser(Long id, UserParam parameters);
     Optional<? extends User> getUserById(Long id);
     Optional<? extends User> getUserByOpenId(String openId);
-    List<? extends User> getUsersByIds(Set<Long> ids);
+    Set<? extends User> getUsersByIds(Set<Long> ids);
 }

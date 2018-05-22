@@ -20,6 +20,8 @@ public class ArticleDto implements Article, Serializable {
 
     private String author;
 
+    private String introduction;
+
     private String imgUrl;
 
     private String content;

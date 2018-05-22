@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<? extends User> getUsersByIds(Set<Long> ids) {
+    public Set<? extends User> getUsersByIds(Set<Long> ids) {
         return userRepository.findByIdIn(ids);
     }
 

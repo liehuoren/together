@@ -1,17 +1,20 @@
 package com.zhlzzz.together.article.discuss;
 
+import com.zhlzzz.together.data.Slice;
+import com.zhlzzz.together.data.SliceIndicator;
+
 import java.util.Optional;
 import java.util.Set;
 
 public interface DiscussService {
 
-    DiscussEntity addDiscuss(Long articleId, Long userId, DiscussParam discussParam);
-    DiscussEntity addDiscuss(Long articleId, Long userId,Long discussId ,ReplyParam replyParam);
-    DiscussEntity updateDiscuss(Long id,DiscussParam discussParam);
-    DiscussEntity updateDiscuss(Long discussId,ReplyParam replyParam);
-    Optional<? extends  DiscussEntity > getDiscussById(Long id);
-//    Slice<? extends DiscussEntity,Integer> getDiscusses(SliceIndicator<Integer> indicator);
+    Discuss addDiscuss(Long articleId, Long userId, String content);
+    Discuss updateDiscuss(Long id, DiscussParam param);
+
+    Optional<? extends  Discuss> getDiscussById(Long id);
+
     void deleteDiscuss(Long id);
-    Set<DiscussEntity> findByArticleId(Long articleId);
-    Optional<DiscussEntity> findByIdAndArticleIdAndUserId(Long id,Long articleId,Long userId);
+
+    Slice<? extends Discuss, Integer> getDiscussesByCriteria(DiscussCriteria criteria, SliceIndicator<Integer> indicator);
+
 }

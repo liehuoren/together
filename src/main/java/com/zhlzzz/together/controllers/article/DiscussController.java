@@ -1,15 +1,18 @@
 package com.zhlzzz.together.controllers.article;
 
-import com.zhlzzz.together.article.discuss.DiscussEntity;
-import com.zhlzzz.together.article.discuss.DiscussParam;
-import com.zhlzzz.together.article.discuss.DiscussService;
-import com.zhlzzz.together.article.discuss.ReplyParam;
+import com.zhlzzz.together.article.discuss.*;
+import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
+import com.zhlzzz.together.data.Slice;
+import com.zhlzzz.together.data.SliceIndicator;
+import com.zhlzzz.together.user.User;
+import com.zhlzzz.together.user.UserService;
 import com.zhlzzz.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,80 +21,79 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/articles/{articleId:\\d+}/{userId:\\d+}/discuss", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path = "/discusses", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(description = "评论", tags = {"Discuss"})
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiscussController {
 
     private final DiscussService discussService;
+    private final UserService userService;
 
     @GetMapping
-    @ApiOperation(value = "获取文章评论列表")
+    @ApiOperation(value = "获取评论列表")
     @ResponseBody
-    public Set<DiscussView> getDiscussList(@PathVariable Long articleId,@PathVariable Long userId) {
-        Set<DiscussEntity> discussEntities = discussService.findByArticleId(articleId);
-        return CollectionUtils.map(discussEntities,(r) ->{ return new DiscussView(r);});
-    }
-
-    @PostMapping
-    @ApiOperation(value = "新建评论")
-    @ResponseBody
-    public DiscussView addDiscuss(@PathVariable Long articleId,@PathVariable Long userId, @Valid @RequestBody DiscussParam discussParam, BindingResult result) {
-        if (result.hasErrors()) {
-            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
-            throw ApiExceptions.badRequest(errors);
+    public Slice<? extends DiscussView, Integer> getDiscussList(DiscussCriteria criteria, SliceIndicator<Integer> indicator, ApiAuthentication auth) {
+        User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
+        if (admin == null) {
+            throw ApiExceptions.noPrivilege();
         }
-        DiscussEntity discussEntity = discussService.addDiscuss(articleId,userId,discussParam);
-        return new DiscussView(discussEntity);
+        val discusses = discussService.getDiscussesByCriteria(criteria, indicator);
+        return discusses.mapAll(items -> buildDiscussViews(items));
     }
 
     @PutMapping(path = "/{id:\\d+}")
-    @ApiOperation(value = "更新评论")
+    @ApiOperation(value = "回复评论")
     @ResponseBody
-    public DiscussView updateDiscuss(@PathVariable Long articleId, @PathVariable Long userId, @PathVariable Long id, @Valid @RequestBody DiscussParam discussParam, BindingResult result) {
+    public DiscussView addDiscussReply(@PathVariable Long id, @Valid @RequestBody DiscussParam param,
+                                       ApiAuthentication auth, BindingResult result) {
         if (result.hasErrors()) {
             String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
             throw ApiExceptions.badRequest(errors);
         }
-        DiscussEntity discussEntity = discussService.findByIdAndArticleIdAndUserId(id,articleId,userId).orElseThrow(()->ApiExceptions.notFound("没有文章相关评论"));
-        return new DiscussView(discussService.updateDiscuss(discussEntity.getId(), discussParam));
+        User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
+        if (admin == null) {
+            throw ApiExceptions.noPrivilege();
+        }
+
+        Discuss discuss = discussService.updateDiscuss(id, param);
+        User user = userService.getUserById(discuss.getUserId()).orElse(null);
+        return new DiscussView(discuss, user);
     }
+
 
     @DeleteMapping(path = "/{id:\\d+}")
     @ApiOperation(value = "删除评论")
     @ResponseBody
-    public ResponseEntity<String> delete(@PathVariable Long articleId,@PathVariable Long userId,@PathVariable Long id) {
-        DiscussEntity discuss = discussService.getDiscussById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此评论"));
+    public ResponseEntity<String> delete(@PathVariable Long id, ApiAuthentication auth) {
+        User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
+        if (admin == null) {
+            throw ApiExceptions.noPrivilege();
+        }
+        Discuss discuss = discussService.getDiscussById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此评论"));
         discussService.deleteDiscuss(discuss.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/{discussId:\\d+}/reply")
-    @ApiOperation(value = "新建回复")
-    @ResponseBody
-    public DiscussView addDiscuss(@PathVariable Long articleId, @PathVariable Long userId,@PathVariable Long discussId, @Valid @RequestBody ReplyParam replyParam, BindingResult result) {
-        if (result.hasErrors()) {
-            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
-            throw ApiExceptions.badRequest(errors);
+    private List<DiscussView> buildDiscussViews(List<? extends Discuss> discusses) {
+        Set<Long> userIds = new HashSet<>();
+        for (Discuss discuss : discusses) {
+            userIds.add(discuss.getUserId());
         }
-        DiscussEntity discussEntity = discussService.addDiscuss(articleId,userId,discussId,replyParam);
-        return new DiscussView(discussEntity);
+        Set<? extends User> users = userService.getUsersByIds(userIds);
+        Map<Long, ? extends User> userMap = CollectionUtils.toMap(users, User::getId);
+
+        return CollectionUtils.map(discusses, (d) -> {
+            User user = userMap.get(d.getUserId());
+            return new DiscussView(d, user);});
     }
 
-    @PutMapping(path = "/reply/{discussId:\\d+}")
-    @ApiOperation(value = "更新回复")
-    @ResponseBody
-    public DiscussView updateDiscuss(@PathVariable Long articleId, @PathVariable Long userId, @PathVariable Long discussId, @Valid @RequestBody ReplyParam replyParam, BindingResult result) {
-        if (result.hasErrors()) {
-            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
-            throw ApiExceptions.badRequest(errors);
-        }
-        DiscussEntity discussEntity = discussService.findByIdAndArticleIdAndUserId(discussId,articleId,userId).orElseThrow(()->ApiExceptions.notFound("没有文章相关评论"));
-        return new DiscussView(discussService.updateDiscuss(discussEntity.getId(), replyParam));
-    }
+
 }

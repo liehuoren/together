@@ -26,6 +26,10 @@ public class ArticleEntity implements Article {
     private String author;
 
     @Getter @Setter
+    @Column(length = 50)
+    private String introduction;
+
+    @Getter @Setter
     @Column
     private String imgUrl;
 
@@ -41,6 +45,7 @@ public class ArticleEntity implements Article {
         return ArticleDto.builder()
                 .id(id)
                 .author(author)
+                .introduction(introduction)
                 .title(title)
                 .imgUrl(imgUrl)
                 .content(content)
