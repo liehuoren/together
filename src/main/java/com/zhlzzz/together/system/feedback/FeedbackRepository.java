@@ -2,12 +2,12 @@ package com.zhlzzz.together.system.feedback;
 
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface FeedbackRepository extends Repository<FeedbackEntity, Long> {
 
-    FeedbackEntity save(FeedbackEntity systemEntity);
+    FeedbackEntity save(FeedbackEntity feedbackEntity);
     Optional<FeedbackEntity> findById(Long id);
-    Set<FeedbackEntity> findAll();
+    List<FeedbackEntity> findAll();
 }

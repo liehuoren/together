@@ -10,7 +10,7 @@ public class FeedbackNotFoundException extends RuntimeException {
     private Long id;
 
     public FeedbackNotFoundException(@Nullable Long id) {
-        super(String.format("找不到小程序介绍（id: %d）", id));
+        super(String.format("找不到相关意见反馈（id: %d）", id));
         this.id = id;
     }
 

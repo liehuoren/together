@@ -48,7 +48,7 @@ public class ArticleController {
     @GetMapping
     @ApiOperation(value = "文章列表")
     @ResponseBody
-    public Slice<? extends ArticleView, Integer> getArticleList(SliceIndicator<Integer> indicator) {
+    public Slice<? extends ArticleListView, Integer> getArticleList(SliceIndicator<Integer> indicator) {
         val articles = articleService.getArticles(indicator);
         return articles.mapAll(items -> buildArticlesView(items));
     }
@@ -115,15 +115,15 @@ public class ArticleController {
         }
     }
 
-    private List<ArticleView> buildArticlesView(List<? extends Article> articles) {
-        return CollectionUtils.map(articles, (r) ->  new ArticleView(r) );
+    private List<ArticleListView> buildArticlesView(List<? extends Article> articles) {
+        return CollectionUtils.map(articles, (r) ->  new ArticleListView(r) );
     }
 
     @PostMapping(path = "/{id:\\d+}/discusses")
     @ApiOperation(value = "新增评论")
     public DiscussView addDiscuss(@PathVariable Long id, @RequestParam String content, ApiAuthentication apiAuth) {
         Article article = articleService.getArticleById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此文章"));
-        if (Strings.isNullOrEmpty(content)) {
+        if (!Strings.isNullOrEmpty(content)) {
             throw ApiExceptions.invalidParameter("content");
         }
         Long userId = apiAuth.requireUserId();

@@ -4,16 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="sys_about")
-public class AboutEntity {
+public class AboutEntity implements Serializable {
 
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Getter @Setter
     @Column
@@ -27,7 +28,4 @@ public class AboutEntity {
     @Column(columnDefinition = "TEXT")
     private String introduction;
 
-    @Getter @Setter
-    @Column
-    private LocalDateTime createTime;
 }

@@ -10,19 +10,18 @@ import lombok.NonNull;
 @JsonPropertyOrder({"logo","company","introduction"})
 public class AboutView {
 
-    @NonNull
     private final AboutEntity aboutEntity;
 
     public AboutView(AboutEntity aboutEntity) {
          this.aboutEntity = aboutEntity;
     }
 
-    @ApiModelProperty(value = "logo", example = "http://zhlzzz.com/logo.png")
-    public String getLogo() { return this.aboutEntity.getLogo(); }
+    @ApiModelProperty(value = "logo", example = "http://p6rwlbhj0.bkt.clouddn.com/image/together/logo.jpg")
+    public String getLogo() { return aboutEntity.getLogo(); }
 
     @ApiModelProperty(value = "公司名称", example = "组起")
-    public String getCompany() { return this.aboutEntity.getCompany(); }
+    public String getCompany() { return aboutEntity.getCompany(); }
 
     @ApiModelProperty(value = "公司简介", example = "公司")
-    public String getIntroduction() { return this.aboutEntity.getIntroduction(); }
+    public String getIntroduction() { return aboutEntity.getIntroduction(); }
 }

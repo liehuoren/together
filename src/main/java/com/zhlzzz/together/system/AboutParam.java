@@ -11,12 +11,10 @@ import org.hibernate.validator.constraints.URL;
 
 import java.io.Serializable;
 
-@ApiModel(description = "小程序结束参数")
+@ApiModel(description = "小程序关于")
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class AboutParam implements Serializable {
+public class AboutParam {
 
     @ApiModelProperty(value = "公司名称", example = "组起")
     @Length(max = 50)
@@ -26,6 +24,6 @@ public class AboutParam implements Serializable {
     @URL
     protected String logo;
 
-    @ApiModelProperty(value = "小程序结束", example = "正文正文正文")
+    @ApiModelProperty(value = "小程序简介", example = "正文正文正文")
     protected String introduction;
 }

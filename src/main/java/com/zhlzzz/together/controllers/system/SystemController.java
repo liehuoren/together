@@ -1,10 +1,12 @@
 package com.zhlzzz.together.controllers.system;
 
 
+import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.system.AboutEntity;
-import com.zhlzzz.together.system.AboutParam;
 import com.zhlzzz.together.system.AboutService;
+import com.zhlzzz.together.user.User;
+import com.zhlzzz.together.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,25 +25,25 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SystemController {
 
-    @Autowired
     private final AboutService aboutService;
+    private final UserService userService;
 
     @PutMapping(path = "/about")
     @ApiOperation(value = "更新小程序介绍")
     @ResponseBody
-    public AboutView updateAdvert(@Valid @RequestBody AboutParam aboutParam, BindingResult result) {
-        if (result.hasErrors()) {
-            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
-            throw ApiExceptions.badRequest(errors);
+    public AboutView updateAdvert(@RequestParam String company, @RequestParam String logo, @RequestParam String introduction, ApiAuthentication auth) {
+        User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
+        if (admin == null) {
+            throw ApiExceptions.noPrivilege();
         }
-        return new AboutView(aboutService.updateAbout(aboutParam));
+        return new AboutView(aboutService.updateAbout(company, logo, introduction));
     }
 
     @GetMapping(path = "/about")
     @ApiOperation(value = "获取小程序简介")
     @ResponseBody
     public AboutView getAboutCompany() {
-        AboutEntity aboutEntity = aboutService.findAbout().orElseThrow(() -> ApiExceptions.notFound("不存小程序简介。"));
+        AboutEntity aboutEntity = aboutService.getAbout();
         return new AboutView(aboutEntity);
     }
 }

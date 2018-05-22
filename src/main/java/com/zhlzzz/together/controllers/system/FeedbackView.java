@@ -19,15 +19,15 @@ public class FeedbackView {
 
     @ApiModelProperty(name = "反馈ID",example = "1")
     public  Long getId(){
-        return this.feedbackEntity.getId();
+        return feedbackEntity.getId();
     }
 
     @ApiModelProperty(value = "反馈用户id", example = "123")
-    public Long getUserId() { return this.feedbackEntity.getUserId(); }
+    public Long getUserId() { return feedbackEntity.getUserId(); }
 
     @ApiModelProperty(value = "用户邮箱", example = "1234567890@qq.com")
-    public String getEmail() { return this.feedbackEntity.getEmail(); }
+    public String getEmail() { return feedbackEntity.getEmail(); }
 
     @ApiModelProperty(value = "反馈内容", example = "反馈反馈反馈")
-    public String getContent() { return this.feedbackEntity.getContent(); }
+    public String getContent() { return feedbackEntity.getContent(); }
 }
