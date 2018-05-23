@@ -39,8 +39,8 @@ server:
 
 wechat:
   miniapp:
-    appid: wxb394e95f359306be
-    secret: 01d5f60b8c2f58f2138bf282aeb36f1c
+    appid: wxadcbd3ddaf6ee13f
+    secret: 1e5bb707e5469c6827afa295d84be3e9
     token: 111
     aesKey: 111
     msgDataFormat: JSON
