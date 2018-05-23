@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @ApiModel(description = "游戏配置字段")
+@JsonPropertyOrder({"id","label","inputType","required","options"})
 @RequiredArgsConstructor
 public class GameConfigView {
 
@@ -34,6 +35,8 @@ public class GameConfigView {
     public Long getId() { return gameConfig.getId(); }
 
     public String getLabel() { return gameConfig.getLabel(); }
+
+    public GameConfig.InputType getInputType() { return gameConfig.getInputType(); }
 
     public boolean isRequired() { return gameConfig.isRequired(); }
 

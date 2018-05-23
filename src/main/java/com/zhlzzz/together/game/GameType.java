@@ -9,5 +9,6 @@ public interface GameType extends Serializable {
     String getName();
     String getImgUrl();
     Boolean isHot();
+    Boolean isDeleted();
     LocalDateTime getCreateTime();
 }

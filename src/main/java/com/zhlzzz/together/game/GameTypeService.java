@@ -8,13 +8,11 @@ import java.util.Optional;
 public interface GameTypeService {
     GameType addGameType(String name, String imgUrl, Boolean hot) throws GameTypeNameUsedException;
 
-    GameType updateGameType(Integer id, String name, String imgUrl, Boolean hot) throws GameTypeNotFoundException, GameTypeNameUsedException;
+    GameType updateGameType(Integer id, String name, String imgUrl, Boolean hot, Boolean deleted) throws GameTypeNotFoundException, GameTypeNameUsedException;
 
     Optional<? extends GameType> getGameTypeById(Integer id);
 
     List<? extends GameType> getAllGameTypes();
 
-    void delete(Integer id);
-
-    List<? extends GameConfig> getGameTypeConfig(Integer gameTypeId);
+    List<? extends GameConfig> getGameTypeConfigs(Integer gameTypeId);
 }

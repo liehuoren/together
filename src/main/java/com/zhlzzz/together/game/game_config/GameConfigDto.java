@@ -21,6 +21,8 @@ public class GameConfigDto implements GameConfig {
 
     private String label;
 
+    private InputType inputType;
+
     private List<Option> options;
 
     private boolean required;

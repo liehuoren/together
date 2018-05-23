@@ -1,14 +1,21 @@
 package com.zhlzzz.together.game.game_config;
 
 import com.google.common.base.Strings;
+import com.zhlzzz.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.FileCopyUtils;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.nio.charset.Charset;
 import java.util.Optional;
 
 @Service
@@ -18,6 +25,7 @@ public class GameConfigServiceImpl implements GameConfigService {
 
     @PersistenceContext
     private EntityManager em;
+    private final JdbcTemplate jdbc;
     private final TransactionTemplate tt;
 
     private final GameConfigRepository gameConfigRepository;
@@ -90,5 +98,29 @@ public class GameConfigServiceImpl implements GameConfigService {
     @Override
     public void deleteOption(Long id) {
         gameConfigOptionRepository.deleteById(id);
+    }
+
+    @PostConstruct
+    public void onStartUp() {
+        if (!EntityUtils.isEntitiesEmpty(em, GameConfigEntity.class)) {
+            return;
+        }
+
+        try {
+            Resource resource = new ClassPathResource("game_config.sql");
+            byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
+            String sql = new String(bytes, Charset.forName("UTF-8"));
+
+            jdbc.execute(sql);
+
+            Resource resource1 = new ClassPathResource("game_config_options.sql");
+            byte[] bytes1 = FileCopyUtils.copyToByteArray(resource1.getInputStream());
+            String sql1 = new String(bytes1, Charset.forName("UTF-8"));
+
+            jdbc.execute(sql1);
+        } catch (Throwable e) {
+            log.error("can not load game_config sql.", e);
+        }
+
     }
 }

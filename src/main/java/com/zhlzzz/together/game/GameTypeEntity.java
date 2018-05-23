@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 @Table(name = "game_type", uniqueConstraints = {
         @UniqueConstraint(name = "name_udx", columnNames = {"name"})
 })
-@ToString
 public class GameTypeEntity implements GameType, Serializable {
+
+    private static final long serialVersionUID = -2206493122498197563L;
 
     @Getter
     @Id
@@ -29,8 +30,12 @@ public class GameTypeEntity implements GameType, Serializable {
     private String imgUrl;
 
     @Setter
-    @Column
-    private Boolean hot = false;
+    @Column(nullable = false)
+    private boolean hot = false;
+
+    @Setter
+    @Column(nullable = false)
+    private boolean deleted = false;
 
     @Getter @Setter
     @Column
@@ -41,4 +46,8 @@ public class GameTypeEntity implements GameType, Serializable {
         return hot;
     }
 
+    @Override
+    public Boolean isDeleted() {
+        return deleted;
+    }
 }

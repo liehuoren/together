@@ -5,16 +5,23 @@ import com.zhlzzz.together.game.game_config.GameConfig;
 import com.zhlzzz.together.game.game_config.GameConfigEntity;
 import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
 import com.zhlzzz.together.utils.CollectionUtils;
+import com.zhlzzz.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.FileCopyUtils;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -26,6 +33,7 @@ public class GameTypeServiceImpl implements GameTypeService {
     @PersistenceContext
     private EntityManager em;
     private final TransactionTemplate tt;
+    private final JdbcTemplate jdbc;
     private final GameTypeRepository gameTypeRepository;
 
     @Override
@@ -33,17 +41,19 @@ public class GameTypeServiceImpl implements GameTypeService {
         GameTypeEntity gameTypeEntity = new GameTypeEntity();
         gameTypeEntity.setName(name);
         gameTypeEntity.setImgUrl(imgUrl);
-        gameTypeEntity.setHot(hot);
+        if (hot != null) {
+            gameTypeEntity.setHot(hot);
+        }
         gameTypeEntity.setCreateTime(LocalDateTime.now());
         try {
             return gameTypeRepository.save(gameTypeEntity);
         } catch (DataIntegrityViolationException e) {
-            throw new GameTypeNameUsedException();
+            throw new GameTypeNameUsedException(name, e);
         }
     }
 
     @Override
-    public GameType updateGameType(Integer id, String name, String imgUrl, Boolean hot) throws GameTypeNotFoundException, GameTypeNameUsedException {
+    public GameType updateGameType(Integer id, String name, String imgUrl, Boolean hot, Boolean deleted) throws GameTypeNotFoundException, GameTypeNameUsedException {
         GameTypeEntity gameTypeEntity = gameTypeRepository.getById(id).orElseThrow(() -> new GameTypeNotFoundException(id));
 
         if (!Strings.isNullOrEmpty(name)) {
@@ -55,10 +65,13 @@ public class GameTypeServiceImpl implements GameTypeService {
         if (hot != null) {
             gameTypeEntity.setHot(hot);
         }
+        if (deleted != null) {
+            gameTypeEntity.setDeleted(deleted);
+        }
         try {
             return gameTypeRepository.save(gameTypeEntity);
         } catch (DataIntegrityViolationException e) {
-            throw new GameTypeNameUsedException();
+            throw new GameTypeNameUsedException(name, e);
         }
     }
 
@@ -73,19 +86,8 @@ public class GameTypeServiceImpl implements GameTypeService {
     }
 
     @Override
-    public void delete(Integer id) {
-        GameTypeEntity gameTypeEntity = gameTypeRepository.getById(id).orElseThrow(() -> new GameTypeNotFoundException(id));
-        tt.execute((s)-> {
-            em.createQuery("DELETE FROM GameTypeEntity u WHERE u.id = :id")
-                    .setParameter("id", gameTypeEntity.getId())
-                    .executeUpdate();
-            return true;
-        });
-    }
-
-    @Override
-    public List<? extends GameConfig> getGameTypeConfig(Integer gameTypeId) {
-        List<GameConfigEntity> gameConfigEntities = em.createQuery("SELECT f FROM GameConfigEntity WHERE f.gameTypeId = :gameTypeId ORDER BY f.id ASC", GameConfigEntity.class)
+    public List<? extends GameConfig> getGameTypeConfigs(Integer gameTypeId) {
+        List<GameConfigEntity> gameConfigEntities = em.createQuery("SELECT f FROM GameConfigEntity f WHERE f.gameTypeId = :gameTypeId ORDER BY f.id ASC", GameConfigEntity.class)
                 .setParameter("gameTypeId", gameTypeId)
                 .getResultList();
         val configMap = new HashMap<Long, GameConfigImpl>();
@@ -116,5 +118,23 @@ public class GameTypeServiceImpl implements GameTypeService {
             }
             CollectionUtils.add(config.getOptions(), option);
         }
+    }
+
+    @PostConstruct
+    public void onStartUp() {
+        if (!EntityUtils.isEntitiesEmpty(em, GameTypeEntity.class)) {
+            return;
+        }
+
+        try {
+            Resource resource = new ClassPathResource("game_type.sql");
+            byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
+            String sql = new String(bytes, Charset.forName("UTF-8"));
+
+            jdbc.execute(sql);
+        } catch (Throwable e) {
+            log.error("can not load game_type sql.", e);
+        }
+
     }
 }

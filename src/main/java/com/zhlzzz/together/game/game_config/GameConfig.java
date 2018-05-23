@@ -22,6 +22,8 @@ public interface GameConfig extends Serializable {
     @Nullable
     String getLabel();
 
+    InputType getInputType();
+
     boolean isRequired();
 
     List<? extends Option> getOptions();
