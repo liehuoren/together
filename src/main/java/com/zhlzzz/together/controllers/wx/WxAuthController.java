@@ -9,6 +9,8 @@ import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserParam;
 import com.zhlzzz.together.user.UserService;
+import com.zhlzzz.together.user.user_label.UserLabelEntity;
+import com.zhlzzz.together.user.user_label.UserLabelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping(path = "/wx", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(description = "微信登录", tags = {"Wx"})
@@ -31,17 +35,19 @@ public class WxAuthController {
 
     private final WxMaService wxMaService;
     private final UserService userService;
+    private final UserLabelService userLabelService;
     private final UserPasswordService userPasswordService;
 
     @GetMapping(path = "/login")
-    @ApiOperation(value = "微信登录前注册并获取用户信息")
+    @ApiOperation(value = "小程序登录前注册并获取用户信息")
     @ResponseBody
     public UserselfView login(String code, String rawData, String signature, String encryptedData, String iv) {
         try {
             WxMaJscode2SessionResult result =  wxMaService.getUserService().getSessionInfo(code);
             User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
             if (user != null) {
-                return new UserselfView(user);
+                Set<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId(), true);
+                return new UserselfView(user, userLabelEntitys);
             } else {
                 if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), rawData, signature)) {
                     throw ApiExceptions.invalidParameter("rawData");
@@ -50,7 +56,7 @@ public class WxAuthController {
                 WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), encryptedData, iv);
                 user = addUser(userInfo);
                 userPasswordService.updateUserPassword(user.getId(),user.getOpenId());
-                return new UserselfView(user);
+                return new UserselfView(user, null);
             }
         } catch (WxErrorException e) {
             throw ApiExceptions.invalidParameter("code");

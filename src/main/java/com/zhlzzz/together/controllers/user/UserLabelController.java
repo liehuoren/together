@@ -1,5 +1,6 @@
 package com.zhlzzz.together.controllers.user;
 
+import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.user.user_label.UserLabelEntity;
 import com.zhlzzz.together.user.user_label.UserLabelService;
@@ -26,41 +27,44 @@ public class UserLabelController {
     private final UserLabelService userLabelService;
 
     @GetMapping
-    @ApiOperation(value = "获取用户标签")
+    @ApiOperation(value = "获取用户全部标签")
     @ResponseBody
-    public Set<UserLabelView> updateLabel(@PathVariable Long userId) {
-        Set<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userId);
+    public Set<UserLabelView> getUserLabels(@PathVariable Long userId) {
+        Set<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userId, null);
 
-        return CollectionUtils.map(userLabels, (r) -> { return new UserLabelView(r); } );
+        return CollectionUtils.map(userLabels, (r) -> new UserLabelView(r) );
     }
 
     @PostMapping
     @ApiOperation(value = "新建用户标签")
     @ResponseBody
-    public UserLabelView addLabel(@RequestParam String label, @PathVariable Long userId) {
-        UserLabelEntity userLabelEntity =  userLabelService.addUserLabel(label, userId);
+    public UserLabelView addLabel(@RequestParam String label, @PathVariable Long userId, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(userId)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        UserLabelEntity userLabelEntity =  userLabelService.addUserLabel(userId, label);
         return new UserLabelView(userLabelEntity);
     }
 
-    @PutMapping(path = "/{id:\\d+}")
-    @ApiOperation(value = "更新用户标签")
+    @PutMapping
+    @ApiOperation(value = "更新用户标签是否展示")
     @ResponseBody
-    public UserLabelView updateLabel(@PathVariable Long id, @RequestParam String label, @PathVariable Long userId) {
-        UserLabelEntity userLabel =  userLabelService.getByIdAndUserId(id, userId).orElseThrow(() ->
-                ApiExceptions.notFound("没有相关用户标签"));
-
-        return new UserLabelView(userLabelService.updateUserLabel(userLabel.getId(), label));
+    public ResponseEntity<String> updateLabel(@PathVariable Long userId, @RequestParam Set<Long> ids, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(userId)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        userLabelService.showUserLabels(userId, ids);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{id:\\d+}")
+    @DeleteMapping
     @ApiOperation(value = "删除用户标签")
     @ResponseBody
-    public ResponseEntity<String> delete(@PathVariable Long id, @RequestParam String label, @PathVariable Long userId) {
-        UserLabelEntity userLabel =  userLabelService.getByIdAndUserId(id, userId).orElseThrow(() ->
-                ApiExceptions.notFound("没有相关用户标签"));
-
-        userLabelService.delete(userLabel.getId());
-
+    public ResponseEntity<String> delete(@PathVariable Long userId, @RequestParam Set<Long> ids, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(userId)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        userLabelService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

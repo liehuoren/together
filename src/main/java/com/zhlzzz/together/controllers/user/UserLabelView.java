@@ -20,9 +20,12 @@ public class UserLabelView {
     @ApiModelProperty(value = "用户标签id", example = "1")
     public Long getId() { return userLable.getId(); }
 
+    @ApiModelProperty(value = "用户id", example = "1")
+    public Long getUserId() { return userLable.getUserId(); }
+
     @ApiModelProperty(value = "用户标签", example = "帅哥")
     public String getLabel() { return userLable.getLabel(); }
 
-    @ApiModelProperty(value = "用户id", example = "1")
-    public Long getUserId() { return userLable.getUserId(); }
+    @ApiModelProperty(value = "是否展示", example = "true")
+    public Boolean isShowed() { return userLable.isShowed(); }
 }

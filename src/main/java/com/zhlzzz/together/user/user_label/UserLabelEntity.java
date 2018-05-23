@@ -15,10 +15,14 @@ public class UserLabelEntity {
     private Long id;
 
     @Getter @Setter
+    @Column
+    private Long userId;
+
+    @Getter @Setter
     @Column(length = 10, nullable = false)
     private String label;
 
     @Getter @Setter
     @Column
-    private Long userId;
+    private boolean showed = false;
 }

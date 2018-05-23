@@ -25,11 +25,15 @@ public class MatchEntity implements Match, Serializable {
     @Column
     private Integer gameTypeId;
 
-    @Getter @Setter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.PACKAGE)
+    @Column
+    private boolean onlyFriend = false;
+
+    @Setter(AccessLevel.PACKAGE)
     @Column
     private boolean finished = false;
 
-    @Getter @Setter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.PACKAGE)
     @Column
     private boolean deleted = false;
 
@@ -42,7 +46,20 @@ public class MatchEntity implements Match, Serializable {
     private LocalDateTime expiration;
 
     @Override
-    public boolean isEffective() {
+    public Boolean isOnlyFriend() {
+        return onlyFriend;
+    }
+
+    @Override
+    public Boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public Boolean isDeleted() { return deleted; }
+
+    @Override
+    public Boolean isEffective() {
         return !finished && !deleted && expiration.isAfter(LocalDateTime.now());
     }
 }

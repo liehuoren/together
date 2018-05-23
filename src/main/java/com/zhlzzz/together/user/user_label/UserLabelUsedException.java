@@ -7,8 +7,8 @@ public class UserLabelUsedException extends RuntimeException {
     @Getter
     private String label;
 
-    public UserLabelUsedException(String label, Throwable cause) {
-        super(label + "已经存在", cause);
+    public UserLabelUsedException(String label) {
+        super(label + "已经存在");
         this.label = label;
     }
 }

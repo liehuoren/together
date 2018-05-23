@@ -31,6 +31,7 @@ public class GameConfigImpl implements GameConfig {
         GameConfigDto dto = GameConfigDto.builder()
                 .id(getId())
                 .label(getLabel())
+                .inputType(getInputType())
                 .required(isRequired())
                 .options(CollectionUtils.map(options, (o)-> GameConfigDto.Option.builder().id(o.getId()).value(o.getValue()).build()))
                 .build();

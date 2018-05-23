@@ -9,7 +9,8 @@ public interface Match extends Serializable {
     Integer getGameTypeId();
     LocalDateTime getCreateTime();
     LocalDateTime getExpiration();
-    boolean isFinished();
-    boolean isDeleted();
-    boolean isEffective();
+    Boolean isOnlyFriend();
+    Boolean isFinished();
+    Boolean isDeleted();
+    Boolean isEffective();
 }
