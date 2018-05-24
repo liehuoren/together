@@ -17,11 +17,8 @@ public class UserLabelView {
         this.userLable = userLable;
     }
 
-    @ApiModelProperty(value = "用户标签id", example = "1")
+    @ApiModelProperty(value = "标签id", example = "1")
     public Long getId() { return userLable.getId(); }
-
-    @ApiModelProperty(value = "用户id", example = "1")
-    public Long getUserId() { return userLable.getUserId(); }
 
     @ApiModelProperty(value = "用户标签", example = "帅哥")
     public String getLabel() { return userLable.getLabel(); }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -46,7 +47,7 @@ public class WxAuthController {
             WxMaJscode2SessionResult result =  wxMaService.getUserService().getSessionInfo(code);
             User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
             if (user != null) {
-                Set<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId(), true);
+                List<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId());
                 return new UserselfView(user, userLabelEntitys);
             } else {
                 if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), rawData, signature)) {

@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -29,8 +30,8 @@ public class UserLabelController {
     @GetMapping
     @ApiOperation(value = "获取用户全部标签")
     @ResponseBody
-    public Set<UserLabelView> getUserLabels(@PathVariable Long userId) {
-        Set<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userId, null);
+    public List<UserLabelView> getUserLabels(@PathVariable Long userId) {
+        List<UserLabelEntity> userLabels = userLabelService.getAllByUserId(userId);
 
         return CollectionUtils.map(userLabels, (r) -> new UserLabelView(r) );
     }
