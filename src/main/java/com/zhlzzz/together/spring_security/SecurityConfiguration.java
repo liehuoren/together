@@ -46,14 +46,7 @@ public class SecurityConfiguration {
 
         @Override
         public void configure(HttpSecurity http) {
-//			http
-//				.csrf().disable()
-//				.requestMatchers()
-//					.antMatchers("/oauth/**")
-//					.and()
-//				.authorizeRequests()
-//					.antMatchers("/oauth/**").permitAll()
-//			;
+
         }
     }
 

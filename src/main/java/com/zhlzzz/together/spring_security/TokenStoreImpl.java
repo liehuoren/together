@@ -43,6 +43,7 @@ public class TokenStoreImpl implements TokenStore {
             this.expiration = expiration;
         }
 
+        @Override
         public Date getExpiration() {
             return expiration;
         }

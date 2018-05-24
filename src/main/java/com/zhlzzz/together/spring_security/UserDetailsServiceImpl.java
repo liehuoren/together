@@ -34,7 +34,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.getUserByOpenId(username)
                 .orElseThrow(()->new UserNotFoundException(username));
+
         String hashedPassword = passwordService.getUserHashedPassword(user.getId());
+
         return new UserDetailImpl(user.getId(), hashedPassword);
     }
 }
