@@ -46,10 +46,7 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
         GameTypeEntity gameType = gameTypeRepository.getById(gameTypeId).orElseThrow(() -> new GameTypeNotFoundException(gameTypeId));
         return tt.execute((s)-> {
 
-            UserGameConfigEntity userGameConfigEntity = em.createQuery("SELECT v FROM UserGameConfigEntity v WHERE v.userId = :userId AND v.gameTypeId = :gameTypeId", UserGameConfigEntity.class)
-                    .setParameter("userId", user.getId())
-                    .setParameter("gameTypeId", gameType.getId())
-                    .getSingleResult();
+            UserGameConfigEntity userGameConfigEntity = userGameConfigRepository.getByUserIdAndGameTypeId(userId, gameTypeId).orElse(null);
             if (userGameConfigEntity == null) {
                 userGameConfigEntity = new UserGameConfigEntity();
                 userGameConfigEntity.setUserId(user.getId());
