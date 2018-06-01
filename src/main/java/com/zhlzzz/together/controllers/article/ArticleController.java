@@ -123,7 +123,7 @@ public class ArticleController {
     @ApiOperation(value = "新增评论")
     public DiscussView addDiscuss(@PathVariable Long id, @RequestParam String content, ApiAuthentication apiAuth) {
         Article article = articleService.getArticleById(id).orElseThrow(() -> ApiExceptions.notFound("不存在此文章"));
-        if (!Strings.isNullOrEmpty(content)) {
+        if (Strings.isNullOrEmpty(content)) {
             throw ApiExceptions.invalidParameter("content");
         }
         Long userId = apiAuth.requireUserId();
