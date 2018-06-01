@@ -62,4 +62,16 @@ public class MatchEntity implements Match, Serializable {
     public Boolean isEffective() {
         return !finished && !deleted && expiration.isAfter(LocalDateTime.now());
     }
+
+    public MatchDto toDto() {
+        return MatchDto.builder()
+                .id(id)
+                .userId(userId)
+                .createTime(createTime)
+                .expiration(expiration)
+                .finished(finished)
+                .deleted(deleted)
+//                .effective(isEffective())
+                .build();
+    }
 }

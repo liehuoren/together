@@ -2,6 +2,7 @@ package com.zhlzzz.together.match;
 
 import com.zhlzzz.together.data.Slice;
 import com.zhlzzz.together.data.SliceIndicator;
+import com.zhlzzz.together.data.Slices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +52,21 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Slice<? extends Match, Integer> getMatchs(SliceIndicator<Integer> indicator) {
-        return null;
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<MatchEntity> q = cb.createQuery(MatchEntity.class);
+        Root<MatchEntity> m = q.from(MatchEntity.class);
+
+        q.select(m).orderBy(cb.desc(m.get("createTime")), cb.desc(m.get("id")));
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<MatchEntity> countM = countQuery.from(MatchEntity.class);
+
+        List<Predicate> predicates = new ArrayList<>(5);
+        countQuery.select(cb.count(countM)).where(cb.and(predicates.toArray(new Predicate[0])));
+
+        Slice<MatchEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
+        return slice.map(MatchEntity::toDto);
+
     }
 
     @Override
