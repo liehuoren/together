@@ -1,11 +1,15 @@
 package com.zhlzzz.together.controllers.wx;
 
+import cn.binarywang.wx.miniapp.api.WxMaQrcodeService;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.google.common.base.Strings;
+import com.qiniu.common.QiniuException;
+import com.qiniu.http.Response;
 import com.zhlzzz.together.auth.password.UserPasswordService;
 import com.zhlzzz.together.controllers.ApiExceptions;
+import com.zhlzzz.together.qiniu.QiNiuService;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserParam;
 import com.zhlzzz.together.user.UserService;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 
@@ -35,16 +40,18 @@ public class WxAuthController {
 
 
     private final WxMaService wxMaService;
+    private final WxMaQrcodeService wxMaQrcodeService;
     private final UserService userService;
     private final UserLabelService userLabelService;
     private final UserPasswordService userPasswordService;
+    private final QiNiuService qiNiuService;
 
     @GetMapping(path = "/login")
     @ApiOperation(value = "小程序登录前注册并获取用户信息")
     @ResponseBody
     public UserselfView login(String code, String rawData, String signature, String encryptedData, String iv) {
         try {
-            WxMaJscode2SessionResult result =  wxMaService.getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult result = wxMaService.getUserService().getSessionInfo(code);
             User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
             if (user != null) {
                 List<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId());
@@ -78,6 +85,7 @@ public class WxAuthController {
         }
         if (!Strings.isNullOrEmpty(userInfo.getOpenId())) {
             userParam.setOpenId(userInfo.getOpenId());
+            userParam.setQRCode(getUserQRCode(userInfo.getOpenId()));
         }
         if (!Strings.isNullOrEmpty(userInfo.getUnionId())) {
             userParam.setUnionId(userInfo.getUnionId());
@@ -86,4 +94,35 @@ public class WxAuthController {
 
         return userService.addUser(userParam);
     }
+
+    private String getUserQRCode(String openId) {
+        try {
+            File file = wxMaQrcodeService.createWxCodeLimit(openId, "page/addfriend/index");
+            return file.getPath();
+        } catch (WxErrorException e) {
+            throw ApiExceptions.invalidParameter("openId");
+        }
+    }
+
+//    private String getPath(File file) {
+//        try {
+//            Response response = qiNiuService.uploadFile(file);
+//        } catch (QiniuException e) {
+//            throw ApiExceptions.invalidParameter("file");
+//        }
+//    }
+
+    @GetMapping(path = "/qrcode")
+    @ApiOperation(value = "小程序登录前注册并获取用户信息")
+    @ResponseBody
+    public String getCode(String code) {
+        try {
+            File file = wxMaQrcodeService.createWxCodeLimit(code, "pages/index/index");
+            return file.getPath();
+        } catch (WxErrorException e) {
+            throw ApiExceptions.invalidParameter("openId");
+        }
+
+    }
+
 }

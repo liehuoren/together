@@ -15,6 +15,7 @@ public interface User extends Serializable {
     Role getRole();
     String getNickName();
     String getAvatarUrl();
+    String getQRCode();
     Integer getGender();
     LocalDateTime getLastLoginTime();
     LocalDateTime getCreateTime();

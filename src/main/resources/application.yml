@@ -28,6 +28,7 @@ spring:
       max-request-size: 10mb
       max-file-size: 5mb
 
+
 logging:
   file: var/${spring.profiles.active}.log
   level:
@@ -44,6 +45,18 @@ wechat:
     token: 111
     aesKey: 111
     msgDataFormat: JSON
+
+qiniu:
+  accessKey: Hx3hejEdZulPyRHggbtuJlcQG5UYk0xEV1rsdEDY
+  secretKey: c2GY1xD70Twm1wu70ekDXvNWhKwEWIVKSWhEqJke
+  bucket: together
+  path: http://p9mhxf2ng.bkt.clouddn.com
+
+multipart:
+  enabled: true
+  location: /home/earthchen/study/spring/SpringBootProjects/search-house/tmp
+  file-size-threshold: 5MB
+  max-request-size: 20MB
 
 pubg:
   baseUrl: https://api.playbattlegrounds.com

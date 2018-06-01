@@ -43,6 +43,10 @@ public class UserEntity implements User {
     private String avatarUrl;
 
     @Getter @Setter(AccessLevel.PACKAGE)
+    @Column(length = 200)
+    private String qRCode;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
     @Column
     private Integer gender;
 

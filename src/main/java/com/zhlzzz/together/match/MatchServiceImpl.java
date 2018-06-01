@@ -25,10 +25,11 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
 
     @Override
-    public Match addMatch(Long userId, Integer gameTypeId, Long minute) {
+    public Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId) {
         MatchEntity matchEntity = new MatchEntity();
         matchEntity.setUserId(userId);
         matchEntity.setGameTypeId(gameTypeId);
+        matchEntity.setFormId(formId);
         matchEntity.setCreateTime(LocalDateTime.now());
         matchEntity.setExpiration(LocalDateTime.now().plusMinutes(minute));
         return matchRepository.save(matchEntity);

@@ -1,6 +1,8 @@
 package com.zhlzzz.together.user.user_relation;
 
 import com.google.common.base.Strings;
+import com.zhlzzz.together.data.Slice;
+import com.zhlzzz.together.data.SliceIndicator;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserNotFoundException;
 import com.zhlzzz.together.user.UserRepository;
@@ -21,34 +23,45 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserRelationServiceImpl implements UserRelationService {
 
-    @PersistenceContext
-    private EntityManager em;
-    private final TransactionTemplate tt;
     private final UserRelationRepository userRelationRepository;
     private final UserRepository userRepository;
 
     @Override
-    public void updateUserRelation(Long userId, Long toUserId, String remark, UserRelation.Relation relation) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        User toUser = userRepository.findById(toUserId).orElseThrow(() -> new UserNotFoundException(toUserId));
-        tt.execute((s)-> {
-            em.createQuery("DELETE FROM UserRelationEntity v WHERE v.userId = :userId AND v.toUserId = :toUserId")
-                    .setParameter("userId", user.getId())
-                    .setParameter("toUserId", toUser.getId())
-                    .executeUpdate();
-            UserRelationEntity userRelationEntity = new UserRelationEntity();
-            if (!Strings.isNullOrEmpty(remark)) {
-                userRelationEntity.setRemark(remark);
-            }
-            if (relation != null) {
-                userRelationEntity.setRelation(relation);
-            } else {
-                userRelationEntity.setRelation(UserRelation.Relation.friend);
-            }
-            userRelationEntity.setUpdateTime(LocalDateTime.now());
-            return userRelationRepository.save(userRelationEntity);
-        });
+    public Boolean addUserRelation(Long userId, Long toUserId) {
+        Boolean isHas = userRelationRepository.findByUserIdAndToUserId(userId, toUserId).isPresent();
+        if (isHas) {
+            return true;
+        } else {
+            UserRelationEntity relationEntity = new UserRelationEntity();
+            relationEntity.setUserId(userId);
+            relationEntity.setToUserId(toUserId);
+            relationEntity.setRelation(UserRelation.Relation.friend);
+            relationEntity.setUpdateTime(LocalDateTime.now());
+            UserRelationEntity relationEntity1 = new UserRelationEntity();
+            relationEntity1.setUserId(toUserId);
+            relationEntity1.setToUserId(userId);
+            relationEntity1.setRelation(UserRelation.Relation.friend);
+            relationEntity1.setUpdateTime(LocalDateTime.now());
 
+            userRelationRepository.save(relationEntity);
+            userRelationRepository.save(relationEntity1);
+            return true;
+        }
+    }
+
+    @Override
+    public Boolean updateUserRelation(Long userId, Long toUserId, String remark, UserRelation.Relation relation) {
+        UserRelationEntity userRelation = userRelationRepository.findByUserIdAndToUserId(userId, toUserId).orElseThrow(() -> new UserRelationNotFoundException());
+        if (!Strings.isNullOrEmpty(remark)) {
+            userRelation.setRemark(remark);
+        }
+        if (relation != null) {
+            userRelation.setRelation(relation);
+        }
+        userRelation.setUpdateTime(LocalDateTime.now());
+
+        userRelationRepository.save(userRelation);
+        return true;
     }
 
     @Override
@@ -60,5 +73,10 @@ public class UserRelationServiceImpl implements UserRelationService {
     public List<? extends UserRelation> getUserRelationsByUserIdAndRelation(Long userId, UserRelation.Relation relation) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         return userRelationRepository.findByUserIdAndRelation(user.getId(), relation);
+    }
+
+    @Override
+    public Slice<? extends UserRelation, Integer> getUserRelationsByRelation(SliceIndicator<Integer> indicator, UserRelation.Relation relation) {
+        return null;
     }
 }
