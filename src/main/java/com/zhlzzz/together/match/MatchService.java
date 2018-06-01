@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MatchService {
 
-    Match addMatch(Long userId, Integer gameTypeId, Long minute);
+    Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId);
 
     Boolean finish(Long id);
 

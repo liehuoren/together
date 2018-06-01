@@ -25,6 +25,10 @@ public class MatchEntity implements Match, Serializable {
     @Column
     private Integer gameTypeId;
 
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
+    private String formId;
+
     @Setter(AccessLevel.PACKAGE)
     @Column
     private boolean onlyFriend = false;

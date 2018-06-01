@@ -28,4 +28,6 @@ public class UserParam implements Serializable {
 
     protected User.Role role;
 
+    protected String qRCode;
+
 }

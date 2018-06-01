@@ -1,6 +1,8 @@
 package com.zhlzzz.together.config;
 
+import cn.binarywang.wx.miniapp.api.WxMaQrcodeService;
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.api.impl.WxMaQrcodeServiceImpl;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaKefuMessage;
 import cn.binarywang.wx.miniapp.bean.WxMaTemplateMessage;
@@ -94,6 +96,13 @@ public class WxMaConfiguration {
     public WxMaService wxMaService(WxMaConfig maConfig) {
         WxMaService service = new WxMaServiceImpl();
         service.setWxMaConfig(maConfig);
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public WxMaQrcodeService wxMaQrcodeService(WxMaConfig maConfig) {
+        WxMaQrcodeService service = new WxMaQrcodeServiceImpl(wxMaService(maConfig));
         return service;
     }
 

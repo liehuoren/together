@@ -7,6 +7,7 @@ public interface Match extends Serializable {
     Long getId();
     Long getUserId();
     Integer getGameTypeId();
+    String getFormId();
     LocalDateTime getCreateTime();
     LocalDateTime getExpiration();
     Boolean isOnlyFriend();

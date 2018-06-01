@@ -22,8 +22,8 @@ public class MatchController {
     @PostMapping
     @ApiOperation(value = "新建匹配")
     @ResponseBody
-    public MatchView addMatch(@RequestParam Long userId, @RequestParam Integer gameTypeId, @RequestParam Long minute) {
-        Match match = matchService.addMatch(userId, gameTypeId,minute);
+    public MatchView addMatch(@RequestParam Long userId, @RequestParam Integer gameTypeId, @RequestParam Long minute, @RequestParam String formId) {
+        Match match = matchService.addMatch(userId, gameTypeId,minute,formId);
         return new MatchView(match);
     }
 
