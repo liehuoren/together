@@ -13,7 +13,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    show-sql: false
+    show-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:

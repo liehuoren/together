@@ -2,6 +2,8 @@ package com.zhlzzz.together.controllers.user;
 
 import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
+import com.zhlzzz.together.data.Slice;
+import com.zhlzzz.together.data.SliceIndicator;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
 import com.zhlzzz.together.user.user_label.UserLabelEntity;
@@ -47,28 +49,45 @@ public class UserController {
         return new UserView(user, userLabelEntity);
     }
 
-//    @GetMapping(path = "/{userId:\\d+}/relations/{relation:\\s+}")
-//    @ApiOperation(value = "获取用户关系列表（好友或黑名单）")
-//    @ResponseBody
-//    public List<UserView> getUserRelationById(@PathVariable Long userId, @PathVariable UserRelation.Relation relation) {
-//        User user = userService.getUserById(userId).orElseThrow(() -> ApiExceptions.notFound("不存在此人信息。"));
-//        List<? extends UserRelation> userRelations = userRelationService.getUserRelationsByUserIdAndRelation(user.getId(), relation);
-//        Set<Long> userIds = new HashSet<>();
-//        for (UserRelation userRelation : userRelations) {
-//            userIds.add(userRelation.getId());
-//        }
-//        Set<? extends User> users = userService.getUsersByIds(userIds);
-//        //return CollectionUtils.map(users, (u) -> new UserView(u) );
-//        return null;
-//    }
-//
-//    @PostMapping(path = "/{userId:\\d+}/relations/{toUserId:\\d+}")
-//    @ApiOperation(value = "更新关系")
-//    @ResponseBody
-//    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @PathVariable Long toUserId, @RequestParam String remark, @RequestParam UserRelation.Relation relation) {
-//
-//        userRelationService.updateUserRelation(userId, toUserId, remark ,relation);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @GetMapping(path = "/{userId:\\d+}/relations/{relation}")
+    @ApiOperation(value = "获取用户关系列表（好友或黑名单）")
+    @ResponseBody
+    public Slice<? extends UserView, Integer> getUserRelationById(@PathVariable Long userId, @PathVariable UserRelation.Relation relation, SliceIndicator<Integer> indicator) {
+        User user = userService.getUserById(userId).orElseThrow(() -> ApiExceptions.notFound("不存在此人信息。"));
+        Slice<? extends UserRelation, Integer> userRelations = userRelationService.getUserRelationsByRelation(indicator, user.getId(), relation);
+
+        return userRelations.mapAll(items -> buildUserViews(items));
+    }
+
+    private List<UserView> buildUserViews(List<? extends UserRelation> userRelations) {
+        return CollectionUtils.map(userRelations, (r) -> buildUserView(r));
+    }
+
+    private UserView buildUserView(UserRelation userRelation) {
+        User user = userService.getUserById(userRelation.getToUserId()).orElse(null);
+        List<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userRelation.getToUserId());
+        return new UserView(user, userLabels);
+    }
+
+    @PostMapping(path = "/{userId:\\d+}/relations")
+    @ApiOperation(value = "添加好友关系（加好友）")
+    @ResponseBody
+    public ResponseEntity<String> addRelation(@PathVariable Long userId, @RequestParam Long toUserId, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(userId)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        User user = userService.getUserById(toUserId).orElseThrow(() -> ApiExceptions.notFound("没有相关用户"));
+        userRelationService.addUserRelation(userId, user.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/{userId:\\d+}/relations")
+    @ApiOperation(value = "更新好友关系（拉黑或取消拉黑或修改备注名）")
+    @ResponseBody
+    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId, @RequestParam String remark, @RequestParam UserRelation.Relation relation) {
+
+        userRelationService.updateUserRelation(userId, toUserId, remark ,relation);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

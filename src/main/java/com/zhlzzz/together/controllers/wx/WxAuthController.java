@@ -85,19 +85,19 @@ public class WxAuthController {
         }
         if (!Strings.isNullOrEmpty(userInfo.getOpenId())) {
             userParam.setOpenId(userInfo.getOpenId());
-            userParam.setQRCode(getUserQRCode(userInfo.getOpenId()));
+//            userParam.setQRCode(getUserQRCode(userInfo.getOpenId()));
         }
         if (!Strings.isNullOrEmpty(userInfo.getUnionId())) {
             userParam.setUnionId(userInfo.getUnionId());
         }
         userParam.setRole(User.Role.user);
-
+        userParam.setQRCode("http://p9mhxf2ng.bkt.clouddn.com/qrcode.png");
         return userService.addUser(userParam);
     }
 
     private String getUserQRCode(String openId) {
         try {
-            File file = wxMaQrcodeService.createWxCodeLimit(openId, "page/addfriend/index");
+            File file = wxMaQrcodeService.createWxCodeLimit(openId, "pages/kankan/kankan");
             return file.getPath();
         } catch (WxErrorException e) {
             throw ApiExceptions.invalidParameter("openId");
@@ -112,17 +112,15 @@ public class WxAuthController {
 //        }
 //    }
 
-    @GetMapping(path = "/qrcode")
-    @ApiOperation(value = "小程序登录前注册并获取用户信息")
-    @ResponseBody
-    public String getCode(String code) {
-        try {
-            File file = wxMaQrcodeService.createWxCodeLimit(code, "pages/index/index");
-            return file.getPath();
-        } catch (WxErrorException e) {
-            throw ApiExceptions.invalidParameter("openId");
-        }
-
-    }
-
+//    @GetMapping(path = "/qrcode")
+//    @ApiOperation(value = "获取用户微信二维码")
+//    @ResponseBody
+//    public String getCode(String code) {
+//        try {
+//            File file = wxMaQrcodeService.createWxCodeLimit(code, "pages/index/index");
+//            return file.getPath();
+//        } catch (WxErrorException e) {
+//            throw ApiExceptions.invalidParameter("openId");
+//        }
+//    }
 }

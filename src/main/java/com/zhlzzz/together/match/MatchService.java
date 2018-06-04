@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface MatchService {
 
-    Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId);
+    Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId, Boolean onlyFriend);
 
     Boolean finish(Long id);
 
     Boolean delete(Long id);
 
-    Match getCurrentMatchByUser(Long userId);
+    Optional<? extends Match> getCurrentMatchByUser(Long userId);
 
     Slice<? extends Match, Integer> getMatchs(SliceIndicator<Integer> indicator);
 }

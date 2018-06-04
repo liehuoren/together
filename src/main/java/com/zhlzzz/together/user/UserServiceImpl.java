@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
         if (!Strings.isNullOrEmpty(parameters.getPhone())) {
             userEntity.setPhone(parameters.getPhone());
         }
+        if (!Strings.isNullOrEmpty(parameters.getQRCode())) {
+            userEntity.setQRCode(parameters.getQRCode());
+        }
     }
 
     @Override

@@ -36,4 +36,15 @@ public class UserRelationEntity implements UserRelation {
     @Getter @Setter
     @Column
     private LocalDateTime updateTime;
+
+    public UserRelationDto toDto() {
+        return UserRelationDto.builder()
+                .id(id)
+                .userId(userId)
+                .toUserId(toUserId)
+                .relation(relation)
+                .remark(remark)
+                .updateTime(updateTime)
+                .build();
+    }
 }

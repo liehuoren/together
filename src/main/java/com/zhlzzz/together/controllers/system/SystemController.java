@@ -3,6 +3,10 @@ package com.zhlzzz.together.controllers.system;
 
 import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
+import com.zhlzzz.together.game.GameType;
+import com.zhlzzz.together.game.GameTypeService;
+import com.zhlzzz.together.match.Match;
+import com.zhlzzz.together.match.MatchService;
 import com.zhlzzz.together.system.AboutEntity;
 import com.zhlzzz.together.system.AboutService;
 import com.zhlzzz.together.user.User;
@@ -16,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,6 +32,8 @@ public class SystemController {
 
     private final AboutService aboutService;
     private final UserService userService;
+    private final MatchService matchService;
+    private final GameTypeService gameTypeService;
 
     @PutMapping(path = "/about")
     @ApiOperation(value = "更新小程序介绍")
@@ -45,5 +52,14 @@ public class SystemController {
     public AboutView getAboutCompany() {
         AboutEntity aboutEntity = aboutService.getAbout();
         return new AboutView(aboutEntity);
+    }
+
+    @GetMapping(path = "/config")
+    @ApiOperation(value = "获取小程序首页信息")
+    @ResponseBody
+    public SystemView getSystem(ApiAuthentication auth) {
+        Match match = matchService.getCurrentMatchByUser(auth.requireUserId()).orElse(null);
+        List<? extends GameType> gameTypes = gameTypeService.getAllGameTypes();
+        return new SystemView(match,gameTypes);
     }
 }

@@ -17,9 +17,11 @@ public class MatchDto implements Match, Serializable {
     private Long id;
     private Long userId;
     private Integer gameTypeId;
+    private String formId;
     private LocalDateTime createTime;
     private LocalDateTime expiration;
-    private Boolean onlyFriend;
-    private Boolean finished;
-    private Boolean deleted;
+    private boolean onlyFriend;
+    private boolean finished;
+    private boolean deleted;
+    private boolean effective;
 }

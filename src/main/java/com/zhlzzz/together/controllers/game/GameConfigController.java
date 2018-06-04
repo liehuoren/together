@@ -11,6 +11,7 @@ import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
 import com.zhlzzz.together.game.game_config.GameConfigService;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
+import com.zhlzzz.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/games/game-configs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -116,5 +118,7 @@ public class GameConfigController {
         }
         gameConfigService.deleteOption(id);
     }
+
+
 
 }

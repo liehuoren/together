@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
+import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
@@ -53,6 +55,7 @@ public class OAuthConfiguration {
                     .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs").permitAll()
                     .antMatchers("/webjars/**").permitAll()
                     .antMatchers("/error").permitAll()
+                    .antMatchers("/ws/endpointChat", "/ws/**").permitAll()
                     .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .anyRequest().access("#oauth2.OAuth or isAnonymous()")
                     .and()
@@ -112,5 +115,19 @@ public class OAuthConfiguration {
         TokenApprovalStore store = new TokenApprovalStore();
         store.setTokenStore(tokenStore);
         return store;
+    }
+
+    @Configuration
+    public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMessageBrokerConfigurer {
+
+        @Override
+        protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
+            messages.anyMessage().permitAll();
+        }
+
+        @Override
+        protected boolean sameOriginDisabled() {
+            return true;
+        }
     }
 }

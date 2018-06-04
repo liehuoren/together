@@ -31,6 +31,4 @@ public class PlayerController {
         return new PlayerView(playerEntity);
     }
 
-
-
 }

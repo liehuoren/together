@@ -50,20 +50,20 @@ public class MatchEntity implements Match, Serializable {
     private LocalDateTime expiration;
 
     @Override
-    public Boolean isOnlyFriend() {
+    public boolean isOnlyFriend() {
         return onlyFriend;
     }
 
     @Override
-    public Boolean isFinished() {
+    public boolean isFinished() {
         return finished;
     }
 
     @Override
-    public Boolean isDeleted() { return deleted; }
+    public boolean isDeleted() { return deleted; }
 
     @Override
-    public Boolean isEffective() {
+    public boolean isEffective() {
         return !finished && !deleted && expiration.isAfter(LocalDateTime.now());
     }
 
@@ -75,7 +75,7 @@ public class MatchEntity implements Match, Serializable {
                 .expiration(expiration)
                 .finished(finished)
                 .deleted(deleted)
-//                .effective(isEffective())
+                .effective(isEffective())
                 .build();
     }
 }

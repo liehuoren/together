@@ -10,8 +10,8 @@ public interface Match extends Serializable {
     String getFormId();
     LocalDateTime getCreateTime();
     LocalDateTime getExpiration();
-    Boolean isOnlyFriend();
-    Boolean isFinished();
-    Boolean isDeleted();
-    Boolean isEffective();
+    boolean isOnlyFriend();
+    boolean isFinished();
+    boolean isDeleted();
+    boolean isEffective();
 }

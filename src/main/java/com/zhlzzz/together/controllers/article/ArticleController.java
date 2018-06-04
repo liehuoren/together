@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import lombok.val;
 
 import javax.validation.Valid;
-import javax.ws.rs.GET;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;

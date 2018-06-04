@@ -31,24 +31,29 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
 
     @Override
-    public Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId) {
+    public Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId, Boolean onlyFriend) {
         MatchEntity matchEntity = new MatchEntity();
         matchEntity.setUserId(userId);
         matchEntity.setGameTypeId(gameTypeId);
         matchEntity.setFormId(formId);
+        if (onlyFriend != null) {
+            matchEntity.setOnlyFriend(onlyFriend);
+        } else {
+            matchEntity.setOnlyFriend(false);
+        }
         matchEntity.setCreateTime(LocalDateTime.now());
         matchEntity.setExpiration(LocalDateTime.now().plusMinutes(minute));
         return matchRepository.save(matchEntity);
     }
 
     @Override
-    public Match getCurrentMatchByUser(Long userId) {
-        MatchEntity matchEntity = em.createQuery("SELECT m FROM MatchEntity m WHERE m.userId = :userId AND " +
-                "m.finished = false AND m.deleted = false AND m.expiration > :currentTime ORDER BY m.createTime desc", MatchEntity.class)
-                .setParameter("userId", userId)
-                .setParameter("currentTime", LocalDateTime.now())
-                .getSingleResult();
-        return matchEntity;
+    public Optional<? extends Match> getCurrentMatchByUser(Long userId) {
+//        MatchEntity matchEntity = em.createQuery("SELECT m FROM MatchEntity m WHERE m.userId = :userId AND " +
+//                "m.finished = false AND m.deleted = false AND m.expiration > :currentTime ORDER BY m.createTime desc", MatchEntity.class)
+//                .setParameter("userId", userId)
+//                .setParameter("currentTime", LocalDateTime.now())
+//                .getSingleResult();
+        return matchRepository.getFirstByUserIdOrderByCreateTimeDesc(userId);
     }
 
     @Override
@@ -67,7 +72,6 @@ public class MatchServiceImpl implements MatchService {
 
         Slice<MatchEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
         return slice.map(MatchEntity::toDto);
-
     }
 
     @Override

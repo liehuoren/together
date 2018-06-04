@@ -2,6 +2,8 @@ package com.zhlzzz.together.controllers.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.zhlzzz.together.controllers.game.GameConfigView;
+import com.zhlzzz.together.game.game_config.GameConfig;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
 import com.zhlzzz.together.user.user_match_config.UserMatchConfig;
 import com.zhlzzz.together.utils.CollectionUtils;
@@ -20,8 +22,6 @@ public class UserGameConfigView {
 
     @NonNull
     private final UserGameConfigEntity userGameConfigEntity;
-    private final List<? extends UserMatchConfig> userMatchConfigs;
-    private List<UserMatchConfigView> userMatchConfigViews;
 
 
     @ApiModelProperty(value = "id", example = "1")
@@ -42,15 +42,4 @@ public class UserGameConfigView {
     @ApiModelProperty(value = "用户游戏配置区域", example = "1")
     public String getArea() { return userGameConfigEntity.getArea(); }
 
-    @ApiModelProperty(value = "配置值列表")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public List<UserMatchConfigView> getUserMatchConfigViews() {
-        if (userMatchConfigs == null) {
-            return null;
-        }
-        if (userMatchConfigViews == null) {
-            userMatchConfigViews = CollectionUtils.map(userMatchConfigs, UserMatchConfigView::new);
-        }
-        return userMatchConfigViews;
-    }
 }
