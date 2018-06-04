@@ -5,6 +5,7 @@ import com.zhlzzz.together.data.SliceIndicator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface MatchService {
 
@@ -17,4 +18,8 @@ public interface MatchService {
     Optional<? extends Match> getCurrentMatchByUser(Long userId);
 
     Slice<? extends Match, Integer> getMatchs(SliceIndicator<Integer> indicator);
+
+    List<? extends Match> getMatchsInUserIds(Set<Long> userIds);
+
+    List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds);
 }

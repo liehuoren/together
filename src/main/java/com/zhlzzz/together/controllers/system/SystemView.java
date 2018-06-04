@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.RequiredArgsConstructor;
 
+import java.time.Duration;
 import java.util.List;
 
 @ApiModel(description = "系统初始值")
@@ -18,8 +19,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class SystemView {
 
-    private Integer friendsNum;
-    private Integer onlineFriendsNum;
+    private final Integer friendsNum;
+    private final Integer onlineFriendsNum;
     private Long roomId;
     private final Match match;
     private final List<? extends GameType> gameTypes;
@@ -27,13 +28,16 @@ public class SystemView {
     private List<GameTypeBaseView> gameTypeViews;
 
     @ApiModelProperty(name = "用户好友数量",example = "1")
-    public Integer getFriendsNum() { return  20; }
+    public Integer getFriendsNum() { return  friendsNum; }
 
     @ApiModelProperty(name = "用户在线数量",example = "1")
-    public Integer getOnlineFriendsNum() { return 10; }
+    public Integer getOnlineFriendsNum() { return onlineFriendsNum; }
 
     @ApiModelProperty(name = "房间号Id",example = "1")
     public Long getRoomId() { return null; }
+
+    @ApiModelProperty(name = "分钟",example = "30")
+    public Long getMinute() { return Duration.between(match.getCreateTime(), match.getExpiration()).toMinutes(); }
 
     public MatchView getMatch() {
 

@@ -21,7 +21,7 @@ public class DiscussEntity implements Discuss {
 
     @Setter
     @Column(nullable = false)
-    private boolean audit = false;
+    private boolean audit = true;
 
     @Override
     public boolean isAudit() {

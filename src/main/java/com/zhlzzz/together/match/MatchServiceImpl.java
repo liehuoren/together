@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -88,5 +89,20 @@ public class MatchServiceImpl implements MatchService {
         matchEntity.setDeleted(true);
         matchRepository.save(matchEntity);
         return true;
+    }
+
+    @Override
+    public List<? extends Match> getMatchsInUserIds(Set<Long> userIds) {
+        return matchRepository.getByUserIdInAndDeleted(userIds, false);
+    }
+
+    @Override
+    public List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds) {
+        List<MatchEntity> matchEntitys = em.createQuery("SELECT m FROM MatchEntity m WHERE m.userId in :userIds AND " +
+                "m.finished = false AND m.deleted = false AND m.expiration > :currentTime ORDER BY m.createTime desc", MatchEntity.class)
+                .setParameter("userIds", userIds)
+                .setParameter("currentTime", LocalDateTime.now())
+                .getResultList();
+        return matchEntitys;
     }
 }

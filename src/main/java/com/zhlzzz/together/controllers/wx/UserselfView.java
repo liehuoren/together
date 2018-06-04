@@ -20,6 +20,9 @@ public class UserselfView extends UserView {
         this.user = user;
     }
 
+    @ApiModelProperty(value = "用户二维码", example = "http://www.baidu.com")
+    public String getQRCode() { return user.getQRCode(); }
+
     @ApiModelProperty(value = "用户openId", example = "1111111")
     public String getOpenId() { return user.getOpenId(); }
 

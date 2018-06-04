@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -100,5 +101,10 @@ public class UserRelationServiceImpl implements UserRelationService {
 
         Slice<UserRelationEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
         return slice.map(UserRelationEntity::toDto);
+    }
+
+    @Override
+    public Set<? extends UserRelation> getUserRelationsByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation) {
+        return userRelationRepository.findByUserIdsInAndRelation(userIds, relation);
     }
 }

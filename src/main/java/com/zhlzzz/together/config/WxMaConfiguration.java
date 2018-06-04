@@ -75,6 +75,7 @@ public class WxMaConfiguration {
             e.printStackTrace();
         }
     };
+
     @Autowired
     private WxMaProperties properties;
 

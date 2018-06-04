@@ -5,6 +5,7 @@ import com.zhlzzz.together.data.SliceIndicator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserRelationService {
 
@@ -17,5 +18,7 @@ public interface UserRelationService {
     List<? extends UserRelation> getUserRelationsByUserIdAndRelation(Long userId, UserRelation.Relation relation);
 
     Slice<? extends UserRelation, Integer> getUserRelationsByRelation(SliceIndicator<Integer> indicator, Long userId, UserRelation.Relation relation);
+
+    Set<? extends UserRelation> getUserRelationsByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation);
 
 }

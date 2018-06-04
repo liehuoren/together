@@ -11,6 +11,8 @@ import com.zhlzzz.together.system.AboutEntity;
 import com.zhlzzz.together.system.AboutService;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
+import com.zhlzzz.together.user.user_relation.UserRelation;
+import com.zhlzzz.together.user.user_relation.UserRelationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,6 +38,7 @@ public class SystemController {
     private final UserService userService;
     private final MatchService matchService;
     private final GameTypeService gameTypeService;
+    private final UserRelationService userRelationService;
 
     @PutMapping(path = "/about")
     @ApiOperation(value = "更新小程序介绍")
@@ -59,7 +64,20 @@ public class SystemController {
     @ResponseBody
     public SystemView getSystem(ApiAuthentication auth) {
         Match match = matchService.getCurrentMatchByUser(auth.requireUserId()).orElse(null);
+        List<? extends UserRelation> userRelations = userRelationService.getUserRelationsByUserIdAndRelation(auth.requireUserId(), UserRelation.Relation.friend);
+        Integer friendsNum = userRelations.size();
+        Set<Long> userIds = new HashSet<>();
+        for (UserRelation userRelation : userRelations) {
+            userIds.add(userRelation.getToUserId());
+        }
+        Integer online = 0;
+        List<? extends Match> matches = matchService.getMatchsInUserIds(userIds);
+        for (Match match1 : matches) {
+            if (match1.isEffective()) {
+                online++;
+            }
+        }
         List<? extends GameType> gameTypes = gameTypeService.getAllGameTypes();
-        return new SystemView(match,gameTypes);
+        return new SystemView(friendsNum,online,match,gameTypes);
     }
 }
