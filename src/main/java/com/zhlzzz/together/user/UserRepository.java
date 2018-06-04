@@ -12,4 +12,5 @@ public interface UserRepository extends Repository<UserEntity, Long> {
     Optional<UserEntity> findById(Long id);
     Optional<UserEntity> findByOpenId(String openId);
     Set<UserEntity> findByIdIn(Set<Long> ids);
+    Set<UserEntity> findByOpenIdIn(Set<String> openIds);
 }

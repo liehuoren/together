@@ -11,4 +11,5 @@ public interface UserService {
     Optional<? extends User> getUserById(Long id);
     Optional<? extends User> getUserByOpenId(String openId);
     Set<? extends User> getUsersByIds(Set<Long> ids);
+    Set<? extends User> getUsersByOpenIds(Set<String> openIds);
 }

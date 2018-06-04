@@ -19,7 +19,7 @@ public class AdvertView {
     private final Advert advert;
 
     @ApiModelProperty(name = "广告ID",example = "1")
-    public  Long getId(){
+    public Long getId(){
         return advert.getId();
     }
 

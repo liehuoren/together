@@ -45,6 +45,7 @@ dependencies {
 	implementation "com.google.guava:guava:23.5-jre"
 	implementation "com.github.binarywang:weixin-java-miniapp:3.0.0"
 	implementation 'com.qiniu:qiniu-java-sdk:7.2.+'
+	implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
 	compile 'javax:javaee-api:8.0'
 	compile 'org.eclipse:yasson:1.0'
 	compile 'org.glassfish:javax.json:1.1'

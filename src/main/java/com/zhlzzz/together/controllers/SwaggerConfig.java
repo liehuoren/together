@@ -153,7 +153,8 @@ public class SwaggerConfig {
                 new Tag("Game","游戏"),
                 new Tag("Wx","微信小程序"),
                 new Tag("Match","匹配"),
-                new Tag("UserGameConfig","用户游戏配置")
+                new Tag("UserGameConfig","用户游戏配置"),
+                new Tag("ChatRoom","聊天室")
         );
     }
 

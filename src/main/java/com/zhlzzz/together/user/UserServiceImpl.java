@@ -93,6 +93,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByIdIn(ids);
     }
 
+    @Override
+    public Set<? extends User> getUsersByOpenIds(Set<String> openIds) {
+        return userRepository.findByOpenIdIn(openIds);
+    }
+
     @PostConstruct
     public void onStartUp() {
         if (!EntityUtils.isEntitiesEmpty(em, UserEntity.class)) {
