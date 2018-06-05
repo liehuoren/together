@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setRole(parameters.getRole());
         userEntity.setCreateTime(LocalDateTime.now());
+        userEntity.setLastLoginTime(LocalDateTime.now());
         setParameter(userEntity, parameters);
 
         try {

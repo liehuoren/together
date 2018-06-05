@@ -17,10 +17,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
 
     @Override
-    public ChatRoom addChatRoom(String name, Set<String> openIds) {
+    public ChatRoom addChatRoom(String name, Set<Long> userIds) {
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.setName(name);
-        chatRoom.setOpenIds(openIds);
+        chatRoom.setUserIds(userIds);
         chatRoom.setCreateTime(LocalDateTime.now());
         return chatRoomRepository.save(chatRoom);
     }

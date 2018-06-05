@@ -97,10 +97,11 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds) {
+    public List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds, Integer gameTypeId) {
         List<MatchEntity> matchEntitys = em.createQuery("SELECT m FROM MatchEntity m WHERE m.userId in :userIds AND " +
-                "m.finished = false AND m.deleted = false AND m.expiration > :currentTime ORDER BY m.createTime desc", MatchEntity.class)
+                "m.finished = false AND m.gameTypeId = :gameTypeId AND m.deleted = false AND m.expiration > :currentTime ORDER BY m.createTime desc", MatchEntity.class)
                 .setParameter("userIds", userIds)
+                .setParameter("gameTypeId", gameTypeId)
                 .setParameter("currentTime", LocalDateTime.now())
                 .getResultList();
         return matchEntitys;

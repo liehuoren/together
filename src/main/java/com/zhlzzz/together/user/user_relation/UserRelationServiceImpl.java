@@ -105,6 +105,6 @@ public class UserRelationServiceImpl implements UserRelationService {
 
     @Override
     public Set<? extends UserRelation> getUserRelationsByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation) {
-        return userRelationRepository.findByUserIdsInAndRelation(userIds, relation);
+        return userRelationRepository.findByUserIdInAndRelation(userIds, relation);
     }
 }

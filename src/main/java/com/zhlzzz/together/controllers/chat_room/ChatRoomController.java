@@ -39,11 +39,11 @@ public class ChatRoomController {
         User user = userService.getUserById(auth.requireUserId()).orElseThrow(() -> ApiExceptions.notFound("不存在此人"));
         ChatRoom chatRoom = chatRoomService.getChatRoom(id).orElseThrow(() -> ApiExceptions.notFound("没有相关房间信息"));
 
-        if (!chatRoom.getOpenIds().contains(user.getOpenId())) {
+        if (!chatRoom.getUserIds().contains(user.getId())) {
             throw ApiExceptions.noPrivilege();
         }
 
-        Set<? extends User> users = userService.getUsersByOpenIds(chatRoom.getOpenIds());
+        Set<? extends User> users = userService.getUsersByIds(chatRoom.getUserIds());
 
         List<UserView> userViews = new ArrayList<>();
 

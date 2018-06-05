@@ -2,6 +2,7 @@ package com.zhlzzz.together.match;
 
 import com.zhlzzz.together.data.Slice;
 import com.zhlzzz.together.data.SliceIndicator;
+import com.zhlzzz.together.game.GameType;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +22,5 @@ public interface MatchService {
 
     List<? extends Match> getMatchsInUserIds(Set<Long> userIds);
 
-    List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds);
+    List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds, Integer gameTypeId);
 }

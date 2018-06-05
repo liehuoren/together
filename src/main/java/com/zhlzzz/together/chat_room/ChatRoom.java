@@ -19,10 +19,9 @@ public class ChatRoom {
 
     @Getter @Setter
     @Column
-    @Convert(converter = String.class, attributeName = ",")
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "open_ids")
-    private Set<String> openIds = new HashSet<String>();
+    @CollectionTable(name = "chat_room_user")
+    private Set<Long> userIds = new HashSet<Long>();
 
     @Getter @Setter
     @Column

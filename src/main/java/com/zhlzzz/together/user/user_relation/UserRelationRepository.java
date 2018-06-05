@@ -10,5 +10,5 @@ public interface UserRelationRepository extends Repository<UserRelationEntity, L
     UserRelationEntity save(UserRelationEntity userRelationEntity);
     Optional<UserRelationEntity> findByUserIdAndToUserId(Long userId, Long toUserId);
     List<UserRelationEntity> findByUserIdAndRelation(Long userId, UserRelation.Relation relation);
-    Set<UserRelationEntity> findByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation);
+    Set<UserRelationEntity> findByUserIdInAndRelation(Set<Long> userIds, UserRelation.Relation relation);
 }

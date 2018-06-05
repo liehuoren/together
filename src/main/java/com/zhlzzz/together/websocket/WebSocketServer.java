@@ -14,12 +14,14 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Slf4j
-@ServerEndpoint(value = "/websocket/{openId}/{roomId}")
+@ServerEndpoint(value = "/websocket/{userId}/{roomId}")
 @Component
 public class WebSocketServer {
 
@@ -31,7 +33,9 @@ public class WebSocketServer {
     /**
      * 存放对应的userId为键的CopyOnWriteArraySet<WebSocketServer>集合
      */
-    private static Hashtable<String, CopyOnWriteArraySet<WebSocketServer>> webSocketSetTable = new Hashtable<>();
+    private static Hashtable<Long, CopyOnWriteArraySet<WebSocketServer>> webSocketSetTable = new Hashtable<>();
+
+    private static HashMap<Long, Set<Long>> roomMaps = new HashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -41,27 +45,37 @@ public class WebSocketServer {
     /**
      * 连接建立成功调用的方法
      *
-     * @param openId  openId
+     * @param userId  userId
      * @param session session
      */
     @OnOpen
-    public void onOpen(@PathParam("openId") String openId, @PathParam("roomId") String roomId, Session session) {
-//        User user = userRepository.findByOpenId(openId).orElseThrow(() -> new UserNotFoundException("openId"));
+    public void onOpen(@PathParam("userId") Long userId, @PathParam("roomId") Long roomId, Session session) {
 
         this.session = session;
-        log.debug("uuid为" + openId + "的用户进来了！！！");
-        CopyOnWriteArraySet<WebSocketServer> webSocketSet = webSocketSetTable.get(openId);
+        log.debug("uid为" + userId + "的用户进来了！！！");
+        CopyOnWriteArraySet<WebSocketServer> webSocketSet = webSocketSetTable.get(userId);
         if (null == webSocketSet) {
             webSocketSet = new CopyOnWriteArraySet<WebSocketServer>();
         }
         webSocketSet.add(this);
-        webSocketSetTable.put(openId, webSocketSet);
+        webSocketSetTable.put(userId, webSocketSet);
         addOnlineCount();           //在线数加1
-        ChatMessage chatMessage = new ChatMessage(ChatMessage.Type.people, 1L, "欢迎");
+
+
+        Set<Long> userIds = roomMaps.get(roomId);
+
+        if (userIds == null) {
+            userIds = new HashSet<>();
+        }
+        userIds.add(userId);
+        roomMaps.put(roomId, userIds);
+
+        ChatMessage chatMessage = new ChatMessage(ChatMessage.Type.people, userId, "欢迎");
         JSONObject json = JSONObject.fromObject(chatMessage);
         String message = json.toString();
+
         try {
-            sendMessageByUserId(openId,message);
+            sendMessageByRoomId(roomId, message);
         } catch (IOException e) {
 
         }
@@ -72,13 +86,28 @@ public class WebSocketServer {
     /**
      * 连接关闭调用的方法
      *
-     * @param openId openId
+     * @param userId userId
      */
     @OnClose
-    public void onClose(@PathParam("openId") String openId) {
+    public void onClose(@PathParam("userId") Long userId, @PathParam("roomId") Long roomId) {
         //从set中删除
-        CopyOnWriteArraySet<WebSocketServer> webSocketServers = webSocketSetTable.get(openId);
+        CopyOnWriteArraySet<WebSocketServer> webSocketServers = webSocketSetTable.get(userId);
         webSocketServers.remove(this);
+
+        Set<Long> userIds = roomMaps.get(roomId);
+        userIds.remove(userId);
+
+        ChatMessage chatMessage = new ChatMessage(ChatMessage.Type.speak, userId, "离开");
+        JSONObject json = JSONObject.fromObject(chatMessage);
+        String message = json.toString();
+        log.info(message);
+
+        try {
+            sendMessageByRoomId(roomId, message);
+        } catch (IOException e) {
+
+        }
+
         //在线数减1
         subOnlineCount();
         log.debug("有一连接关闭！当前在线人数为" + getOnlineCount());
@@ -90,8 +119,17 @@ public class WebSocketServer {
      * @param message 客户端发送过来的消息
      */
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(@PathParam("userId") Long userId, @PathParam("roomId") Long roomId, String message) {
+        ChatMessage chatMessage = new ChatMessage(ChatMessage.Type.speak, userId, message);
+        JSONObject json = JSONObject.fromObject(chatMessage);
+        String messages = json.toString();
         log.info(message);
+
+        try {
+            sendMessageByRoomId(roomId, messages);
+        } catch (IOException e) {
+
+        }
     }
 
     /**
@@ -115,6 +153,15 @@ public class WebSocketServer {
         this.session.getBasicRemote().sendText(message);
     }
 
+    public static void sendMessageByRoomId(Long roomId, String message) throws IOException {
+        Set<Long> userIds = roomMaps.get(roomId);
+        if (userIds != null) {
+           for (Long userId : userIds) {
+               sendMessageByUserId(userId, message);
+           }
+        }
+    }
+
     /**
      * 对指定的用户发送信息
      *
@@ -122,7 +169,7 @@ public class WebSocketServer {
      * @param message message
      * @throws IOException IOException
      */
-    public static void sendMessageByUserId(String userId, String message) throws IOException {
+    public static void sendMessageByUserId(Long userId, String message) throws IOException {
         Set<WebSocketServer> socketServers = webSocketSetTable.get(userId);
         if (null != socketServers) {
             for (WebSocketServer item : socketServers) {

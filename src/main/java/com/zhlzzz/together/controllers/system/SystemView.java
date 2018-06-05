@@ -37,7 +37,14 @@ public class SystemView {
     public Long getRoomId() { return null; }
 
     @ApiModelProperty(name = "分钟",example = "30")
-    public Long getMinute() { return Duration.between(match.getCreateTime(), match.getExpiration()).toMinutes(); }
+    public Long getMinute() {
+        if (match != null) {
+            return Duration.between(match.getCreateTime(), match.getExpiration()).toMinutes();
+        } else {
+            return 30L;
+        }
+
+    }
 
     public MatchView getMatch() {
 
