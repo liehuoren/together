@@ -84,7 +84,7 @@ public class UserController {
     @PutMapping(path = "/{userId:\\d+}/relations")
     @ApiOperation(value = "更新好友关系（拉黑或取消拉黑或修改备注名）")
     @ResponseBody
-    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId, @RequestParam String remark, @RequestParam UserRelation.Relation relation) {
+    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId, @RequestParam(required = false) String remark, @RequestParam UserRelation.Relation relation) {
 
         userRelationService.updateUserRelation(userId, toUserId, remark ,relation);
         return new ResponseEntity<>(HttpStatus.OK);

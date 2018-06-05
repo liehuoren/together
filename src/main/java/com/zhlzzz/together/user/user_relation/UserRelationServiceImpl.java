@@ -91,7 +91,8 @@ public class UserRelationServiceImpl implements UserRelationService {
         CriteriaQuery<UserRelationEntity> q = cb.createQuery(UserRelationEntity.class);
         Root<UserRelationEntity> m = q.from(UserRelationEntity.class);
 
-        q.select(m).orderBy(cb.desc(m.get("updateTime")), cb.desc(m.get("id")));
+        Predicate where = buildPredicate(cb, m, userId, relation);
+        q.select(m).where(where).orderBy(cb.desc(m.get("updateTime")), cb.desc(m.get("id")));
 
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<UserRelationEntity> countM = countQuery.from(UserRelationEntity.class);
@@ -101,6 +102,19 @@ public class UserRelationServiceImpl implements UserRelationService {
 
         Slice<UserRelationEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
         return slice.map(UserRelationEntity::toDto);
+    }
+
+    private Predicate buildPredicate(CriteriaBuilder cb, Root<UserRelationEntity> m, Long userId, UserRelation.Relation relation) {
+        List<Predicate> predicates = new ArrayList<>(2);
+
+        if (userId != null) {
+            predicates.add(cb.equal(m.get("userId"), userId));
+        }
+        if (relation != null) {
+            predicates.add(cb.equal(m.get("relation"), relation));
+        }
+
+        return cb.and(predicates.toArray(new Predicate[0]));
     }
 
     @Override
