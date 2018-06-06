@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +37,21 @@ public class UserController {
     private final UserService userService;
     private final UserLabelService userLabelService;
     private final UserRelationService userRelationService;
+
+    @GetMapping
+    @ApiOperation(value = "用户列表")
+    @ResponseBody
+    public Slice<? extends UserView, Integer> getArticleList(SliceIndicator<Integer> indicator, ApiAuthentication auth) {
+        if (auth.requireUserId() != 1) {
+            throw ApiExceptions.badRequest("无权限访问");
+        }
+        val users = userService.getUsers(indicator);
+        return users.mapAll(items -> buildArticlesView(items));
+    }
+
+    private List<UserView> buildArticlesView(List<? extends User> users) {
+        return CollectionUtils.map(users, (r) ->  new UserView(r,null) );
+    }
 
     @GetMapping(path = "/{userId:\\d+}")
     @ApiOperation(value = "获取指定用户的信息")

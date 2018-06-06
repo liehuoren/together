@@ -97,8 +97,7 @@ public class UserRelationServiceImpl implements UserRelationService {
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<UserRelationEntity> countM = countQuery.from(UserRelationEntity.class);
 
-        List<Predicate> predicates = new ArrayList<>(5);
-        countQuery.select(cb.count(countM)).where(cb.and(predicates.toArray(new Predicate[0])));
+        countQuery.select(cb.count(countM)).where(cb.and(buildPredicate(cb, countM,userId,relation)));
 
         Slice<UserRelationEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
         return slice.map(UserRelationEntity::toDto);

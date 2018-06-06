@@ -60,4 +60,20 @@ public class UserEntity implements User {
 
     @Override
     public boolean isAdmin() { return this.role == Role.admin; }
+
+    public UserDto toDto() {
+        return UserDto.builder()
+                .id(id)
+                .phone(phone)
+                .openId(openId)
+                .unionId(unionId)
+                .gender(gender)
+                .avatarUrl(avatarUrl)
+                .qRCode(qRCode)
+                .avatarUrl(avatarUrl)
+                .lastLoginTime(lastLoginTime)
+                .createTime(createTime)
+                .admin(isAdmin())
+                .build();
+    }
 }
