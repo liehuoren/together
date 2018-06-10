@@ -1,6 +1,7 @@
 package com.zhlzzz.together.controllers.game;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.zhlzzz.together.match.Match;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,4 +32,12 @@ public class UserGameConfigView {
 
     @ApiModelProperty(value = "用户游戏配置区域", example = "1")
     public String getArea() { return userGameConfigEntity.getArea(); }
+
+    public Integer getMemberNum() { return userGameConfigEntity.getMemberNum(); }
+
+    public Integer getMinute() { return userGameConfigEntity.getMinute(); }
+
+    public Match.Range getMatchRange() { return userGameConfigEntity.getMatchRange(); }
+
+    public String getOtherItem() { return userGameConfigEntity.getOtherItem(); }
 }

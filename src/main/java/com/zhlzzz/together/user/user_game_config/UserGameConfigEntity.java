@@ -1,5 +1,6 @@
 package com.zhlzzz.together.user.user_game_config;
 
+import com.zhlzzz.together.match.Match;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,15 +19,15 @@ public class UserGameConfigEntity {
     private Long id;
 
     @Getter @Setter
-    @Column
+    @Column(nullable = false)
     private Long userId;
 
     @Getter @Setter
-    @Column
+    @Column(nullable = false)
     private Integer gameTypeId;
 
     @Getter @Setter
-    @Column
+    @Column(length = 100, nullable = false)
     private String nickname;
 
     @Getter @Setter
@@ -36,4 +37,20 @@ public class UserGameConfigEntity {
     @Getter @Setter
     @Column
     private String area;
+
+    @Getter @Setter
+    @Column
+    private Integer memberNum;
+
+    @Getter @Setter
+    @Column
+    private Integer minute;
+
+    @Getter @Setter
+    @Column
+    private Match.Range matchRange;
+
+    @Getter @Setter
+    @Column
+    private String otherItem;
 }

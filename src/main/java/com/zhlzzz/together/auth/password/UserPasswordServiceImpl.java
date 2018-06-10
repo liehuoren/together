@@ -71,6 +71,9 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         tt.execute((s) -> {
             updateUserPassword(1L, "Abc123");
             updateUserPassword(2L, "user");
+            updateUserPassword(3L, "user");
+            updateUserPassword(4L, "user");
+            updateUserPassword(5L, "user");
             return null;
         });
     }

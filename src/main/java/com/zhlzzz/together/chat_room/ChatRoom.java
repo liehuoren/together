@@ -29,6 +29,10 @@ public class ChatRoom {
 
     @Getter @Setter
     @Column
+    private Integer gameTypeId;
+
+    @Getter @Setter
+    @Column
     private LocalDateTime createTime;
 
 }

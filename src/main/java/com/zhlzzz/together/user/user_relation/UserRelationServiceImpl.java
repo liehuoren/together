@@ -7,6 +7,8 @@ import com.zhlzzz.together.data.Slices;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserNotFoundException;
 import com.zhlzzz.together.user.UserRepository;
+import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
+import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,31 +39,31 @@ public class UserRelationServiceImpl implements UserRelationService {
     private final UserRepository userRepository;
 
     @Override
-    public Boolean addUserRelation(Long userId, Long toUserId) {
-        Boolean isHas = userRelationRepository.findByUserIdAndToUserId(userId, toUserId).isPresent();
-        if (isHas) {
-            return true;
-        } else {
-            UserRelationEntity relationEntity = new UserRelationEntity();
-            relationEntity.setUserId(userId);
-            relationEntity.setToUserId(toUserId);
-            relationEntity.setRelation(UserRelation.Relation.friend);
-            relationEntity.setUpdateTime(LocalDateTime.now());
-            UserRelationEntity relationEntity1 = new UserRelationEntity();
-            relationEntity1.setUserId(toUserId);
-            relationEntity1.setToUserId(userId);
-            relationEntity1.setRelation(UserRelation.Relation.friend);
-            relationEntity1.setUpdateTime(LocalDateTime.now());
+    public Boolean addUserRelation(Long userId, Long toUserId, UserRelation.Relation relation) {
 
-            userRelationRepository.save(relationEntity);
-            userRelationRepository.save(relationEntity1);
-            return true;
-        }
+        UserRelationEntity relationEntity = new UserRelationEntity();
+        relationEntity.setUserId(userId);
+        relationEntity.setToUserId(toUserId);
+        relationEntity.setRelation(relation);
+        relationEntity.setUpdateTime(LocalDateTime.now());
+        userRelationRepository.save(relationEntity);
+        return true;
     }
 
     @Override
     public Boolean updateUserRelation(Long userId, Long toUserId, String remark, UserRelation.Relation relation) {
-        UserRelationEntity userRelation = userRelationRepository.findByUserIdAndToUserId(userId, toUserId).orElseThrow(() -> new UserRelationNotFoundException());
+        UserRelationEntity userRelation = userRelationRepository.findByUserIdAndToUserId(userId, toUserId).orElse(null);
+        UserRelationEntity userRelation1 = userRelationRepository.findByUserIdAndToUserId(toUserId, userId).orElse(null);
+        if (userRelation == null) {
+            addUserRelation(userId, toUserId, relation);
+            if (relation.equals(UserRelation.Relation.friend) && userRelation1 == null) {
+                addUserRelation(toUserId, userId, relation);
+            }
+            return true;
+        }
+        userRelation = new UserRelationEntity();
+        userRelation.setUserId(userId);
+        userRelation.setToUserId(toUserId);
         if (!Strings.isNullOrEmpty(remark)) {
             userRelation.setRemark(remark);
         }
@@ -69,7 +71,6 @@ public class UserRelationServiceImpl implements UserRelationService {
             userRelation.setRelation(relation);
         }
         userRelation.setUpdateTime(LocalDateTime.now());
-
         userRelationRepository.save(userRelation);
         return true;
     }

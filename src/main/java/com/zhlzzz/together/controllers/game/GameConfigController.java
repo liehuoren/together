@@ -11,7 +11,6 @@ import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
 import com.zhlzzz.together.game.game_config.GameConfigService;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
-import com.zhlzzz.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,6 @@ public class GameConfigController {
         }
 
         GameType gameType = gameTypeService.getGameTypeById(gameTypeId).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
-
         GameConfigEntity gameConfig = gameConfigService.addGameConfig(gameType.getId(), inputType, label, required);
 
         return new GameConfigView(new GameConfigImpl(gameConfig, new ArrayList<>()));
@@ -88,7 +86,6 @@ public class GameConfigController {
             throw ApiExceptions.noPrivilege();
         }
         GameConfigEntity gameConfig= gameConfigService.getGameConfigById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏配置"));
-
         GameConfig.Option option = gameConfigService.addOption(gameConfig.getId(), value);
 
         return new GameConfigView.Option(option);

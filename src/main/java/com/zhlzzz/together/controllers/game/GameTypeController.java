@@ -3,13 +3,13 @@ package com.zhlzzz.together.controllers.game;
 import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.game.GameType;
+import com.zhlzzz.together.game.GameTypeParam;
 import com.zhlzzz.together.game.GameTypeService;
 import com.zhlzzz.together.game.game_config.GameConfig;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
-import com.zhlzzz.together.user.user_match_config.UserMatchConfig;
 import com.zhlzzz.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,9 +17,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/games/game-types", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -35,27 +37,37 @@ public class GameTypeController {
     @PostMapping
     @ApiOperation(value = "新增游戏类别")
     @ResponseBody
-    public GameTypeBaseView create(@RequestParam String name, @RequestParam String imgUrl, @RequestParam(required = false) boolean hot, ApiAuthentication auth) {
+    public GameTypeBaseView create(@RequestBody GameTypeParam gameTypeParam, ApiAuthentication auth, BindingResult result) {
         User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
         if (admin == null) {
             throw ApiExceptions.noPrivilege();
         }
-        requireNonNull(name, "name");
-        requireNonNull(imgUrl, "imgUrl");
-        return new GameTypeBaseView(gameTypeService.addGameType(name,imgUrl,hot), true);
+        if (result.hasErrors()) {
+            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
+            throw ApiExceptions.badRequest(errors);
+        }
+        requireNonNull(gameTypeParam.getName(), "name");
+        requireNonNull(gameTypeParam.getImgUrl(), "imgUrl");
+        requireNonNull(gameTypeParam.getLogo(), "logo");
+        requireNonNull(gameTypeParam.getMaxMember(), "maxMember");
+        return new GameTypeBaseView(gameTypeService.addGameType(gameTypeParam), true);
     }
 
     @PutMapping(path = "{id:\\d+}")
     @ApiOperation(value = "更新游戏类别")
     @ResponseBody
-    public GameTypeBaseView update(@PathVariable Integer id, @RequestParam(required = false) String name, @RequestParam(required = false) String imgUrl, @RequestParam(required = false) boolean hot, @RequestParam(required = false) boolean delete, ApiAuthentication auth) {
+    public GameTypeBaseView update(@PathVariable Integer id, @RequestBody GameTypeParam gameTypeParam, ApiAuthentication auth, BindingResult result) {
         User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
         if (admin == null) {
             throw ApiExceptions.noPrivilege();
         }
+        if (result.hasErrors()) {
+            String errors = result.getAllErrors().stream().map((e)->e.toString()).collect(Collectors.joining(";\n"));
+            throw ApiExceptions.badRequest(errors);
+        }
         GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
 
-        return new GameTypeBaseView(gameTypeService.updateGameType(gameType.getId(),name,imgUrl,hot,delete), true);
+        return new GameTypeBaseView(gameTypeService.updateGameType(gameType.getId(),gameTypeParam), true);
     }
 
     @GetMapping
@@ -69,37 +81,43 @@ public class GameTypeController {
 
     }
 
-    @GetMapping(path = "/{id:\\d+}}")
-    @ApiOperation(value = "获取游戏配置项列表")
+    @GetMapping(path = "/{id:\\d+}")
+    @ApiOperation(value = "获取游戏分类详细配置信息")
     @ResponseBody
-    public List<GameConfigView> getGameConfig(@PathVariable Integer id, ApiAuthentication auth) {
+    public GameTypeView getGameType(@PathVariable Integer id, ApiAuthentication auth) {
         User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
         if (admin == null) {
             throw ApiExceptions.noPrivilege();
         }
-        List<? extends GameConfig> gameConfigs = gameTypeService.getGameTypeConfigs(id);
-
-        return CollectionUtils.map(gameConfigs,(r) -> new GameConfigView(r));
+        GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
+        GameConfig gameConfig = gameTypeService.getGameTypeConfigs(gameType.getId()).get(0);
+        return new GameTypeView(gameType, true,gameConfig,null);
     }
 
     @GetMapping(path = "/{id:\\d+}/config")
-    @ApiOperation(value = "获取对应游戏类别的配置")
+    @ApiOperation(value = "获取用户对应游戏类别的配置")
     @ResponseBody
     public GameTypeView getGameTypeConfigs(@PathVariable Integer id, ApiAuthentication auth) {
         GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
-        List<? extends GameConfig> gameConfigs = gameTypeService.getGameTypeConfigs(gameType.getId());
+        GameConfig gameConfig = gameTypeService.getGameTypeConfigs(gameType.getId()).get(0);
         UserGameConfigEntity userGameConfigEntity = userGameConfigService.getUserGameConfigByUserAndGameType(auth.requireUserId(), gameType.getId()).orElse(null);
-        List<? extends UserMatchConfig> userMatchConfigs = null;
-        if (userGameConfigEntity != null) {
-            userMatchConfigs = userGameConfigService.getUserMatchConfigByUserGameConfigId(userGameConfigEntity.getId());
-        }
-        return new GameTypeView(gameType, true,gameConfigs,userGameConfigEntity,userMatchConfigs);
+        return new GameTypeView(gameType, true,gameConfig,userGameConfigEntity);
     }
 
     private void requireNonNull(Object value, String name) {
         if (value == null) {
             throw ApiExceptions.missingParameter(name);
         }
+    }
+
+    @DeleteMapping(path = "/{id:\\d+}")
+    @ApiOperation(value = "删除对应游戏")
+    @ResponseBody
+    public void delete(@PathVariable Integer id, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(1)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        gameTypeService.delete(id);
     }
 
 }

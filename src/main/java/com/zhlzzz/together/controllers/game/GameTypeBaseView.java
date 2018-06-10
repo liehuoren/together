@@ -35,6 +35,12 @@ public class GameTypeBaseView {
     @ApiModelProperty(value = "背景图", example = "http://www.baidu.com")
     public String getImgUrl() { return gameType.getImgUrl(); }
 
+    @ApiModelProperty(value = "游戏logo", example = "http://www.baidu.com")
+    public String getLogo() { return gameType.getLogo(); }
+
+    @ApiModelProperty(value = "游戏最大人数", example = "5")
+    public Integer getMaxMember() { return gameType.getMaxMember(); }
+
     @ApiModelProperty(value = "是否标注", example = "true")
     public Boolean isHot() { return gameType.isHot(); }
 

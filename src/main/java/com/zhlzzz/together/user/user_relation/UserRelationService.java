@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface UserRelationService {
 
-    Boolean addUserRelation(Long userId, Long toUserId);
+    Boolean addUserRelation(Long userId, Long toUserId, UserRelation.Relation relation);
 
     Boolean updateUserRelation(Long userId, Long toUserId, String remark, UserRelation.Relation relation);
 

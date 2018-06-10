@@ -7,6 +7,8 @@ import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.controllers.user.UserView;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
+import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
+import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
 import com.zhlzzz.together.user.user_label.UserLabelEntity;
 import com.zhlzzz.together.user.user_label.UserLabelService;
 import io.swagger.annotations.Api;
@@ -31,6 +33,7 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
     private final UserService userService;
     private final UserLabelService userLabelService;
+    private final UserGameConfigService userGameConfigService;
 
     @GetMapping(value = "/{id:\\d+}")
     @ApiOperation(value = "获取聊天室基本信息")
@@ -48,13 +51,14 @@ public class ChatRoomController {
         List<UserView> userViews = new ArrayList<>();
 
         for (User user1 : users) {
-            userViews.add(buildUserView(user1));
+            userViews.add(buildUserView(user1, chatRoom.getGameTypeId()));
         }
         return new ChatRoomView(chatRoom, userViews);
     }
 
-    private UserView buildUserView(User user) {
+    private UserView buildUserView(User user, Integer gameTypeId) {
         List<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(user.getId());
-        return new UserView(user, userLabels);
+        UserGameConfigEntity userGameConfigEntity = userGameConfigService.getUserGameConfigByUserAndGameType(user.getId(), gameTypeId).orElse(null);
+        return new UserChatRoomView(user, userLabels, userGameConfigEntity);
     }
 }

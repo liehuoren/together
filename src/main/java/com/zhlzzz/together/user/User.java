@@ -17,6 +17,7 @@ public interface User extends Serializable {
     String getAvatarUrl();
     String getQRCode();
     Integer getGender();
+    Integer getCreditScore();
     LocalDateTime getLastLoginTime();
     LocalDateTime getCreateTime();
     boolean isAdmin();

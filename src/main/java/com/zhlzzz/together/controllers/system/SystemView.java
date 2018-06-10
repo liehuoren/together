@@ -34,7 +34,20 @@ public class SystemView {
     public Integer getOnlineFriendsNum() { return onlineFriendsNum; }
 
     @ApiModelProperty(name = "房间号Id",example = "1")
-    public Long getRoomId() { return null; }
+    public Long getRoomId() {
+        if (match == null) {
+            return null;
+        }
+        return match.getRoomId();
+    }
+
+    @ApiModelProperty(value = "房间关闭", example = "true")
+    public Boolean isCloseDown() {
+        if (match == null) {
+            return null;
+        }
+        return match.isCloseDown();
+    }
 
     @ApiModelProperty(name = "分钟",example = "30")
     public Long getMinute() {
@@ -43,7 +56,6 @@ public class SystemView {
         } else {
             return 30L;
         }
-
     }
 
     public MatchView getMatch() {

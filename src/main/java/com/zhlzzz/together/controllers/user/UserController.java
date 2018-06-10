@@ -85,25 +85,23 @@ public class UserController {
         return new UserView(user, userLabels);
     }
 
-    @PostMapping(path = "/{userId:\\d+}/relations")
-    @ApiOperation(value = "添加好友关系（加好友）")
-    @ResponseBody
-    public ResponseEntity<String> addRelation(@PathVariable Long userId, @RequestParam Long toUserId, ApiAuthentication auth) {
-        if (!auth.requireUserId().equals(userId)) {
-            throw ApiExceptions.noPrivilege();
-        }
-        User user = userService.getUserById(toUserId).orElseThrow(() -> ApiExceptions.notFound("没有相关用户"));
-        userRelationService.addUserRelation(userId, user.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PutMapping(path = "/{userId:\\d+}/relations")
     @ApiOperation(value = "更新好友关系（拉黑或取消拉黑或修改备注名）")
     @ResponseBody
-    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId, @RequestParam(required = false) String remark, @RequestParam UserRelation.Relation relation) {
-
-        userRelationService.updateUserRelation(userId, toUserId, remark ,relation);
+    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId, @RequestParam(required = false) String remark, @RequestParam UserRelation.Relation relation, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(userId)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        User toUser = userService.getUserById(toUserId).orElseThrow(() -> ApiExceptions.notFound("没有相关用户"));
+        requireNonNull(relation,"relation");
+        userRelationService.updateUserRelation(userId, toUser.getId(), remark ,relation);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void requireNonNull(Object value, String name) {
+        if (value == null) {
+            throw ApiExceptions.missingParameter(name);
+        }
     }
 
 }

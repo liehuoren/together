@@ -18,10 +18,16 @@ public class MatchDto implements Match, Serializable {
     private Long userId;
     private Integer gameTypeId;
     private String formId;
+    private String name;
+    private Integer memberNum;
+    private Integer minute;
+    private Range matchRange;
+    private String otherItem;
+    private Long roomId;
     private LocalDateTime createTime;
     private LocalDateTime expiration;
-    private boolean onlyFriend;
     private boolean finished;
     private boolean deleted;
     private boolean effective;
+    private boolean closeDown;
 }

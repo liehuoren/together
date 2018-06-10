@@ -37,6 +37,15 @@ public class DiscussController {
     private final DiscussService discussService;
     private final UserService userService;
 
+    @GetMapping(path = "/{id:\\d+}")
+    @ApiOperation(value = "根据ID获取评论")
+    @ResponseBody
+    public DiscussView getDiscuss(@PathVariable Long id) {
+        Discuss discuss = discussService.getDiscussById(id).orElseThrow(() -> ApiExceptions.notFound("没有相关评论"));
+        User user = userService.getUserById(discuss.getUserId()).orElse(null);
+        return new DiscussView(discuss, user);
+    }
+
     @GetMapping
     @ApiOperation(value = "获取评论列表")
     @ResponseBody

@@ -21,6 +21,7 @@ public class UserDto implements User, Serializable {
     private String avatarUrl;
     private String qRCode;
     private Integer gender;
+    private Integer creditScore;
     private LocalDateTime lastLoginTime;
     private LocalDateTime createTime;
     private boolean admin;

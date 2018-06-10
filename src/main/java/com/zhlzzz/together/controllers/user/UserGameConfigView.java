@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.zhlzzz.together.controllers.game.GameConfigView;
 import com.zhlzzz.together.game.game_config.GameConfig;
+import com.zhlzzz.together.match.Match;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
 import com.zhlzzz.together.user.user_match_config.UserMatchConfig;
 import com.zhlzzz.together.utils.CollectionUtils;
@@ -23,7 +24,6 @@ public class UserGameConfigView {
     @NonNull
     private final UserGameConfigEntity userGameConfigEntity;
 
-
     @ApiModelProperty(value = "id", example = "1")
     public Long getId() { return userGameConfigEntity.getId(); }
 
@@ -42,4 +42,11 @@ public class UserGameConfigView {
     @ApiModelProperty(value = "用户游戏配置区域", example = "1")
     public String getArea() { return userGameConfigEntity.getArea(); }
 
+    public Integer getMemberNum() { return userGameConfigEntity.getMemberNum(); }
+
+    public Integer getMinute() { return userGameConfigEntity.getMinute(); }
+
+    public Match.Range getMatchRange() { return userGameConfigEntity.getMatchRange(); }
+
+    public String getOtherItem() { return userGameConfigEntity.getOtherItem(); }
 }

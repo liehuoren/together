@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public interface UserRelation extends Serializable {
     enum Relation {
-        friend, nofriend
+        friend, nofriend, stranger
     }
 
     Long getId();

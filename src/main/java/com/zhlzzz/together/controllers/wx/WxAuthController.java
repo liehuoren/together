@@ -5,11 +5,8 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.google.common.base.Strings;
-import com.qiniu.common.QiniuException;
-import com.qiniu.http.Response;
 import com.zhlzzz.together.auth.password.UserPasswordService;
 import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.qiniu.QiNiuService;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserParam;
 import com.zhlzzz.together.user.UserService;
@@ -22,10 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.util.List;
@@ -44,7 +38,6 @@ public class WxAuthController {
     private final UserService userService;
     private final UserLabelService userLabelService;
     private final UserPasswordService userPasswordService;
-    private final QiNiuService qiNiuService;
 
     @GetMapping(path = "/login")
     @ApiOperation(value = "小程序登录前注册并获取用户信息")

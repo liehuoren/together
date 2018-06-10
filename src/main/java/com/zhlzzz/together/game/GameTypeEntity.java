@@ -29,6 +29,14 @@ public class GameTypeEntity implements GameType, Serializable {
     @Column(length = 200)
     private String imgUrl;
 
+    @Getter @Setter
+    @Column(length = 200)
+    private String logo;
+
+    @Getter @Setter
+    @Column
+    private Integer maxMember;
+
     @Setter
     @Column(nullable = false)
     private boolean hot = false;

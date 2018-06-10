@@ -30,7 +30,7 @@ public class UserRelationEntity implements UserRelation {
     private String remark;
 
     @Getter @Setter
-    @Column
+    @Column(nullable = false)
     private Relation relation;
 
     @Getter @Setter

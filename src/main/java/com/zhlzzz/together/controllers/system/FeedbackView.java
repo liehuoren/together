@@ -30,4 +30,7 @@ public class FeedbackView {
 
     @ApiModelProperty(value = "反馈内容", example = "反馈反馈反馈")
     public String getContent() { return feedbackEntity.getContent(); }
+
+    @ApiModelProperty(value = "是否处理", example = "true")
+    public Boolean isFinished() { return feedbackEntity.isFinished(); }
 }

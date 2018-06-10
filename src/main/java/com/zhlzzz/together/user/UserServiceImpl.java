@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setCreateTime(LocalDateTime.now());
         userEntity.setLastLoginTime(LocalDateTime.now());
         setParameter(userEntity, parameters);
-
+        userEntity.setCreditScore(0);
         try {
             return userRepository.save(userEntity);
         } catch (DataIntegrityViolationException e) {
@@ -123,6 +123,11 @@ public class UserServiceImpl implements UserService {
 
         Slice<UserEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
         return slice.map(UserEntity::toDto);
+    }
+
+    @Override
+    public List<? extends User> getUserByIdsOrderByCreditScore(Set<Long> ids) {
+        return userRepository.findByIdInOrderByCreditScoreDesc(ids);
     }
 
     private Predicate buildPredicate(CriteriaBuilder cb, Root<UserEntity> m) {

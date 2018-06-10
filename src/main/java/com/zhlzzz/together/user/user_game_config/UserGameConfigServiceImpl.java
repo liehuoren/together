@@ -62,8 +62,6 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
                 }
                 em.persist(userGameConfigEntity);
             } else {
-                userGameConfigEntity.setUserId(user.getId());
-                userGameConfigEntity.setGameTypeId(gameType.getId());
                 if (!Strings.isNullOrEmpty(userGameConfigParam.getNickname())) {
                     userGameConfigEntity.setNickname(userGameConfigParam.getNickname());
                 }
@@ -72,6 +70,18 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
                 }
                 if (!Strings.isNullOrEmpty(userGameConfigParam.getArea())) {
                     userGameConfigEntity.setArea(userGameConfigParam.getArea());
+                }
+                if (userGameConfigParam.getMemberNum() != null) {
+                    userGameConfigEntity.setMemberNum(userGameConfigParam.getMemberNum());
+                }
+                if (userGameConfigParam.getMinute() != null) {
+                    userGameConfigEntity.setMinute(userGameConfigParam.getMinute());
+                }
+                if (userGameConfigParam.getMatchRange() != null) {
+                    userGameConfigEntity.setMatchRange(userGameConfigParam.getMatchRange());
+                }
+                if (userGameConfigParam.getOtherItem() != null) {
+                    userGameConfigEntity.setOtherItem(userGameConfigParam.getOtherItem());
                 }
             }
             em.flush();
@@ -88,6 +98,11 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
     @Override
     public Set<UserGameConfigEntity> getUserGameConfigsByGameType(Integer gameTypeId) {
         return userGameConfigRepository.getAllByGameTypeId(gameTypeId);
+    }
+
+    @Override
+    public List<UserGameConfigEntity> getUserGameConfigs(Long userId, Set<Integer> gameTypeIds) {
+        return userGameConfigRepository.getAllByUserIdAndGameTypeIdIn(userId, gameTypeIds);
     }
 
     @Override

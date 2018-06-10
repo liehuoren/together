@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface ChatRoomService {
 
-    ChatRoom addChatRoom(String name, Set<Long> userIds);
+    ChatRoom addChatRoom(String name, Integer gameTypeId, Set<Long> userIds);
 
     Optional<ChatRoom> getChatRoom(Long id);
 }

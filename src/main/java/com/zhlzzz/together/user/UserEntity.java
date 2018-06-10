@@ -52,6 +52,10 @@ public class UserEntity implements User {
 
     @Getter @Setter(AccessLevel.PACKAGE)
     @Column
+    private Integer creditScore;
+
+    @Getter @Setter(AccessLevel.PACKAGE)
+    @Column
     private LocalDateTime createTime;
 
     @Getter @Setter(AccessLevel.PACKAGE)
@@ -68,6 +72,7 @@ public class UserEntity implements User {
                 .openId(openId)
                 .unionId(unionId)
                 .gender(gender)
+                .creditScore(creditScore)
                 .avatarUrl(avatarUrl)
                 .qRCode(qRCode)
                 .avatarUrl(avatarUrl)

@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.zhlzzz.together.game.game_config.GameConfig;
 import com.zhlzzz.together.game.game_config.GameConfigEntity;
 import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
+import com.zhlzzz.together.game.game_config.GameConfigRepository;
 import com.zhlzzz.together.utils.CollectionUtils;
 import com.zhlzzz.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
@@ -35,43 +36,61 @@ public class GameTypeServiceImpl implements GameTypeService {
     private final TransactionTemplate tt;
     private final JdbcTemplate jdbc;
     private final GameTypeRepository gameTypeRepository;
+    private final GameConfigRepository gameConfigRepository;
 
     @Override
-    public GameType addGameType(String name, String imgUrl, Boolean hot) throws GameTypeNameUsedException {
+    public GameType addGameType(GameTypeParam gameTypeParam) throws GameTypeNameUsedException {
         GameTypeEntity gameTypeEntity = new GameTypeEntity();
-        gameTypeEntity.setName(name);
-        gameTypeEntity.setImgUrl(imgUrl);
-        if (hot != null) {
-            gameTypeEntity.setHot(hot);
+        if (!Strings.isNullOrEmpty(gameTypeParam.getName())) {
+            gameTypeEntity.setName(gameTypeParam.getName());
+        }
+        if (!Strings.isNullOrEmpty(gameTypeParam.getImgUrl())) {
+            gameTypeEntity.setImgUrl(gameTypeParam.getImgUrl());
+        }
+        if (!Strings.isNullOrEmpty(gameTypeParam.getLogo())) {
+            gameTypeEntity.setLogo(gameTypeParam.getLogo());
+        }
+        if (gameTypeParam.getMaxMember() != null) {
+            gameTypeEntity.setMaxMember(gameTypeParam.getMaxMember());
+        }
+        if (gameTypeParam.getHot() != null) {
+            gameTypeEntity.setHot(gameTypeParam.getHot());
         }
         gameTypeEntity.setCreateTime(LocalDateTime.now());
+
         try {
             return gameTypeRepository.save(gameTypeEntity);
         } catch (DataIntegrityViolationException e) {
-            throw new GameTypeNameUsedException(name, e);
+            throw new GameTypeNameUsedException(gameTypeParam.getName(), e);
         }
     }
 
     @Override
-    public GameType updateGameType(Integer id, String name, String imgUrl, Boolean hot, Boolean deleted) throws GameTypeNotFoundException, GameTypeNameUsedException {
+    public GameType updateGameType(Integer id, GameTypeParam gameTypeParam) throws GameTypeNotFoundException, GameTypeNameUsedException {
         GameTypeEntity gameTypeEntity = gameTypeRepository.getById(id).orElseThrow(() -> new GameTypeNotFoundException(id));
 
-        if (!Strings.isNullOrEmpty(name)) {
-            gameTypeEntity.setName(name);
+        if (!Strings.isNullOrEmpty(gameTypeParam.getName())) {
+            gameTypeEntity.setName(gameTypeParam.getName());
         }
-        if (!Strings.isNullOrEmpty(imgUrl)) {
-            gameTypeEntity.setImgUrl(imgUrl);
+        if (!Strings.isNullOrEmpty(gameTypeParam.getImgUrl())) {
+            gameTypeEntity.setImgUrl(gameTypeParam.getImgUrl());
         }
-        if (hot != null) {
-            gameTypeEntity.setHot(hot);
+        if (!Strings.isNullOrEmpty(gameTypeParam.getLogo())) {
+            gameTypeEntity.setLogo(gameTypeParam.getLogo());
         }
-        if (deleted != null) {
-            gameTypeEntity.setDeleted(deleted);
+        if (gameTypeParam.getMaxMember() != null) {
+            gameTypeEntity.setMaxMember(gameTypeParam.getMaxMember());
+        }
+        if (gameTypeParam.getHot() != null) {
+            gameTypeEntity.setHot(gameTypeParam.getHot());
+        }
+        if (gameTypeParam.getDeleted() != null) {
+            gameTypeEntity.setDeleted(gameTypeParam.getDeleted());
         }
         try {
             return gameTypeRepository.save(gameTypeEntity);
         } catch (DataIntegrityViolationException e) {
-            throw new GameTypeNameUsedException(name, e);
+            throw new GameTypeNameUsedException(gameTypeParam.getName(), e);
         }
     }
 
@@ -106,6 +125,11 @@ public class GameTypeServiceImpl implements GameTypeService {
         return CollectionUtils.map(topConfigs, GameConfigImpl::toDto);
     }
 
+    @Override
+    public Optional<GameConfig> getGameTypeOtherConfig(Integer gameTypeId) {
+        return gameConfigRepository.getFirstByGameTypeId(gameTypeId);
+    }
+
     private void loadOptions(Map<Long, GameConfigImpl> configMap, List<Long> configIds) {
         val options = em.createQuery("SELECT o from GameConfigOptionEntity o WHERE o.configId IN (:configIds) ORDER BY o.configId ASC, o.id ASC", GameConfigOptionEntity.class)
                 .setParameter("configIds", configIds)
@@ -118,6 +142,16 @@ public class GameTypeServiceImpl implements GameTypeService {
             }
             CollectionUtils.add(config.getOptions(), option);
         }
+    }
+
+    @Override
+    public void delete(Integer id) {
+        tt.execute((s)-> {
+            em.createQuery("DELETE FROM GameTypeEntity u WHERE u.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+            return true;
+        });
     }
 
     @PostConstruct

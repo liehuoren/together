@@ -13,4 +13,5 @@ public interface UserRepository extends Repository<UserEntity, Long> {
     Optional<UserEntity> findByOpenId(String openId);
     Set<UserEntity> findByIdIn(Set<Long> ids);
     Set<UserEntity> findByOpenIdIn(Set<String> openIds);
+    List<UserEntity> findByIdInOrderByCreditScoreDesc(Set<Long> ids);
 }

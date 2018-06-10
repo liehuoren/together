@@ -10,9 +10,11 @@ import java.util.Set;
 
 public interface MatchService {
 
-    Match addMatch(Long userId, Integer gameTypeId, Long minute, String formId, Boolean onlyFriend);
+    Match addMatch(MatchParam matchParam);
 
-    Boolean finish(Long id);
+    Boolean finish(Long id, Long roomId);
+
+    Boolean closeMatch(Long id);
 
     Boolean delete(Long id);
 
@@ -23,4 +25,6 @@ public interface MatchService {
     List<? extends Match> getMatchsInUserIds(Set<Long> userIds);
 
     List<? extends Match> getMatchsByUserIdsInAndEffective(Set<Long> userIds, Integer gameTypeId);
+
+    List<? extends Match> getCurrentMatchListCondition(Integer gameTypeId, Integer memberNum, String otherItem);
 }
