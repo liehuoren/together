@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
         @Index(name = "to_user_idx", columnList = "toUserId")
 })
 public class UserRelationEntity implements UserRelation {
+
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -100,6 +100,7 @@ public class UserController {
 
     @DeleteMapping(path = "{userId:\\d+}/touser/{toUserId:\\d+}/relations")
     @ApiOperation(value = "删除双方关系")
+    @ResponseBody
     public void deleteRelation(@PathVariable Long userId, @PathVariable Long toUserId, ApiAuthentication auth) {
         if (!auth.requireUserId().equals(userId)) {
             throw ApiExceptions.noPrivilege();
