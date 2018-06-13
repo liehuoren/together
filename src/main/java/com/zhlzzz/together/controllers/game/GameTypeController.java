@@ -90,7 +90,11 @@ public class GameTypeController {
             throw ApiExceptions.noPrivilege();
         }
         GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
-        GameConfig gameConfig = gameTypeService.getGameTypeConfigs(gameType.getId()).get(0);
+        List<? extends GameConfig> gameConfigs = gameTypeService.getGameTypeConfigs(gameType.getId());
+        GameConfig gameConfig = null;
+        if (gameConfigs != null && gameConfigs.size() != 0) {
+            gameConfig = gameConfigs.get(0);
+        }
         return new GameTypeView(gameType, true,gameConfig,null);
     }
 
@@ -99,7 +103,11 @@ public class GameTypeController {
     @ResponseBody
     public GameTypeView getGameTypeConfigs(@PathVariable Integer id, ApiAuthentication auth) {
         GameType gameType = gameTypeService.getGameTypeById(id).orElseThrow(()-> ApiExceptions.notFound("不存在此游戏类型"));
-        GameConfig gameConfig = gameTypeService.getGameTypeConfigs(gameType.getId()).get(0);
+        List<? extends GameConfig> gameConfigs = gameTypeService.getGameTypeConfigs(gameType.getId());
+        GameConfig gameConfig = null;
+        if (gameConfigs != null && gameConfigs.size() != 0) {
+            gameConfig = gameConfigs.get(0);
+        }
         UserGameConfigEntity userGameConfigEntity = userGameConfigService.getUserGameConfigByUserAndGameType(auth.requireUserId(), gameType.getId()).orElse(null);
         return new GameTypeView(gameType, true,gameConfig,userGameConfigEntity);
     }
@@ -114,7 +122,7 @@ public class GameTypeController {
     @ApiOperation(value = "删除对应游戏")
     @ResponseBody
     public void delete(@PathVariable Integer id, ApiAuthentication auth) {
-        if (!auth.requireUserId().equals(1)) {
+        if (auth.requireUserId() != 1) {
             throw ApiExceptions.noPrivilege();
         }
         gameTypeService.delete(id);

@@ -44,6 +44,7 @@ public class RankServiceImp implements RankService {
         PlayerSeasonEntity playerSeasonEntity = playerSeasonRepository.findByUserIdAndSeasonId(userId,playerEntity.getCurrentSeason()).orElseThrow(()->new PlayerSeasonNotFoundException(userId));
         return  setParam(playerEntity,playerSeasonEntity);
     }
+
     public RankEntity setParam(PlayerEntity playerEntity,PlayerSeasonEntity playerSeasonEntity){
         RankEntity rankEntity = new RankEntity();
         if (playerSeasonEntity.getKd() !=null)

@@ -121,4 +121,16 @@ public class UserRelationServiceImpl implements UserRelationService {
     public Set<? extends UserRelation> getUserRelationsByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation) {
         return userRelationRepository.findByUserIdInAndRelation(userIds, relation);
     }
+
+    @Override
+    public void deleteUserRelation(Long userId, Long toUserId) {
+        UserRelation userRelation = userRelationRepository.findByUserIdAndToUserId(userId, toUserId).orElseThrow(() ->
+                new UserRelationNotFoundException(userId, toUserId));
+        tt.execute((s)-> {
+            em.createQuery("DELETE FROM userRelationEntity u WHERE u.id = :id")
+                    .setParameter("id", userRelation.getId())
+                    .executeUpdate();
+            return true;
+        });
+    }
 }

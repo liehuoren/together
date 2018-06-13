@@ -40,11 +40,11 @@ public class MatchListView {
     public boolean isCloseDown() { return match.isCloseDown(); }
 
     @ApiModelProperty(name="创建时间",example = "2018-06-01 12:00:00")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+0800")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+0800")
     public LocalDateTime getCreateTime() { return match.getCreateTime(); }
 
     @ApiModelProperty(name="过期时间",example = "2018-06-01 12:00:00")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+0800")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+0800")
     public LocalDateTime getExpiration() { return match.getExpiration(); }
 
     @ApiModelProperty(value = "匹配名称", example = "绝地求生—1缺3")

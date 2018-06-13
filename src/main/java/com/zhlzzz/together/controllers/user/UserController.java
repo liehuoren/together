@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping
     @ApiOperation(value = "用户列表")
     @ResponseBody
-    public Slice<? extends UserView, Integer> getArticleList(SliceIndicator<Integer> indicator, ApiAuthentication auth) {
+    public Slice<? extends UserView, Integer> getUserList(SliceIndicator<Integer> indicator, ApiAuthentication auth) {
         if (auth.requireUserId() != 1) {
             throw ApiExceptions.badRequest("无权限访问");
         }
@@ -96,6 +96,15 @@ public class UserController {
         requireNonNull(relation,"relation");
         userRelationService.updateUserRelation(userId, toUser.getId(), remark ,relation);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "{userId:\\d+}/touser/{toUserId:\\d+}/relations")
+    @ApiOperation(value = "删除双方关系")
+    public void deleteRelation(@PathVariable Long userId, @PathVariable Long toUserId, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(userId)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        userRelationService.deleteUserRelation(userId, toUserId);
     }
 
     private void requireNonNull(Object value, String name) {

@@ -55,11 +55,11 @@ public class MatchView {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public Long getRoomId() { return match.getRoomId(); }
 
-    @ApiModelProperty(name="创建时间",example = "2018-06-01 12:00:00")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+0800")
+    @ApiModelProperty(name="创建时间",example = "2018/06/01 12:00:00")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+0800")
     public LocalDateTime getCreateTime() { return match.getCreateTime(); }
 
-    @ApiModelProperty(name="过期时间",example = "2018-06-01 12:00:00")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+0800")
+    @ApiModelProperty(name="过期时间",example = "2018/06/01 12:00:00")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+0800")
     public LocalDateTime getExpiration() { return match.getExpiration(); }
 }

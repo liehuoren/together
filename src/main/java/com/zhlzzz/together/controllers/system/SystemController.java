@@ -1,12 +1,14 @@
 package com.zhlzzz.together.controllers.system;
 
-
+import com.qiniu.common.QiniuException;
+import com.qiniu.http.Response;
 import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.game.GameType;
 import com.zhlzzz.together.game.GameTypeService;
 import com.zhlzzz.together.match.Match;
 import com.zhlzzz.together.match.MatchService;
+import com.zhlzzz.together.qiniu.QiNiuService;
 import com.zhlzzz.together.system.AboutEntity;
 import com.zhlzzz.together.system.AboutService;
 import com.zhlzzz.together.user.User;
@@ -18,14 +20,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/system", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -39,6 +43,7 @@ public class SystemController {
     private final MatchService matchService;
     private final GameTypeService gameTypeService;
     private final UserRelationService userRelationService;
+    private final QiNiuService qiNiuService;
 
     @PutMapping(path = "/about")
     @ApiOperation(value = "更新小程序介绍")
@@ -57,6 +62,17 @@ public class SystemController {
     public AboutView getAboutCompany() {
         AboutEntity aboutEntity = aboutService.getAbout();
         return new AboutView(aboutEntity);
+    }
+
+    @PostMapping(path = "/qiniu")
+    @ResponseBody
+    public ResponseEntity<String> uploadFile(@RequestParam("file") File multipartFile) {
+        try {
+            Response response = qiNiuService.uploadFile(multipartFile);
+        } catch (QiniuException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/config")
