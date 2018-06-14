@@ -16,6 +16,7 @@ public interface UserGameConfigService {
     Set<UserGameConfigEntity> getUserGameConfigsByGameType(Integer gameTypeId);
 
     List<UserGameConfigEntity> getUserGameConfigs(Long userId, Set<Integer> gameTypeIds);
+
     List<? extends UserMatchConfig> updateUserMatchConfig(Long userGameConfigId, List<UserMatchConfigParam> params);
 
     List<? extends UserMatchConfig> getUserMatchConfigByUserGameConfigId(Long userGameConfigId);

@@ -24,4 +24,8 @@ public interface UserService {
     Slice<? extends User, Integer> getUsers(SliceIndicator<Integer> indicator);
 
     List<? extends User> getUserByIdsOrderByCreditScore(Set<Long> ids);
+
+    void increaseScore(Long id, Integer score);
+
+    void reduceScore(Long id, Integer score);
 }

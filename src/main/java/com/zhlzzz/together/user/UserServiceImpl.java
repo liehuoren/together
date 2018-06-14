@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setCreateTime(LocalDateTime.now());
         userEntity.setLastLoginTime(LocalDateTime.now());
         setParameter(userEntity, parameters);
-        userEntity.setCreditScore(0);
+        userEntity.setCreditScore(30);
         try {
             return userRepository.save(userEntity);
         } catch (DataIntegrityViolationException e) {
@@ -137,6 +137,22 @@ public class UserServiceImpl implements UserService {
         predicates.add(cb.equal(m.get("role"), User.Role.user));
 
         return cb.and(predicates.toArray(new Predicate[0]));
+    }
+
+    @Override
+    public void increaseScore(Long id, Integer score) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        userEntity.setCreditScore(userEntity.getCreditScore() + score);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public void reduceScore(Long id, Integer score) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        userEntity.setCreditScore(userEntity.getCreditScore() - score);
+        userRepository.save(userEntity);
     }
 
     @PostConstruct

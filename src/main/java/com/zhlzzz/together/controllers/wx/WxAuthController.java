@@ -5,6 +5,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.google.common.base.Strings;
+import com.qiniu.http.Response;
 import com.zhlzzz.together.auth.password.UserPasswordService;
 import com.zhlzzz.together.controllers.ApiExceptions;
 import com.zhlzzz.together.user.User;
@@ -34,7 +35,6 @@ public class WxAuthController {
 
 
     private final WxMaService wxMaService;
-    private final WxMaQrcodeService wxMaQrcodeService;
     private final UserService userService;
     private final UserLabelService userLabelService;
     private final UserPasswordService userPasswordService;
@@ -90,7 +90,7 @@ public class WxAuthController {
 
     private String getUserQRCode(String openId) {
         try {
-            File file = wxMaQrcodeService.createWxCodeLimit(openId, "pages/kankan/kankan");
+            File file = wxMaService.getQrcodeService().createWxCodeLimit(openId, "pages/kankan/kankan");
             return file.getPath();
         } catch (WxErrorException e) {
             throw ApiExceptions.invalidParameter("openId");

@@ -21,6 +21,4 @@ public interface UserRelationService {
 
     Set<? extends UserRelation> getUserRelationsByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation);
 
-    void deleteUserRelation(Long userId, Long toUserId);
-
 }

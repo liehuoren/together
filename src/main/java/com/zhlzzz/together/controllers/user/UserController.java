@@ -95,6 +95,9 @@ public class UserController {
         User toUser = userService.getUserById(toUserId).orElseThrow(() -> ApiExceptions.notFound("没有相关用户"));
         requireNonNull(relation,"relation");
         userRelationService.updateUserRelation(userId, toUser.getId(), remark ,relation);
+        if (relation.equals(UserRelation.Relation.nofriend)) {
+            userService.reduceScore(toUser.getId(), 1);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -101,13 +101,6 @@ public class WxMaConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public WxMaQrcodeService wxMaQrcodeService(WxMaConfig maConfig) {
-        WxMaQrcodeService service = new WxMaQrcodeServiceImpl(wxMaService(maConfig));
-        return service;
-    }
-
-    @Bean
     public WxMaMessageRouter router(WxMaService service) {
         final WxMaMessageRouter router = new WxMaMessageRouter(service);
         router

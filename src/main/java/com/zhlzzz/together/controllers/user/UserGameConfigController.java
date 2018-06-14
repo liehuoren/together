@@ -56,27 +56,4 @@ public class UserGameConfigController {
         return new UserGameConfigView(userGameConfigEntity);
     }
 
-//    @PutMapping(path = "/{userId:\\d+}/game-type/{gameTypeId:\\d+}/game-match-configs")
-//    @ApiOperation(value = "更新用户游戏匹配配置表")
-//    @ResponseBody
-//    public List<UserMatchConfigView> updateUserMatchConfig(@PathVariable Long userId, @PathVariable Integer gameTypeId, @RequestBody List<UserMatchConfigParam> params, ApiAuthentication auth) {
-//        if (!auth.requireUserId().equals(userId)) {
-//            throw ApiExceptions.noPrivilege();
-//        }
-//        UserGameConfigEntity userGameConfigEntity = userGameConfigService.getUserGameConfigByUserAndGameType(userId, gameTypeId).orElseThrow(() -> ApiExceptions.notFound("没有相关配置"));
-//        List<? extends UserMatchConfig> userMatchConfigs = userGameConfigService.updateUserMatchConfig(userGameConfigEntity.getId(), params);
-//        return CollectionUtils.map(userMatchConfigs, (r) -> new UserMatchConfigView(r));
-//    }
-//
-//    @GetMapping(path = "/{userId:\\d+}/game-type/{gameTypeId:\\d+}/game-match-configs")
-//    @ApiOperation(value = "获取用户游戏匹配配置表")
-//    @ResponseBody
-//    public List<UserMatchConfigView> getUserMatchConfig(@PathVariable Long userId, @PathVariable Integer gameTypeId, ApiAuthentication auth) {
-//        if (!auth.requireUserId().equals(userId)) {
-//            throw ApiExceptions.noPrivilege();
-//        }
-//        UserGameConfigEntity userGameConfigEntity = userGameConfigService.getUserGameConfigByUserAndGameType(userId, gameTypeId).orElseThrow(() -> ApiExceptions.notFound("没有相关配置"));
-//        List<? extends UserMatchConfig> userMatchConfigs = userGameConfigService.getUserMatchConfigByUserGameConfigId(userGameConfigEntity.getId());
-//        return CollectionUtils.map(userMatchConfigs, (r) ->  new UserMatchConfigView(r));
-//    }
 }
