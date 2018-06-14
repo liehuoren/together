@@ -241,6 +241,14 @@ public class MatchController {
              } catch (WxErrorException e) {
 
              }
+             for (User user1 : matchUsers) {
+                 if (!user.getId().equals(user1.getId())) {
+                     boolean hasRelation = userRelationService.getUserRelationByUserIdAndToUserId(user.getId(), user1.getId()).isPresent();
+                     if (!hasRelation) {
+                         userRelationService.addUserRelation(user.getId(), user1.getId(), UserRelation.Relation.stranger);
+                     }
+                 }
+             }
         }
     }
 
