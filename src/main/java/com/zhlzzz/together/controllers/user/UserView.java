@@ -34,6 +34,8 @@ public class UserView {
     @ApiModelProperty(value = "用户性别", example = "1")
     public Integer getGender() { return user.getGender(); }
 
+    public Integer getCreditScore() { return user.getCreditScore(); }
+
     @ApiModelProperty(value = "用户标签")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<UserLabelView> getLabels() {

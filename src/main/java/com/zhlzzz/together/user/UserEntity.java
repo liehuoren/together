@@ -69,6 +69,7 @@ public class UserEntity implements User {
         return UserDto.builder()
                 .id(id)
                 .phone(phone)
+                .nickName(nickName)
                 .openId(openId)
                 .unionId(unionId)
                 .gender(gender)

@@ -30,12 +30,12 @@ public class RankView {
 
     public String getGameNickName() { return userGameConfigEntity.getNickname(); }
 
-    @ApiModelProperty(name="Rating",example = "false")
+    @ApiModelProperty(name="Rating",example = "12.00")
     public Double getRating(){
         return this.rankEntity.getRating();
     }
 
-    @ApiModelProperty(name="KD",example = "false")
+    @ApiModelProperty(name="KD",example = "13.00")
     public Double getKd(){
         return this.rankEntity.getKd();
     }

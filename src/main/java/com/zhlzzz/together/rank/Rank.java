@@ -21,7 +21,7 @@ public class Rank {
     private Long userId;
 
     @Getter @Setter
-    @Column
+    @Column(nullable = false)
     private String nickname;
 
     @Getter @Setter
