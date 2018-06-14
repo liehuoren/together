@@ -61,9 +61,6 @@ public class UserRelationServiceImpl implements UserRelationService {
             }
             return true;
         }
-        userRelation = new UserRelationEntity();
-        userRelation.setUserId(userId);
-        userRelation.setToUserId(toUserId);
         if (!Strings.isNullOrEmpty(remark)) {
             userRelation.setRemark(remark);
         }

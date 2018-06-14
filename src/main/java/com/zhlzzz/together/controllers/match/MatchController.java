@@ -117,7 +117,7 @@ public class MatchController {
     @GetMapping
     @ApiOperation(value = "获取匹配记录")
     public Slice<? extends MatchListView, Integer> getMatchList(SliceIndicator<Integer> indicator, ApiAuthentication auth) {
-        val matchs = matchService.getMatchs(indicator);
+        val matchs = matchService.getMatchs(indicator, auth.requireUserId());
 
         return matchs.mapAll(items -> buildMatchListViews(items, auth.requireUserId()));
     }

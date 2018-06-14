@@ -71,26 +71,27 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public Slice<? extends Match, Integer> getMatchs(SliceIndicator<Integer> indicator) {
+    public Slice<? extends Match, Integer> getMatchs(SliceIndicator<Integer> indicator, Long userId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<MatchEntity> q = cb.createQuery(MatchEntity.class);
         Root<MatchEntity> m = q.from(MatchEntity.class);
 
-        Predicate where = buildPredicate(cb, m);
+        Predicate where = buildPredicate(cb, m, userId);
         q.select(m).where(where).orderBy(cb.desc(m.get("createTime")), cb.desc(m.get("id")));
 
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<MatchEntity> countM = countQuery.from(MatchEntity.class);
 
-        countQuery.select(cb.count(countM)).where(buildPredicate(cb, countM));
+        countQuery.select(cb.count(countM)).where(buildPredicate(cb, countM, userId));
 
         Slice<MatchEntity, Integer> slice = Slices.of(em, q, indicator, countQuery);
         return slice.map(MatchEntity::toDto);
     }
 
-    private Predicate buildPredicate(CriteriaBuilder cb, Root<MatchEntity> m) {
+    private Predicate buildPredicate(CriteriaBuilder cb, Root<MatchEntity> m, Long userId) {
         List<Predicate> predicates = new ArrayList<>(1);
 
+        predicates.add(cb.equal(m.get("userId"), userId));
         predicates.add(cb.equal(m.get("finished"), true));
 
         return cb.and(predicates.toArray(new Predicate[0]));

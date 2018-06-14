@@ -87,10 +87,13 @@ public class SystemController {
             userIds.add(userRelation.getToUserId());
         }
         Integer online = 0;
-        List<? extends Match> matches = matchService.getMatchsInUserIds(userIds);
-        for (Match match1 : matches) {
-            if (match1.isEffective()) {
-                online++;
+        if (userIds.size() > 0) {
+            List<? extends Match> matches = matchService.getMatchsInUserIds(userIds);
+
+            for (Match match1 : matches) {
+                if (match1.isEffective()) {
+                    online++;
+                }
             }
         }
         List<? extends GameType> gameTypes = gameTypeService.getAllGameTypes();

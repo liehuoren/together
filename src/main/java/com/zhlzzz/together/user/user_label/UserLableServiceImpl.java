@@ -40,6 +40,9 @@ public class UserLableServiceImpl implements UserLabelService {
         UserLabelEntity userLabel = new UserLabelEntity();
         userLabel.setLabel(label);
         userLabel.setUserId(user.getId());
+        if (userLabels.size() < 5) {
+            userLabel.setShowed(true);
+        }
         return userLabelRepository.save(userLabel);
     }
 
