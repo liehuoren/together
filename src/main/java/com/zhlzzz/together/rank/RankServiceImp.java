@@ -47,6 +47,6 @@ public class RankServiceImp implements RankService {
 
     @Override
     public Optional<Rank> findByUserId(Long userId) {
-        return null;
+        return rankRepository.findByUserId(userId);
     }
 }
