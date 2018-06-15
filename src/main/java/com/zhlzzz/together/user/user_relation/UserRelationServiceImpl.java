@@ -22,10 +22,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -119,4 +116,11 @@ public class UserRelationServiceImpl implements UserRelationService {
         return userRelationRepository.findByUserIdInAndRelation(userIds, relation);
     }
 
+    @Override
+    public UserRelation getRandomFriend(Long userId) {
+        List<? extends UserRelation> userRelation = userRelationRepository.findByUserIdAndRelation(userId, UserRelation.Relation.friend);
+        Random random = new Random();
+        Integer result = random.nextInt(userRelation.size());
+        return userRelation.get(result);
+    }
 }

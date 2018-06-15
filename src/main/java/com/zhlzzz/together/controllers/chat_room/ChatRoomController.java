@@ -4,13 +4,14 @@ import com.zhlzzz.together.chat_room.ChatRoom;
 import com.zhlzzz.together.chat_room.ChatRoomService;
 import com.zhlzzz.together.controllers.ApiAuthentication;
 import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.controllers.user.UserView;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
 import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
 import com.zhlzzz.together.user.user_label.UserLabelEntity;
 import com.zhlzzz.together.user.user_label.UserLabelService;
+import com.zhlzzz.together.user.user_relation.UserRelation;
+import com.zhlzzz.together.user.user_relation.UserRelationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class ChatRoomController {
     private final UserService userService;
     private final UserLabelService userLabelService;
     private final UserGameConfigService userGameConfigService;
+    private final UserRelationService userRelationService;
 
     @GetMapping(value = "/{id:\\d+}")
     @ApiOperation(value = "获取聊天室基本信息")
@@ -48,7 +50,7 @@ public class ChatRoomController {
 
         Set<? extends User> users = userService.getUsersByIds(chatRoom.getUserIds());
 
-        List<UserView> userViews = new ArrayList<>();
+        List<UserChatRoomView> userViews = new ArrayList<>();
 
         for (User user1 : users) {
             userViews.add(buildUserView(user1, chatRoom.getGameTypeId()));
@@ -56,9 +58,11 @@ public class ChatRoomController {
         return new ChatRoomView(chatRoom, userViews);
     }
 
-    private UserView buildUserView(User user, Integer gameTypeId) {
+    private UserChatRoomView buildUserView(User user, Integer gameTypeId) {
         List<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(user.getId());
         UserGameConfigEntity userGameConfigEntity = userGameConfigService.getUserGameConfigByUserAndGameType(user.getId(), gameTypeId).orElse(null);
-        return new UserChatRoomView(user, userLabels, userGameConfigEntity);
+        UserRelation userRelation = userRelationService.getRandomFriend(user.getId());
+        User friend = userService.getUserById(userRelation.getToUserId()).orElse(null);
+        return new UserChatRoomView(user, userLabels, userGameConfigEntity, friend);
     }
 }

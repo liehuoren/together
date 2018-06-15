@@ -13,10 +13,21 @@ public class UserChatRoomView extends UserView {
 
     private final UserGameConfigEntity userGameConfigEntity;
 
-    public UserChatRoomView(User user, List<UserLabelEntity> userLabelEntitys, UserGameConfigEntity userGameConfigEntity) {
+    private final User friend;
+
+    public UserChatRoomView(User user, List<UserLabelEntity> userLabelEntitys, UserGameConfigEntity userGameConfigEntity, User friend) {
         super(user, userLabelEntitys);
         this.userGameConfigEntity = userGameConfigEntity;
+        this.friend = friend;
     }
 
     public String getUserGameNickName() { return userGameConfigEntity.getNickname(); }
+
+    public String getFriendName() {
+        if (friend == null) {
+            return null;
+        }
+        return friend.getNickName();
+    }
+
 }

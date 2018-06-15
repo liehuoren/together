@@ -21,4 +21,6 @@ public interface UserRelationService {
 
     Set<? extends UserRelation> getUserRelationsByUserIdsInAndRelation(Set<Long> userIds, UserRelation.Relation relation);
 
+    UserRelation getRandomFriend(Long userId);
+
 }

@@ -6,6 +6,8 @@ import com.zhlzzz.together.data.Slice;
 import com.zhlzzz.together.data.SliceIndicator;
 import com.zhlzzz.together.user.User;
 import com.zhlzzz.together.user.UserService;
+import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
+import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
 import com.zhlzzz.together.user.user_label.UserLabelEntity;
 import com.zhlzzz.together.user.user_label.UserLabelService;
 import com.zhlzzz.together.user.user_relation.UserRelation;
@@ -23,9 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -37,6 +37,7 @@ public class UserController {
     private final UserService userService;
     private final UserLabelService userLabelService;
     private final UserRelationService userRelationService;
+    private final UserGameConfigService userGameConfigService;
 
     @GetMapping
     @ApiOperation(value = "用户列表")
@@ -68,27 +69,48 @@ public class UserController {
     @GetMapping(path = "/{userId:\\d+}/relations/{relation}")
     @ApiOperation(value = "获取用户关系列表（好友或黑名单）")
     @ResponseBody
-    public Slice<? extends UserView, Integer> getUserRelationById(@PathVariable Long userId, @PathVariable UserRelation.Relation relation, SliceIndicator<Integer> indicator) {
+    public Slice<? extends UserListView, Integer> getUserRelationById(@PathVariable Long userId,
+                                                                  @PathVariable UserRelation.Relation relation,
+                                                                  @RequestParam(required = false) Integer gameTypeId,
+                                                                  SliceIndicator<Integer> indicator) {
         User user = userService.getUserById(userId).orElseThrow(() -> ApiExceptions.notFound("不存在此人信息。"));
         Slice<? extends UserRelation, Integer> userRelations = userRelationService.getUserRelationsByRelation(indicator, user.getId(), relation);
 
-        return userRelations.mapAll(items -> buildUserViews(items));
+        return userRelations.mapAll(items -> buildUserViews(items, gameTypeId));
     }
 
-    private List<UserView> buildUserViews(List<? extends UserRelation> userRelations) {
-        return CollectionUtils.map(userRelations, (r) -> buildUserView(r));
+    private List<UserListView> buildUserViews(List<? extends UserRelation> userRelations, Integer gameTypeId) {
+        List<Long> ids = new ArrayList<>();
+        List<Long> result = new ArrayList<>();
+        Map<Long, UserGameConfigEntity> userGameConfigMap = new HashMap<>();
+        for (UserRelation userRelation : userRelations) {
+            ids.add(userRelation.getToUserId());
+        }
+
+        if (gameTypeId != null) {
+            List<UserGameConfigEntity> userGameConfigEntityList = userGameConfigService.getUserGameConfigsByUserIds(ids, gameTypeId);
+            for (UserGameConfigEntity userGameConfigEntity : userGameConfigEntityList) {
+                result.add(userGameConfigEntity.getUserId());
+                userGameConfigMap.put(userGameConfigEntity.getUserId(), userGameConfigEntity);
+            }
+            ids.retainAll(result);
+        }
+
+        return CollectionUtils.map(ids, (r) -> buildUserView(r, userGameConfigMap.get(r)));
     }
 
-    private UserView buildUserView(UserRelation userRelation) {
-        User user = userService.getUserById(userRelation.getToUserId()).orElse(null);
-        List<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userRelation.getToUserId());
-        return new UserView(user, userLabels);
+    private UserListView buildUserView(Long userId, UserGameConfigEntity userGameConfig) {
+        User user = userService.getUserById(userId).orElse(null);
+        List<UserLabelEntity> userLabels = userLabelService.getUserLabelsByUserId(userId);
+        return new UserListView(user, userLabels, userGameConfig);
     }
 
     @PutMapping(path = "/{userId:\\d+}/relations")
     @ApiOperation(value = "更新好友关系（拉黑或取消拉黑或修改备注名或删除好友）")
     @ResponseBody
-    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId, @RequestParam(required = false) String remark, @RequestParam UserRelation.Relation relation, ApiAuthentication auth) {
+    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @RequestParam Long toUserId,
+                                                 @RequestParam(required = false) String remark,
+                                                 @RequestParam UserRelation.Relation relation, ApiAuthentication auth) {
         if (!auth.requireUserId().equals(userId)) {
             throw ApiExceptions.noPrivilege();
         }

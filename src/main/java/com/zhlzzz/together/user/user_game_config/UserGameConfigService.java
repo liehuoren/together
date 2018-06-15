@@ -20,4 +20,6 @@ public interface UserGameConfigService {
     List<? extends UserMatchConfig> updateUserMatchConfig(Long userGameConfigId, List<UserMatchConfigParam> params);
 
     List<? extends UserMatchConfig> getUserMatchConfigByUserGameConfigId(Long userGameConfigId);
+
+    List<UserGameConfigEntity> getUserGameConfigsByUserIds(List<Long> userIds, Integer gameTypeId);
 }

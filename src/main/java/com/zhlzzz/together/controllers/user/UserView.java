@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @ApiModel(description = "用户")
-@JsonPropertyOrder({"id","openId","nickName","avatarUrl","gender"})
+@JsonPropertyOrder({"id","nickName","avatarUrl","gender"})
 @RequiredArgsConstructor
 public class UserView {
 

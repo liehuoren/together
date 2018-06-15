@@ -11,4 +11,5 @@ public interface UserGameConfigRepository extends Repository<UserGameConfigEntit
     Optional<UserGameConfigEntity> getByUserIdAndGameTypeId(Long userid, Integer gameTypeId);
     Set<UserGameConfigEntity> getAllByGameTypeId(Integer gameTypeId);
     List<UserGameConfigEntity> getAllByUserIdAndGameTypeIdIn(Long userId, Set<Integer> gameTypeIds);
+    List<UserGameConfigEntity> getAllByUserIdInAndGameTypeId(List<Long> userIds, Integer gameTypeId);
 }

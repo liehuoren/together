@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "rank",indexes = {
@@ -35,5 +36,9 @@ public class Rank {
     @Getter @Setter
     @Column
     private Double kd;
+
+    @Getter @Setter
+    @Column
+    private LocalDateTime updateTime;
 
 }

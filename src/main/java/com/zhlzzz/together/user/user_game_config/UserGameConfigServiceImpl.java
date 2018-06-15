@@ -179,4 +179,9 @@ public class UserGameConfigServiceImpl implements UserGameConfigService {
         em.flush();
         return userMatchConfigs;
     }
+
+    @Override
+    public List<UserGameConfigEntity> getUserGameConfigsByUserIds(List<Long> userIds, Integer gameTypeId) {
+        return userGameConfigRepository.getAllByUserIdInAndGameTypeId(userIds, gameTypeId);
+    }
 }
