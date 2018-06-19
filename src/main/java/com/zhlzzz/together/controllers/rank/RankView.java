@@ -15,29 +15,28 @@ import lombok.RequiredArgsConstructor;
 public class RankView {
 
     @NonNull
-    private final Rank rankEntity;
+    private final Rank rank;
     private final User user;
-    private final UserGameConfigEntity userGameConfigEntity;
 
     @ApiModelProperty(name="用户ID",example = "123")
     public Long getUserId(){
-        return this.rankEntity.getUserId();
+        return this.rank.getUserId();
     }
 
     public String getNickName() { return user.getNickName(); }
 
     public String getAvatarUrl() { return user.getAvatarUrl(); }
 
-    public String getGameNickName() { return userGameConfigEntity.getNickname(); }
+    public String getGameNickName() { return rank.getNickname(); }
 
-    @ApiModelProperty(name="Rating",example = "12.00")
+    @ApiModelProperty(name="Rating",example = "2400.00")
     public Double getRating(){
-        return this.rankEntity.getRating();
+        return this.rank.getRating();
     }
 
-    @ApiModelProperty(name="KD",example = "13.00")
+    @ApiModelProperty(name="KD",example = "3.00")
     public Double getKd(){
-        return this.rankEntity.getKd();
+        return this.rank.getKd();
     }
 
 }

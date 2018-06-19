@@ -23,6 +23,8 @@ public class UserChatRoomView extends UserView {
 
     public String getUserGameNickName() { return userGameConfigEntity.getNickname(); }
 
+    public String getContact() { return userGameConfigEntity.getContact(); }
+
     public String getFriendName() {
         if (friend == null) {
             return null;

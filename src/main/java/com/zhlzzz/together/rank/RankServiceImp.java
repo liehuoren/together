@@ -28,6 +28,8 @@ public class RankServiceImp implements RankService {
         if (!Strings.isNullOrEmpty(area)) {
             rank.setArea(area);
         }
+        rank.setRating(0.00);
+        rank.setKd(0.00);
         return rankRepository.save(rank);
     }
 
@@ -57,6 +59,6 @@ public class RankServiceImp implements RankService {
 
     @Override
     public List<Rank> getRanksByUserIds(List<Long> userIds) {
-        return null;
+        return rankRepository.findAllByUserIdInOrderByRatingDesc(userIds);
     }
 }
