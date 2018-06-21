@@ -1,11 +1,10 @@
-package com.zhlzzz.together.system;
+package com.lawoba.together.system;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="sys_about")

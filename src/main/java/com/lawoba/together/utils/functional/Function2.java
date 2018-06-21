@@ -1,4 +1,4 @@
-package com.zhlzzz.together.utils.functional;
+package com.lawoba.together.utils.functional;
 
 import java.util.Objects;
 import java.util.function.Function;

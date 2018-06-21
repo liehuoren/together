@@ -1,4 +1,4 @@
-package com.zhlzzz.together.qiniu;
+package com.lawoba.together.qiniu;
 
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -6,7 +6,7 @@ import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
-import com.zhlzzz.together.config.ConstantQiniu;
+import com.lawoba.together.config.ConstantQiniu;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

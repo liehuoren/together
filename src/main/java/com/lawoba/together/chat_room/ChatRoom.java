@@ -1,4 +1,4 @@
-package com.zhlzzz.together.chat_room;
+package com.lawoba.together.chat_room;
 
 import lombok.Getter;
 import lombok.Setter;

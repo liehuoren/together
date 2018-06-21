@@ -1,4 +1,4 @@
-package com.zhlzzz.together.data;
+package com.lawoba.together.data;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;

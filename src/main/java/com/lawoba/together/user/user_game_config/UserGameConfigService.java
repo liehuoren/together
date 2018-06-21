@@ -1,7 +1,7 @@
-package com.zhlzzz.together.user.user_game_config;
+package com.lawoba.together.user.user_game_config;
 
-import com.zhlzzz.together.user.user_match_config.UserMatchConfig;
-import com.zhlzzz.together.user.user_match_config.UserMatchConfigParam;
+import com.lawoba.together.user.user_match_config.UserMatchConfig;
+import com.lawoba.together.user.user_match_config.UserMatchConfigParam;
 
 import java.util.List;
 import java.util.Optional;

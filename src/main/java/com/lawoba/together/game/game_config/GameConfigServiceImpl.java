@@ -1,7 +1,7 @@
-package com.zhlzzz.together.game.game_config;
+package com.lawoba.together.game.game_config;
 
 import com.google.common.base.Strings;
-import com.zhlzzz.together.utils.EntityUtils;
+import com.lawoba.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.zhlzzz.together.controllers;
+package com.lawoba.together.controllers;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.zhlzzz.together.user.user_relation;
+package com.lawoba.together.user.user_relation;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.zhlzzz.together.data;
+package com.lawoba.together.data;
 
 public interface Cursor {
 }

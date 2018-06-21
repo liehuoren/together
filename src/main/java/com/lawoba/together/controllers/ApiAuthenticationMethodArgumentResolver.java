@@ -1,6 +1,6 @@
-package com.zhlzzz.together.controllers;
+package com.lawoba.together.controllers;
 
-import com.zhlzzz.together.spring_security.OAuthApiAuthentication;
+import com.lawoba.together.spring_security.OAuthApiAuthentication;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

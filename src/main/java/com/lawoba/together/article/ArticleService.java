@@ -1,7 +1,7 @@
-package com.zhlzzz.together.article;
+package com.lawoba.together.article;
 
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
 
 import java.util.Optional;
 

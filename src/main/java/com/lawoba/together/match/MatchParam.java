@@ -1,7 +1,6 @@
-package com.zhlzzz.together.match;
+package com.lawoba.together.match;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import java.io.Serializable;

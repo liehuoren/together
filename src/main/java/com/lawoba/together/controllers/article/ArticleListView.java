@@ -1,9 +1,9 @@
-package com.zhlzzz.together.controllers.article;
+package com.lawoba.together.controllers.article;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.article.Article;
+import com.lawoba.together.article.Article;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;

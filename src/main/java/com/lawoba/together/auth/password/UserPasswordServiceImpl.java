@@ -1,6 +1,6 @@
-package com.zhlzzz.together.auth.password;
+package com.lawoba.together.auth.password;
 
-import com.zhlzzz.together.utils.EntityUtils;
+import com.lawoba.together.utils.EntityUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

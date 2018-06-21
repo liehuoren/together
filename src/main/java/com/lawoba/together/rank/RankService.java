@@ -1,4 +1,4 @@
-package com.zhlzzz.together.rank;
+package com.lawoba.together.rank;
 
 import java.util.List;
 import java.util.Optional;

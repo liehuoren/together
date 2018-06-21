@@ -1,12 +1,12 @@
-package com.zhlzzz.together.controllers;
+package com.lawoba.together.controllers;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zhlzzz.together.data.Direction;
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
-import com.zhlzzz.together.data.SliceRequest;
+import com.lawoba.together.data.Direction;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
+import com.lawoba.together.data.SliceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public final class Slices {
             Integer limit = conversionService.convert(limitStr, Integer.class);
             Direction direction = directionStr != null && directionStr.equals("backward") ? Direction.BACKWARD : Direction.FORWARD;
 
-            return new SliceRequest<Object>(cursor, limit == null || limit < 1 ? com.zhlzzz.together.data.Slices.DEFAULT_PAGE_SIZE : limit, direction);
+            return new SliceRequest<Object>(cursor, limit == null || limit < 1 ? com.lawoba.together.data.Slices.DEFAULT_PAGE_SIZE : limit, direction);
         }
     }
 
@@ -102,7 +102,7 @@ public final class Slices {
                     continue;
                 }
                 parameters.add(buildParameter("cursor", String.class, "列表游标，默认为列表头", null));
-                parameters.add(buildParameter("limit", Integer.class, "列表大小，默认为" + com.zhlzzz.together.data.Slices.DEFAULT_PAGE_SIZE, null));
+                parameters.add(buildParameter("limit", Integer.class, "列表大小，默认为" + com.lawoba.together.data.Slices.DEFAULT_PAGE_SIZE, null));
                 parameters.add(buildParameter("direction", String.class, "遍历方向，forward为正向，backward为反向，默认为 forward", null));
             }
             if (!parameters.isEmpty()) {

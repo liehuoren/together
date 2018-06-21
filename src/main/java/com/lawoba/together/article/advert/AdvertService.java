@@ -1,8 +1,7 @@
-package com.zhlzzz.together.article.advert;
+package com.lawoba.together.article.advert;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface AdvertService {
 

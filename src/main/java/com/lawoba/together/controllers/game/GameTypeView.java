@@ -1,10 +1,10 @@
-package com.zhlzzz.together.controllers.game;
+package com.lawoba.together.controllers.game;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.game.GameType;
-import com.zhlzzz.together.game.game_config.GameConfig;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
+import com.lawoba.together.game.GameType;
+import com.lawoba.together.game.game_config.GameConfig;
+import com.lawoba.together.user.user_game_config.UserGameConfigEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

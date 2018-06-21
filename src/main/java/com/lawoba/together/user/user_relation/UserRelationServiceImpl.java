@@ -1,14 +1,12 @@
-package com.zhlzzz.together.user.user_relation;
+package com.lawoba.together.user.user_relation;
 
 import com.google.common.base.Strings;
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
-import com.zhlzzz.together.data.Slices;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserNotFoundException;
-import com.zhlzzz.together.user.UserRepository;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
+import com.lawoba.together.data.Slices;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserNotFoundException;
+import com.lawoba.together.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

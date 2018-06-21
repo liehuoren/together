@@ -1,6 +1,6 @@
-package com.zhlzzz.together.user.user_game_config;
+package com.lawoba.together.user.user_game_config;
 
-import com.zhlzzz.together.match.Match;
+import com.lawoba.together.match.Match;
 import lombok.Builder;
 import lombok.Data;
 

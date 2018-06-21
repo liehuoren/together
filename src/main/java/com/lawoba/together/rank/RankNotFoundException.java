@@ -1,4 +1,4 @@
-package com.zhlzzz.together.rank;
+package com.lawoba.together.rank;
 
 public class RankNotFoundException extends RuntimeException {
 }

@@ -1,14 +1,14 @@
-package com.zhlzzz.together.controllers.article;
+package com.lawoba.together.controllers.article;
 
-import com.zhlzzz.together.article.advert.Advert;
-import com.zhlzzz.together.article.advert.AdvertEntity;
-import com.zhlzzz.together.article.advert.AdvertParam;
-import com.zhlzzz.together.article.advert.AdvertService;
-import com.zhlzzz.together.controllers.ApiAuthentication;
-import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserService;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.article.advert.Advert;
+import com.lawoba.together.article.advert.AdvertEntity;
+import com.lawoba.together.article.advert.AdvertParam;
+import com.lawoba.together.article.advert.AdvertService;
+import com.lawoba.together.controllers.ApiAuthentication;
+import com.lawoba.together.controllers.ApiExceptions;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserService;
+import com.lawoba.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

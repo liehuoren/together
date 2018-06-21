@@ -1,4 +1,4 @@
-package com.zhlzzz.together.game.game_config;
+package com.lawoba.together.game.game_config;
 
 import lombok.*;
 

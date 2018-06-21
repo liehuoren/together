@@ -1,4 +1,4 @@
-package com.zhlzzz.together.match;
+package com.lawoba.together.match;
 
 import lombok.Builder;
 import lombok.NonNull;

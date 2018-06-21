@@ -1,4 +1,4 @@
-package com.zhlzzz.together.match;
+package com.lawoba.together.match;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

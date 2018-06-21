@@ -1,6 +1,6 @@
-package com.zhlzzz.together.game;
+package com.lawoba.together.game;
 
-import com.zhlzzz.together.game.game_config.GameConfig;
+import com.lawoba.together.game.game_config.GameConfig;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,9 +1,9 @@
-package com.zhlzzz.together.controllers.chat_room;
+package com.lawoba.together.controllers.chat_room;
 
-import com.zhlzzz.together.controllers.user.UserView;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
-import com.zhlzzz.together.user.user_label.UserLabelEntity;
+import com.lawoba.together.controllers.user.UserView;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.user_game_config.UserGameConfigEntity;
+import com.lawoba.together.user.user_label.UserLabelEntity;
 import io.swagger.annotations.ApiModel;
 
 import java.util.List;

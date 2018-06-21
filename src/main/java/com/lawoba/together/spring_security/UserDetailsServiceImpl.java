@@ -1,9 +1,9 @@
-package com.zhlzzz.together.spring_security;
+package com.lawoba.together.spring_security;
 
-import com.zhlzzz.together.auth.password.UserPasswordService;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserNotFoundException;
-import com.zhlzzz.together.user.UserService;
+import com.lawoba.together.auth.password.UserPasswordService;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserNotFoundException;
+import com.lawoba.together.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

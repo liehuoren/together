@@ -1,8 +1,8 @@
-package com.zhlzzz.together.controllers.chat_room;
+package com.lawoba.together.controllers.chat_room;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.chat_room.ChatRoom;
+import com.lawoba.together.chat_room.ChatRoom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.RequiredArgsConstructor;

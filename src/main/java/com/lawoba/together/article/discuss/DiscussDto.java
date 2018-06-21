@@ -1,4 +1,4 @@
-package com.zhlzzz.together.article.discuss;
+package com.lawoba.together.article.discuss;
 
 import lombok.Builder;
 import lombok.Value;

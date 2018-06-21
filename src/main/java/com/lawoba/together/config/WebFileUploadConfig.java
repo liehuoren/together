@@ -1,4 +1,4 @@
-package com.zhlzzz.together.config;
+package com.lawoba.together.config;
 
 import com.google.gson.Gson;
 import com.qiniu.common.Zone;

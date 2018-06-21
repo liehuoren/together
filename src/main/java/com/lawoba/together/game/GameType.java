@@ -1,4 +1,4 @@
-package com.zhlzzz.together.game;
+package com.lawoba.together.game;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

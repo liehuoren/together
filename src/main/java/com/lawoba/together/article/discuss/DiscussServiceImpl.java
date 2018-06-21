@@ -1,16 +1,16 @@
-package com.zhlzzz.together.article.discuss;
+package com.lawoba.together.article.discuss;
 
 import com.google.common.base.Strings;
-import com.zhlzzz.together.article.Article;
-import com.zhlzzz.together.article.ArticleNotFoundException;
-import com.zhlzzz.together.article.ArticleRepository;
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
-import com.zhlzzz.together.data.Slices;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserNotFoundException;
-import com.zhlzzz.together.user.UserRepository;
-import com.zhlzzz.together.utils.EntityUtils;
+import com.lawoba.together.article.Article;
+import com.lawoba.together.article.ArticleNotFoundException;
+import com.lawoba.together.article.ArticleRepository;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
+import com.lawoba.together.data.Slices;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserNotFoundException;
+import com.lawoba.together.user.UserRepository;
+import com.lawoba.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

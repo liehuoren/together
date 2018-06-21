@@ -1,10 +1,10 @@
-package com.zhlzzz.together.controllers.user;
+package com.lawoba.together.controllers.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.user_label.UserLabelEntity;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.user_label.UserLabelEntity;
+import com.lawoba.together.utils.CollectionUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;

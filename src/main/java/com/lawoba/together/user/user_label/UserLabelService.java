@@ -1,9 +1,6 @@
-package com.zhlzzz.together.user.user_label;
-
-import com.zhlzzz.together.user.UserNotFoundException;
+package com.lawoba.together.user.user_label;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public interface UserLabelService {

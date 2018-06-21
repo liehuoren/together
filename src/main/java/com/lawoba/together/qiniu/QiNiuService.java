@@ -1,4 +1,4 @@
-package com.zhlzzz.together.qiniu;
+package com.lawoba.together.qiniu;
 
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;

@@ -1,9 +1,8 @@
-package com.zhlzzz.together.controllers.rank;
+package com.lawoba.together.controllers.rank;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.rank.Rank;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
+import com.lawoba.together.rank.Rank;
+import com.lawoba.together.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;

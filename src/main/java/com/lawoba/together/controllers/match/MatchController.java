@@ -1,31 +1,27 @@
-package com.zhlzzz.together.controllers.match;
+package com.lawoba.together.controllers.match;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaTemplateMessage;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.zhlzzz.together.chat_room.ChatRoom;
-import com.zhlzzz.together.chat_room.ChatRoomService;
-import com.zhlzzz.together.controllers.ApiAuthentication;
-import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
-import com.zhlzzz.together.game.GameType;
-import com.zhlzzz.together.game.GameTypeService;
-import com.zhlzzz.together.game.game_config.GameConfig;
-import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
-import com.zhlzzz.together.game.game_config.GameConfigService;
-import com.zhlzzz.together.match.Match;
-import com.zhlzzz.together.match.MatchParam;
-import com.zhlzzz.together.match.MatchService;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserService;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigService;
-import com.zhlzzz.together.user.user_match_config.UserMatchConfig;
-import com.zhlzzz.together.user.user_relation.UserRelation;
-import com.zhlzzz.together.user.user_relation.UserRelationService;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.chat_room.ChatRoom;
+import com.lawoba.together.chat_room.ChatRoomService;
+import com.lawoba.together.controllers.ApiAuthentication;
+import com.lawoba.together.controllers.ApiExceptions;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
+import com.lawoba.together.game.GameType;
+import com.lawoba.together.game.GameTypeService;
+import com.lawoba.together.match.Match;
+import com.lawoba.together.match.MatchParam;
+import com.lawoba.together.match.MatchService;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserService;
+import com.lawoba.together.user.user_game_config.UserGameConfigEntity;
+import com.lawoba.together.user.user_game_config.UserGameConfigService;
+import com.lawoba.together.user.user_relation.UserRelation;
+import com.lawoba.together.user.user_relation.UserRelationService;
+import com.lawoba.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import lombok.val;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/match", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -231,7 +225,7 @@ public class MatchController {
              try {
                  wxMaService.getMsgService().sendTemplateMsg(WxMaTemplateMessage.builder()
                          .toUser(user.getOpenId())
-                         .templateId("Qc09iPq7R50tI_ac4KrTaO8WBROefpHsveYyiy2cf64")
+                         .templateId("iQBOzU1WcP7jfkGQxbSIhhPkW-TAdOQ_zIz7QgYga3c")
                          .formId(matchMap.get(user.getId()).getFormId())
                          .page("/pages/match-success/match-success?id=" + chatRoom.getId())
                          .data(Lists.newArrayList(

@@ -1,12 +1,12 @@
-package com.zhlzzz.together.game;
+package com.lawoba.together.game;
 
 import com.google.common.base.Strings;
-import com.zhlzzz.together.game.game_config.GameConfig;
-import com.zhlzzz.together.game.game_config.GameConfigEntity;
-import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
-import com.zhlzzz.together.game.game_config.GameConfigRepository;
-import com.zhlzzz.together.utils.CollectionUtils;
-import com.zhlzzz.together.utils.EntityUtils;
+import com.lawoba.together.game.game_config.GameConfig;
+import com.lawoba.together.game.game_config.GameConfigEntity;
+import com.lawoba.together.game.game_config.GameConfigOptionEntity;
+import com.lawoba.together.game.game_config.GameConfigRepository;
+import com.lawoba.together.utils.CollectionUtils;
+import com.lawoba.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

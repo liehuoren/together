@@ -1,4 +1,4 @@
-package com.zhlzzz.together.auth.oauth;
+package com.lawoba.together.auth.oauth;
 
 public interface Client {
     Long DEFAULT_CLIENT_ID = 1L;

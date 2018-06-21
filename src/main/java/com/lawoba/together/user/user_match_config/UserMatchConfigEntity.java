@@ -1,6 +1,5 @@
-package com.zhlzzz.together.user.user_match_config;
+package com.lawoba.together.user.user_match_config;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 

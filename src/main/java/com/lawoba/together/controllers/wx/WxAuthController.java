@@ -1,18 +1,16 @@
-package com.zhlzzz.together.controllers.wx;
+package com.lawoba.together.controllers.wx;
 
-import cn.binarywang.wx.miniapp.api.WxMaQrcodeService;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.google.common.base.Strings;
-import com.qiniu.http.Response;
-import com.zhlzzz.together.auth.password.UserPasswordService;
-import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserParam;
-import com.zhlzzz.together.user.UserService;
-import com.zhlzzz.together.user.user_label.UserLabelEntity;
-import com.zhlzzz.together.user.user_label.UserLabelService;
+import com.lawoba.together.auth.password.UserPasswordService;
+import com.lawoba.together.controllers.ApiExceptions;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserParam;
+import com.lawoba.together.user.UserService;
+import com.lawoba.together.user.user_label.UserLabelEntity;
+import com.lawoba.together.user.user_label.UserLabelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/wx", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -1,4 +1,4 @@
-package com.zhlzzz.together.auth.oauth;
+package com.lawoba.together.auth.oauth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

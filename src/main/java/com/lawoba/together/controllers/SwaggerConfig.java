@@ -1,8 +1,8 @@
-package com.zhlzzz.together.controllers;
+package com.lawoba.together.controllers;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
-import com.zhlzzz.together.auth.oauth.Client;
+import com.lawoba.together.auth.oauth.Client;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

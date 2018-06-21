@@ -1,4 +1,4 @@
-package com.zhlzzz.together.auth.password;
+package com.lawoba.together.auth.password;
 
 import lombok.Getter;
 import lombok.Setter;

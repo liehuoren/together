@@ -1,4 +1,4 @@
-package com.zhlzzz.together.config;
+package com.lawoba.together.config;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

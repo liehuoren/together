@@ -1,8 +1,7 @@
-package com.zhlzzz.together.game;
+package com.lawoba.together.game;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;

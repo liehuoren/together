@@ -1,11 +1,11 @@
-package com.zhlzzz.together.controllers.system;
+package com.lawoba.together.controllers.system;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.controllers.game.GameTypeBaseView;
-import com.zhlzzz.together.controllers.match.MatchView;
-import com.zhlzzz.together.game.GameType;
-import com.zhlzzz.together.match.Match;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.controllers.game.GameTypeBaseView;
+import com.lawoba.together.controllers.match.MatchView;
+import com.lawoba.together.game.GameType;
+import com.lawoba.together.match.Match;
+import com.lawoba.together.utils.CollectionUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.RequiredArgsConstructor;

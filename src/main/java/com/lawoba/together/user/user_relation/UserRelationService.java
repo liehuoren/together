@@ -1,7 +1,7 @@
-package com.zhlzzz.together.user.user_relation;
+package com.lawoba.together.user.user_relation;
 
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
 
 import java.util.List;
 import java.util.Optional;

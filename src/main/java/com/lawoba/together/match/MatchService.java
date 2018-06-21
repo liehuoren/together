@@ -1,8 +1,7 @@
-package com.zhlzzz.together.match;
+package com.lawoba.together.match;
 
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
-import com.zhlzzz.together.game.GameType;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
 
 import java.util.List;
 import java.util.Optional;

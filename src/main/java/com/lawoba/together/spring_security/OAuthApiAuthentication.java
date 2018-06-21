@@ -1,7 +1,7 @@
-package com.zhlzzz.together.spring_security;
+package com.lawoba.together.spring_security;
 
-import com.zhlzzz.together.controllers.ApiAuthentication;
-import com.zhlzzz.together.controllers.ApiExceptions;
+import com.lawoba.together.controllers.ApiAuthentication;
+import com.lawoba.together.controllers.ApiExceptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

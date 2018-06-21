@@ -1,8 +1,8 @@
-package com.zhlzzz.together.spring_security;
+package com.lawoba.together.spring_security;
 
-import com.zhlzzz.together.auth.oauth.AccessToken;
-import com.zhlzzz.together.auth.oauth.Client;
-import com.zhlzzz.together.auth.oauth.TokenService;
+import com.lawoba.together.auth.oauth.AccessToken;
+import com.lawoba.together.auth.oauth.Client;
+import com.lawoba.together.auth.oauth.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,9 @@
-package com.zhlzzz.together.article.discuss;
+package com.lawoba.together.article.discuss;
 
-import com.zhlzzz.together.data.Slice;
-import com.zhlzzz.together.data.SliceIndicator;
+import com.lawoba.together.data.Slice;
+import com.lawoba.together.data.SliceIndicator;
 
 import java.util.Optional;
-import java.util.Set;
 
 public interface DiscussService {
 

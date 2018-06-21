@@ -1,19 +1,12 @@
-package com.zhlzzz.together.controllers.user;
+package com.lawoba.together.controllers.user;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.controllers.game.GameConfigView;
-import com.zhlzzz.together.game.game_config.GameConfig;
-import com.zhlzzz.together.match.Match;
-import com.zhlzzz.together.user.user_game_config.UserGameConfigEntity;
-import com.zhlzzz.together.user.user_match_config.UserMatchConfig;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.match.Match;
+import com.lawoba.together.user.user_game_config.UserGameConfigEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @ApiModel(description = "用户游戏配置")
 @JsonPropertyOrder({"id"})

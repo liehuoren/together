@@ -1,14 +1,14 @@
-package com.zhlzzz.together.controllers.rank;
+package com.lawoba.together.controllers.rank;
 
-import com.zhlzzz.together.controllers.ApiAuthentication;
-import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.rank.Rank;
-import com.zhlzzz.together.rank.RankService;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserService;
-import com.zhlzzz.together.user.user_relation.UserRelation;
-import com.zhlzzz.together.user.user_relation.UserRelationService;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.controllers.ApiAuthentication;
+import com.lawoba.together.controllers.ApiExceptions;
+import com.lawoba.together.rank.Rank;
+import com.lawoba.together.rank.RankService;
+import com.lawoba.together.user.User;
+import com.lawoba.together.user.UserService;
+import com.lawoba.together.user.user_relation.UserRelation;
+import com.lawoba.together.user.user_relation.UserRelationService;
+import com.lawoba.together.utils.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

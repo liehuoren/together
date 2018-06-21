@@ -1,4 +1,4 @@
-package com.zhlzzz.together.controllers;
+package com.lawoba.together.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ControllerAdvice(basePackages = "com.zhlzzz.together.controllers")
+@ControllerAdvice(basePackages = "com.lawoba.together.controllers")
 @Slf4j
 public class ApiControllerAdvice {
 

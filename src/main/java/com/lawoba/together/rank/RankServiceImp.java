@@ -1,4 +1,4 @@
-package com.zhlzzz.together.rank;
+package com.lawoba.together.rank;
 
 import com.google.common.base.Strings;
 import lombok.RequiredArgsConstructor;

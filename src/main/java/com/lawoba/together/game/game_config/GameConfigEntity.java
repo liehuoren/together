@@ -1,6 +1,5 @@
-package com.zhlzzz.together.game.game_config;
+package com.lawoba.together.game.game_config;
 
-import com.zhlzzz.together.game.game_config.GameConfig;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

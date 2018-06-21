@@ -1,4 +1,4 @@
-package com.zhlzzz.together.auth.oauth;
+package com.lawoba.together.auth.oauth;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

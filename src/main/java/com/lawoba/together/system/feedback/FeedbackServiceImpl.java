@@ -1,22 +1,14 @@
-package com.zhlzzz.together.system.feedback;
+package com.lawoba.together.system.feedback;
 
-import com.zhlzzz.together.controllers.ApiExceptions;
-import com.zhlzzz.together.user.User;
-import com.zhlzzz.together.user.UserNotFoundException;
-import com.zhlzzz.together.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Service

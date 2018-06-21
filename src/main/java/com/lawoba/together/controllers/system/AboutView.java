@@ -1,10 +1,9 @@
-package com.zhlzzz.together.controllers.system;
+package com.lawoba.together.controllers.system;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.system.AboutEntity;
+import com.lawoba.together.system.AboutEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.NonNull;
 
 @ApiModel(description = "用户")
 @JsonPropertyOrder({"logo","company","introduction"})

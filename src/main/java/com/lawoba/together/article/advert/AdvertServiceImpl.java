@@ -1,7 +1,7 @@
-package com.zhlzzz.together.article.advert;
+package com.lawoba.together.article.advert;
 
 import com.google.common.base.Strings;
-import com.zhlzzz.together.utils.EntityUtils;
+import com.lawoba.together.utils.EntityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

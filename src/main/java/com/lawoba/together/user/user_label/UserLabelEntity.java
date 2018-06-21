@@ -1,4 +1,4 @@
-package com.zhlzzz.together.user.user_label;
+package com.lawoba.together.user.user_label;
 
 import lombok.Getter;
 import lombok.Setter;

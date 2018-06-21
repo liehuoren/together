@@ -1,6 +1,6 @@
-package com.zhlzzz.together.spring_security;
+package com.lawoba.together.spring_security;
 
-import com.zhlzzz.together.auth.password.UserPasswordService;
+import com.lawoba.together.auth.password.UserPasswordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

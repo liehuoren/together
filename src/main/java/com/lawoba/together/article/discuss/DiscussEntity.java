@@ -1,4 +1,4 @@
-package com.zhlzzz.together.article.discuss;
+package com.lawoba.together.article.discuss;
 
 
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity

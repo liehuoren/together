@@ -1,4 +1,4 @@
-package com.zhlzzz.together.spring_security;
+package com.lawoba.together.spring_security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

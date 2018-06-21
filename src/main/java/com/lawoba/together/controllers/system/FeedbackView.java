@@ -1,7 +1,7 @@
-package com.zhlzzz.together.controllers.system;
+package com.lawoba.together.controllers.system;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zhlzzz.together.system.feedback.FeedbackEntity;
+import com.lawoba.together.system.feedback.FeedbackEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;

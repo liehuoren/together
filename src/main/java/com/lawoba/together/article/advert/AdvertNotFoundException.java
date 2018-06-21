@@ -1,4 +1,4 @@
-package com.zhlzzz.together.article.advert;
+package com.lawoba.together.article.advert;
 
 import lombok.Getter;
 

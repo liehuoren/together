@@ -1,4 +1,4 @@
-package com.zhlzzz.together.spring_security;
+package com.lawoba.together.spring_security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;

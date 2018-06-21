@@ -1,4 +1,4 @@
-package com.zhlzzz.together.system.feedback;
+package com.lawoba.together.system.feedback;
 
 import org.springframework.data.repository.Repository;
 

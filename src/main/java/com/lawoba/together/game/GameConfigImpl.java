@@ -1,10 +1,10 @@
-package com.zhlzzz.together.game;
+package com.lawoba.together.game;
 
-import com.zhlzzz.together.game.game_config.GameConfig;
-import com.zhlzzz.together.game.game_config.GameConfigDto;
-import com.zhlzzz.together.game.game_config.GameConfigEntity;
-import com.zhlzzz.together.game.game_config.GameConfigOptionEntity;
-import com.zhlzzz.together.utils.CollectionUtils;
+import com.lawoba.together.game.game_config.GameConfig;
+import com.lawoba.together.game.game_config.GameConfigDto;
+import com.lawoba.together.game.game_config.GameConfigEntity;
+import com.lawoba.together.game.game_config.GameConfigOptionEntity;
+import com.lawoba.together.utils.CollectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

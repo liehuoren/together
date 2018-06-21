@@ -1,6 +1,6 @@
-package com.zhlzzz.together.controllers.article;
+package com.lawoba.together.controllers.article;
 
-import com.zhlzzz.together.user.User;
+import com.lawoba.together.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.RequiredArgsConstructor;
