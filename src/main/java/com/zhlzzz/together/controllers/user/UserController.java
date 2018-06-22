@@ -123,6 +123,19 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(path = "/{userId:\\d+}/{toUserId:\\d+}/relations")
+    @ApiOperation(value = "更新好友关系（拉黑或取消拉黑或修改备注名或删除好友）")
+    @ResponseBody
+    public ResponseEntity<String> updateRelation(@PathVariable Long userId, @PathVariable Long toUserId, ApiAuthentication auth) {
+        if (!auth.requireUserId().equals(1)) {
+            throw ApiExceptions.noPrivilege();
+        }
+        User toUser = userService.getUserById(toUserId).orElseThrow(() -> ApiExceptions.notFound("没有相关用户"));
+
+        userRelationService.updateUserRelation(userId, toUser.getId(), null , UserRelation.Relation.friend);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     private void requireNonNull(Object value, String name) {
         if (value == null) {
