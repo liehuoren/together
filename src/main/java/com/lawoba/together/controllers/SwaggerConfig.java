@@ -27,7 +27,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 @Configuration
-@Profile({"dev", "test"})
+@Profile({"dev", "prod"})
 @EnableSwagger2
 public class SwaggerConfig {
 

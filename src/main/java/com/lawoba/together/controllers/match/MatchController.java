@@ -227,7 +227,7 @@ public class MatchController {
                          .toUser(user.getOpenId())
                          .templateId("iQBOzU1WcP7jfkGQxbSIhhPkW-TAdOQ_zIz7QgYga3c")
                          .formId(matchMap.get(user.getId()).getFormId())
-                         .page("/pages/match-success/match-success?id=" + chatRoom.getId())
+                         .page("pages/match-success/match-success?id=" + chatRoom.getId())
                          .data(Lists.newArrayList(
                                  new WxMaTemplateMessage.Data("keyword1", chatRoom.getName()),
                                  new WxMaTemplateMessage.Data("keyword2","战友已经召集完毕，战斗即将打响，您还在等什么？")

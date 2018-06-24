@@ -113,6 +113,9 @@ public class UserController {
         if (!auth.requireUserId().equals(userId)) {
             throw ApiExceptions.noPrivilege();
         }
+        if (auth.requireUserId().equals(toUserId)) {
+            throw ApiExceptions.badRequest("不能添加自己为好友");
+        }
         User toUser = userService.getUserById(toUserId).orElseThrow(() -> ApiExceptions.notFound("没有相关用户"));
         requireNonNull(relation,"relation");
         userRelationService.updateUserRelation(userId, toUser.getId(), remark ,relation);

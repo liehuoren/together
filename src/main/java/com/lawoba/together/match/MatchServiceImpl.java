@@ -65,8 +65,12 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Optional<? extends Match> getCurrentMatchByUser(Long userId) {
-
         return matchRepository.getFirstByUserIdOrderByCreateTimeDesc(userId);
+    }
+
+    @Override
+    public Optional<? extends Match> getMatchByUserAndRoom(Long userId, Long roomId) {
+        return matchRepository.getByUserIdAndRoomId(userId, roomId);
     }
 
     @Override

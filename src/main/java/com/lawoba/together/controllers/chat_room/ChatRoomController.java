@@ -4,6 +4,8 @@ import com.lawoba.together.chat_room.ChatRoom;
 import com.lawoba.together.chat_room.ChatRoomService;
 import com.lawoba.together.controllers.ApiAuthentication;
 import com.lawoba.together.controllers.ApiExceptions;
+import com.lawoba.together.match.Match;
+import com.lawoba.together.match.MatchService;
 import com.lawoba.together.user.User;
 import com.lawoba.together.user.UserService;
 import com.lawoba.together.user.user_game_config.UserGameConfigEntity;
@@ -36,6 +38,7 @@ public class ChatRoomController {
     private final UserLabelService userLabelService;
     private final UserGameConfigService userGameConfigService;
     private final UserRelationService userRelationService;
+    private final MatchService matchService;
 
     @GetMapping(value = "/{id:\\d+}")
     @ApiOperation(value = "获取聊天室基本信息")
@@ -43,7 +46,10 @@ public class ChatRoomController {
     public ChatRoomView getChatRoom(@PathVariable Long id, ApiAuthentication auth) {
         User user = userService.getUserById(auth.requireUserId()).orElseThrow(() -> ApiExceptions.notFound("不存在此人"));
         ChatRoom chatRoom = chatRoomService.getChatRoom(id).orElseThrow(() -> ApiExceptions.notFound("没有相关房间信息"));
-
+        Match match = matchService.getMatchByUserAndRoom(user.getId(), chatRoom.getId()).orElseThrow(() -> ApiExceptions.notFound("没有相关匹配"));
+        if (match.isCloseDown()) {
+            throw ApiExceptions.badRequest("房间已关闭");
+        }
         if (!chatRoom.getUserIds().contains(user.getId())) {
             throw ApiExceptions.noPrivilege();
         }

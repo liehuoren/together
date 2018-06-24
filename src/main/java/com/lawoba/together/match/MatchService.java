@@ -19,6 +19,8 @@ public interface MatchService {
 
     Optional<? extends Match> getCurrentMatchByUser(Long userId);
 
+    Optional<? extends Match> getMatchByUserAndRoom(Long userId, Long roomId);
+
     Slice<? extends Match, Integer> getMatchs(SliceIndicator<Integer> indicator, Long userId);
 
     List<? extends Match> getMatchsInUserIds(Set<Long> userIds);

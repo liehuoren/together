@@ -48,7 +48,7 @@ qiniu:
   accessKey: Hx3hejEdZulPyRHggbtuJlcQG5UYk0xEV1rsdEDY
   secretKey: c2GY1xD70Twm1wu70ekDXvNWhKwEWIVKSWhEqJke
   bucket: together
-  path: http://p9mhxf2ng.bkt.clouddn.com
+  path: https://p9mhxf2ng.bkt.clouddn.com/
 
 multipart:
   enabled: true
