@@ -13,6 +13,7 @@ import com.lawoba.together.qiniu.QiNiuService;
 import com.lawoba.together.user.User;
 import com.lawoba.together.user.UserParam;
 import com.lawoba.together.user.UserService;
+import com.lawoba.together.user.WxParam;
 import com.lawoba.together.user.user_label.UserLabelEntity;
 import com.lawoba.together.user.user_label.UserLabelService;
 import com.qiniu.common.QiniuException;
@@ -52,22 +53,22 @@ public class WxAuthController {
     private final UserPasswordService userPasswordService;
     private final ConstantQiniu constantQiniu;
 
-    @GetMapping(path = "/login")
+    @PostMapping(path = "/login")
     @ApiOperation(value = "小程序登录前注册并获取用户信息")
     @ResponseBody
-    public UserselfView login(String code, String rawData, String signature, String encryptedData, String iv) {
+    public UserselfView login(@RequestBody WxParam wxParam) {
         try {
-            WxMaJscode2SessionResult result = wxMaService.getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult result = wxMaService.getUserService().getSessionInfo(wxParam.getCode());
             User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
             if (user != null) {
                 List<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId());
                 return new UserselfView(user, userLabelEntitys);
             } else {
-                if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), rawData, signature)) {
+                if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), wxParam.getRawData(), wxParam.getSignature())) {
                     throw ApiExceptions.invalidParameter("rawData");
                 }
 
-                WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), encryptedData, iv);
+                WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), wxParam.getEncryptedData(), wxParam.getIv());
                 user = addUser(userInfo);
                 userPasswordService.updateUserPassword(user.getId(),user.getOpenId());
 
