@@ -1,14 +1,12 @@
 package com.lawoba.together.controllers.system;
 
-import com.qiniu.common.QiniuException;
-import com.qiniu.http.Response;
+import com.lawoba.together.system.AboutParam;
 import com.lawoba.together.controllers.ApiAuthentication;
 import com.lawoba.together.controllers.ApiExceptions;
 import com.lawoba.together.game.GameType;
 import com.lawoba.together.game.GameTypeService;
 import com.lawoba.together.match.Match;
 import com.lawoba.together.match.MatchService;
-import com.lawoba.together.qiniu.QiNiuService;
 import com.lawoba.together.system.AboutEntity;
 import com.lawoba.together.system.AboutService;
 import com.lawoba.together.user.User;
@@ -20,12 +18,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,17 +37,16 @@ public class SystemController {
     private final MatchService matchService;
     private final GameTypeService gameTypeService;
     private final UserRelationService userRelationService;
-    private final QiNiuService qiNiuService;
 
     @PutMapping(path = "/about")
     @ApiOperation(value = "更新小程序介绍")
     @ResponseBody
-    public AboutView updateAdvert(@RequestParam String company, @RequestParam String logo, @RequestParam String introduction, ApiAuthentication auth) {
+    public AboutView updateAdvert(@RequestBody AboutParam aboutParam, ApiAuthentication auth) {
         User admin = userService.getUserById(auth.requireUserId()).filter(u -> u.isAdmin()).orElse(null);
         if (admin == null) {
             throw ApiExceptions.noPrivilege();
         }
-        return new AboutView(aboutService.updateAbout(company, logo, introduction));
+        return new AboutView(aboutService.updateAbout(aboutParam.getCompany(), aboutParam.getLogo(), aboutParam.getIntroduction()));
     }
 
     @GetMapping(path = "/about")
@@ -61,17 +55,6 @@ public class SystemController {
     public AboutView getAboutCompany() {
         AboutEntity aboutEntity = aboutService.getAbout();
         return new AboutView(aboutEntity);
-    }
-
-    @PostMapping(path = "/qiniu")
-    @ResponseBody
-    public ResponseEntity<String> uploadFile(@RequestParam("file") File multipartFile) {
-        try {
-            Response response = qiNiuService.uploadFile(multipartFile);
-        } catch (QiniuException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/config")
