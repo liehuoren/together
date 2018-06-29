@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {
@@ -34,16 +36,15 @@ public class UserEntity implements User {
     @Column
     private Role role;
 
-    @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(length = 50)
+    @Column
     private String nickName;
 
     @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(length = 200)
+    @Column
     private String avatarUrl;
 
     @Getter @Setter(AccessLevel.PACKAGE)
-    @Column(length = 200)
+    @Column
     private String qRCode;
 
     @Getter @Setter(AccessLevel.PACKAGE)
@@ -65,11 +66,36 @@ public class UserEntity implements User {
     @Override
     public boolean isAdmin() { return this.role == Role.admin; }
 
+    public void setNickName(String nickName) {
+        Base64.Encoder encoder = Base64.getEncoder();
+        try {
+            byte[] textByte = nickName.getBytes("UTF-8");
+            this.nickName = encoder.encodeToString(textByte);
+        } catch (IOException e) {
+
+        }
+    }
+
+    @Override
+    public String getNickName() {
+        try {
+            Base64.Decoder decoder = Base64.getDecoder();
+            return new String(decoder.decode(nickName), "UTF-8");
+        } catch (IOException e) {
+
+        }
+        return nickName;
+    }
+
+    public String getRealNickName() {
+        return nickName;
+    }
+
     public UserDto toDto() {
         return UserDto.builder()
                 .id(id)
                 .phone(phone)
-                .nickName(nickName)
+                .nickName(getNickName())
                 .openId(openId)
                 .unionId(unionId)
                 .gender(gender)

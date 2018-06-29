@@ -60,15 +60,16 @@ public class WxAuthController {
         try {
             WxMaJscode2SessionResult result = wxMaService.getUserService().getSessionInfo(wxParam.getCode());
             User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
+            if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), wxParam.getRawData(), wxParam.getSignature())) {
+                throw ApiExceptions.invalidParameter("rawData");
+            }
+
+            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), wxParam.getEncryptedData(), wxParam.getIv());
             if (user != null) {
+                user = updateUser(user.getId(), userInfo);
                 List<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId());
                 return new UserselfView(user, userLabelEntitys);
             } else {
-                if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), wxParam.getRawData(), wxParam.getSignature())) {
-                    throw ApiExceptions.invalidParameter("rawData");
-                }
-
-                WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), wxParam.getEncryptedData(), wxParam.getIv());
                 user = addUser(userInfo);
                 userPasswordService.updateUserPassword(user.getId(),user.getOpenId());
 
@@ -104,6 +105,21 @@ public class WxAuthController {
         }
         userParam.setRole(User.Role.user);
         return userService.addUser(userParam);
+    }
+
+    private User updateUser(Long userId, WxMaUserInfo userInfo) {
+        UserParam userParam = new UserParam();
+        if (!Strings.isNullOrEmpty(userInfo.getNickName())) {
+            userParam.setNickName(userInfo.getNickName());
+        }
+        if (!Strings.isNullOrEmpty(userInfo.getAvatarUrl())) {
+            userParam.setAvatarUrl(userInfo.getAvatarUrl());
+        }
+        if (!Strings.isNullOrEmpty(userInfo.getGender())) {
+            userParam.setGender(Integer.parseInt(userInfo.getGender()));
+        }
+
+        return userService.updateUser(userId, userParam);
     }
 
     private String getUserQRCode(Long userId) {

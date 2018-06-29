@@ -2,7 +2,7 @@ spring:
 
   datasource:
     name: together
-    url: jdbc:mysql://localhost:3306/together?useSSL=false&rewriteBatchedStatements=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/together?useSSL=false&rewriteBatchedStatements=true&characterEncoding=UTF-8&useUnicode=true
     username: root
     password: Pqssw0rd.
     driver-class-name: com.mysql.jdbc.Driver
