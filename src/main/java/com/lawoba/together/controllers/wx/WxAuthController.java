@@ -59,17 +59,17 @@ public class WxAuthController {
     public UserselfView login(@RequestBody WxParam wxParam) {
         try {
             WxMaJscode2SessionResult result = wxMaService.getUserService().getSessionInfo(wxParam.getCode());
-            User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
-            if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), wxParam.getRawData(), wxParam.getSignature())) {
-                throw ApiExceptions.invalidParameter("rawData");
-            }
 
-            WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), wxParam.getEncryptedData(), wxParam.getIv());
+            User user = userService.getUserByOpenId(result.getOpenid()).orElse(null);
+
             if (user != null) {
-                user = updateUser(user.getId(), userInfo);
                 List<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId());
                 return new UserselfView(user, userLabelEntitys);
             } else {
+                if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), wxParam.getRawData(), wxParam.getSignature())) {
+                    throw ApiExceptions.invalidParameter("rawData");
+                }
+                WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(result.getSessionKey(), wxParam.getEncryptedData(), wxParam.getIv());
                 user = addUser(userInfo);
                 userPasswordService.updateUserPassword(user.getId(),user.getOpenId());
 

@@ -76,6 +76,9 @@ public class MatchController {
         }
 
         Match match = matchService.getCurrentMatchByUser(auth.requireUserId()).orElse(null);
+        if (match != null && match.isEffective() == false) {
+            matchService.closeMatch(match.getId());
+        }
         if (match == null || match.isEffective() == false) {
             matchParam.setUserId(auth.requireUserId());
             match = matchService.addMatch(matchParam);
@@ -83,7 +86,8 @@ public class MatchController {
         } else {
             throw ApiExceptions.badRequest("当前正在匹配中，无法新增匹配");
         }
-        return new MatchView(match);
+        Match currentMatch = matchService.getCurrentMatchByUser(auth.requireUserId()).orElseThrow(() -> ApiExceptions.badRequest("系统错误"));
+        return new MatchView(currentMatch);
     }
 
     private void requireNonNull(Object value, String name) {
@@ -142,7 +146,7 @@ public class MatchController {
         }
 
         Set<Long> result = new HashSet<>();
-        Set<Long> userIds = new HashSet<>(); //相同匹配条件下的人员ID
+        Set<Long> userIds = new HashSet<>();
         Map<Long, Match> matchMap = new HashMap<>();
         for (Match match : matches) {
             userIds.add(match.getUserId());
@@ -152,8 +156,8 @@ public class MatchController {
             return;
         }
 
-        Set<Long> userIds1 = new HashSet<>(); // 好友IDs
-        Set<Long> userIds2 = new HashSet<>(); // 黑名单IDs
+        Set<Long> userIds1 = new HashSet<>();
+        Set<Long> userIds2 = new HashSet<>();
         List<? extends UserRelation> userOnlyFriends = userRelationService.getUserRelationsByUserIdAndRelation(matchParam.getUserId(), UserRelation.Relation.friend);
         if (userOnlyFriends == null || userOnlyFriends.size() == 0) {
             return;
