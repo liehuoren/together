@@ -30,6 +30,10 @@ public class GameTypeEntity implements GameType, Serializable {
 
     @Getter @Setter
     @Column(length = 200)
+    private String backImgUrl;
+
+    @Getter @Setter
+    @Column(length = 200)
     private String logo;
 
     @Getter @Setter

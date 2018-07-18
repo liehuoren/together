@@ -26,8 +26,11 @@ public class GameTypeBaseView {
     @ApiModelProperty(value = "游戏名称", example = "绝地求生")
     public String getName() { return gameType.getName(); }
 
-    @ApiModelProperty(value = "背景图", example = "http://www.baidu.com")
+    @ApiModelProperty(value = "游戏列表背景图", example = "http://www.baidu.com")
     public String getImgUrl() { return gameType.getImgUrl(); }
+
+    @ApiModelProperty(value = "背景图", example = "http://www.baidu.com")
+    public String getBackImgUrl() { return gameType.getBackImgUrl(); }
 
     @ApiModelProperty(value = "游戏logo", example = "http://www.baidu.com")
     public String getLogo() { return gameType.getLogo(); }

@@ -47,6 +47,9 @@ public class GameTypeServiceImpl implements GameTypeService {
         if (!Strings.isNullOrEmpty(gameTypeParam.getImgUrl())) {
             gameTypeEntity.setImgUrl(gameTypeParam.getImgUrl());
         }
+        if (!Strings.isNullOrEmpty(gameTypeParam.getBackImgUrl())) {
+            gameTypeEntity.setBackImgUrl(gameTypeParam.getBackImgUrl());
+        }
         if (!Strings.isNullOrEmpty(gameTypeParam.getLogo())) {
             gameTypeEntity.setLogo(gameTypeParam.getLogo());
         }
@@ -74,6 +77,9 @@ public class GameTypeServiceImpl implements GameTypeService {
         }
         if (!Strings.isNullOrEmpty(gameTypeParam.getImgUrl())) {
             gameTypeEntity.setImgUrl(gameTypeParam.getImgUrl());
+        }
+        if (!Strings.isNullOrEmpty(gameTypeParam.getBackImgUrl())) {
+            gameTypeEntity.setBackImgUrl(gameTypeParam.getBackImgUrl());
         }
         if (!Strings.isNullOrEmpty(gameTypeParam.getLogo())) {
             gameTypeEntity.setLogo(gameTypeParam.getLogo());

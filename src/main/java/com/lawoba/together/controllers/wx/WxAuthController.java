@@ -1,6 +1,7 @@
 package com.lawoba.together.controllers.wx;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.google.common.base.Strings;
@@ -64,6 +65,10 @@ public class WxAuthController {
 
             if (user != null) {
                 List<UserLabelEntity> userLabelEntitys = userLabelService.getUserLabelsByUserId(user.getId());
+                String qRCode = getUserQRCode(user.getId());
+                UserParam userParam = new UserParam();
+                userParam.setQRCode(qRCode);
+                userService.updateUser(user.getId(), userParam);
                 return new UserselfView(user, userLabelEntitys);
             } else {
                 if (!wxMaService.getUserService().checkUserInfo(result.getSessionKey(), wxParam.getRawData(), wxParam.getSignature())) {
@@ -124,7 +129,8 @@ public class WxAuthController {
 
     private String getUserQRCode(Long userId) {
         try {
-            File file = wxMaService.getQrcodeService().createWxCodeLimit(userId + "", "pages/add-friend/add-friend");
+            WxMaCodeLineColor color = new WxMaCodeLineColor("8","153","219");
+            File file = wxMaService.getQrcodeService().createWxCodeLimit(userId + "", "pages/add-friend/add-friend",430,false, color);
             String fileName = file.getName();
             String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");

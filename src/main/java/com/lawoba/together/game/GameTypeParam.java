@@ -21,6 +21,9 @@ public class GameTypeParam implements Serializable {
     private String imgUrl;
 
     @URL
+    private String backImgUrl;
+
+    @URL
     private String logo;
 
     private Integer maxMember;
